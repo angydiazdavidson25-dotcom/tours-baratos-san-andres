@@ -230,10 +230,21 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 // ===== BOOKING SYSTEM =====
 let currentTour = null;
 
+function trackEvent(action, category, label, value) {
+    if (typeof gtag === 'function') {
+        gtag('event', action, {
+            event_category: category,
+            event_label: label,
+            value: value || 0
+        });
+    }
+}
+
 function openBooking(tourId) {
     const tour = TOURS.find(t => t.id === tourId);
     if (!tour) return;
 
+    trackEvent('begin_checkout', 'booking', tour.name, tour.price);
     currentTour = tour;
 
     document.getElementById('modalTourName').textContent = tour.emoji + " " + tour.name;
@@ -510,6 +521,9 @@ function showBookingSuccess(reservation, isPaid) {
 
     document.getElementById('successModal').classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // Track conversion in Analytics
+    trackEvent('purchase', 'booking', reservation.tourName, reservation.total);
 
     // Auto-send admin notification via WhatsApp API link (opens in background)
     const adminMsg = encodeURIComponent(

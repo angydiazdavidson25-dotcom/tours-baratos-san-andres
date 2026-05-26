@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tours Baratos San Andres | Nissi VIP Travel and Tours</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMRZ3SCSV9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZMRZ3SCSV9');
+    </script>
     <meta name="description" content="Los mejores tours en San Andres Islas al mejor precio. Reserva online tours maritimos, buceo, parasail, fiestas y mas. Operador local con los mejores precios.">
 
     <!-- Open Graph / WhatsApp / Social -->
@@ -20,6 +29,41 @@
     <meta name="twitter:title" content="Tours Baratos San Andres | Nissi VIP Travel & Tours">
     <meta name="twitter:description" content="12 tours en San Andres desde $20.000. Reserva online al mejor precio directo.">
     <meta name="twitter:image" content="https://touresbaratos.com/assets/flyers/web/flyer_page_07.jpg">
+
+    <!-- SEO: Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TouristTripOrganizer",
+      "name": "Tours Baratos San Andres - Nissi VIP Travel & Tours",
+      "url": "https://touresbaratos.com",
+      "logo": "https://touresbaratos.com/assets/flyers/web/flyer_page_07.jpg",
+      "description": "Operador local de tours en San Andres Islas, Colombia. 12 tours maritimos, aventuras acuaticas y fiestas al mejor precio directo.",
+      "telephone": "+573222123751",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Andres Islas",
+        "addressCountry": "CO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "12.5847",
+        "longitude": "-81.7006"
+      },
+      "priceRange": "$20.000 - $245.000 COP",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "500"
+      },
+      "sameAs": [
+        "https://instagram.com/touresbaratossanandres",
+        "https://tiktok.com/@touresbaratos",
+        "https://facebook.com/touresbaratos",
+        "https://wa.me/573222123751"
+      ]
+    }
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈</text></svg>">
@@ -731,7 +775,7 @@
 </div>
 
 <!-- ========== WHATSAPP FLOAT ========== -->
-<a href="https://wa.me/573222123751?text=Hola%20quiero%20info%20sobre%20tours%20en%20San%20Andres" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+<a href="https://wa.me/573222123751?text=Hola%20quiero%20info%20sobre%20tours%20en%20San%20Andres" target="_blank" class="whatsapp-float" aria-label="WhatsApp" onclick="if(typeof gtag==='function')gtag('event','click',{event_category:'whatsapp',event_label:'float_button'})">
     <i class="fab fa-whatsapp"></i>
     <span class="wa-tooltip">Chatea con nosotros</span>
 </a>
