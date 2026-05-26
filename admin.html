@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin CRM - Tours Baratos San Andres</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --yellow: #FFE600;
+            --navy: #1B2A4A;
+            --blue: #2E6FCF;
+            --green: #22C55E;
+            --orange: #F59E0B;
+            --red: #EF4444;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-700: #334155;
+            --gray-900: #0F172A;
+            --sidebar-w: 260px;
+            --radius: 12px;
+            --transition: 0.3s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-700);
+            display: flex;
+            min-height: 100vh;
+        }
+        h1,h2,h3,h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--navy);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--navy);
+            color: var(--white);
+            padding: 24px 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 0 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 16px;
+        }
+
+        .sidebar-brand h2 {
+            color: var(--white);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-brand small {
+            color: var(--yellow);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav { list-style: none; }
+
+        .sidebar-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: rgba(255,255,255,0.65);
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav li a:hover,
+        .sidebar-nav li a.active {
+            background: rgba(255,255,255,0.08);
+            color: var(--white);
+            border-left-color: var(--yellow);
+        }
+
+        .sidebar-nav li a i { width: 20px; text-align: center; }
+
+        /* ===== MAIN ===== */
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            padding: 24px 32px;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .main-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary { background: var(--blue); color: var(--white); }
+        .btn-primary:hover { background: var(--navy); }
+        .btn-success { background: var(--green); color: var(--white); }
+        .btn-warning { background: var(--orange); color: var(--white); }
+        .btn-danger { background: var(--red); color: var(--white); }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gray-200);
+            color: var(--gray-700);
+        }
+        .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+        .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+
+        /* ===== STATS CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            border: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .stat-icon.blue { background: rgba(46,111,207,0.1); color: var(--blue); }
+        .stat-icon.yellow { background: rgba(255,230,0,0.15); color: #B8860B; }
+        .stat-icon.green { background: rgba(34,197,94,0.1); color: var(--green); }
+        .stat-icon.navy { background: rgba(27,42,74,0.1); color: var(--navy); }
+
+        .stat-info h3 {
+            font-size: 1.6rem;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+        .stat-info p {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        /* ===== TABLE ===== */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-100);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .table-header h3 { font-size: 1rem; }
+
+        .table-search {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-search input {
+            padding: 8px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            width: 240px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .table-search input:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+
+        .table-search select {
+            padding: 8px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'Open Sans', sans-serif;
+            background: var(--white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 12px 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--gray-100);
+            transition: var(--transition);
+        }
+
+        tbody tr:hover { background: var(--gray-50); }
+
+        tbody td {
+            padding: 12px 16px;
+            font-size: 0.85rem;
+        }
+
+        .code-badge {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 0.82rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-pendiente { background: rgba(245,158,11,0.1); color: #B45309; }
+        .status-confirmado { background: rgba(46,111,207,0.1); color: var(--blue); }
+        .status-pagado { background: rgba(34,197,94,0.1); color: #16A34A; }
+        .status-completado { background: rgba(27,42,74,0.1); color: var(--navy); }
+        .status-cancelado { background: rgba(239,68,68,0.1); color: var(--red); }
+
+        .actions-cell {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.8rem;
+        }
+
+        .action-btn.view { background: rgba(46,111,207,0.1); color: var(--blue); }
+        .action-btn.view:hover { background: var(--blue); color: var(--white); }
+        .action-btn.voucher { background: rgba(34,197,94,0.1); color: var(--green); }
+        .action-btn.voucher:hover { background: var(--green); color: var(--white); }
+        .action-btn.whatsapp { background: rgba(37,211,102,0.1); color: #25D366; }
+        .action-btn.whatsapp:hover { background: #25D366; color: var(--white); }
+        .action-btn.delete { background: rgba(239,68,68,0.1); color: var(--red); }
+        .action-btn.delete:hover { background: var(--red); color: var(--white); }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-500);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--gray-300);
+        }
+
+        /* ===== DETAIL MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: var(--white);
+            border-radius: 16px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 28px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-500);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .detail-item label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-item span {
+            font-size: 0.9rem;
+            color: var(--navy);
+            font-weight: 500;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-select {
+            padding: 8px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        /* ===== VOUCHER PREVIEW ===== */
+        .voucher-preview {
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius);
+            padding: 32px;
+            margin: 20px 0;
+            text-align: center;
+            background: var(--white);
+        }
+
+        .voucher-preview .v-header {
+            border-bottom: 3px solid var(--navy);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .voucher-preview .v-header h2 {
+            font-size: 1.2rem;
+            color: var(--navy);
+        }
+
+        .voucher-preview .v-header small {
+            color: var(--yellow);
+            font-weight: 700;
+        }
+
+        .voucher-preview .v-code {
+            background: var(--navy);
+            color: var(--yellow);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: inline-block;
+            margin: 16px 0;
+            letter-spacing: 2px;
+        }
+
+        .voucher-preview .v-details {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .voucher-preview .v-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 0.88rem;
+        }
+
+        .voucher-preview .v-row strong { color: var(--navy); }
+
+        .voucher-preview .v-total {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-top: 12px;
+        }
+
+        .voucher-preview .v-footer {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            border-top: 1px solid var(--gray-200);
+            padding-top: 12px;
+        }
+
+        /* ===== TABS ===== */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; padding: 16px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .detail-grid { grid-template-columns: 1fr; }
+            table { font-size: 0.8rem; }
+            thead th, tbody td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <h2>&#9992; TOURS BARATOS</h2>
+        <small>Panel de Administracion</small>
+    </div>
+    <ul class="sidebar-nav">
+        <li><a href="#" class="active" onclick="showTab('dashboard')"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="#" onclick="showTab('reservations')"><i class="fas fa-calendar-check"></i> Reservas</a></li>
+        <li><a href="#" onclick="showTab('clients')"><i class="fas fa-users"></i> Clientes</a></li>
+        <li><a href="#" onclick="showTab('automation')"><i class="fab fa-whatsapp"></i> Automatizacion</a></li>
+        <li><a href="#" onclick="showTab('notifications')"><i class="fas fa-bell"></i> Notificaciones <span id="notifBadge" style="background:var(--red);color:#fff;border-radius:50%;padding:2px 6px;font-size:0.65rem;margin-left:4px;"></span></a></li>
+        <li><a href="#" onclick="showTab('settings')"><i class="fas fa-cog"></i> Configuracion</a></li>
+        <li style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;"><a href="index.html"><i class="fas fa-globe"></i> Ver Pagina Web</a></li>
+        <li><a href="links.html"><i class="fas fa-link"></i> Link-in-Bio</a></li>
+    </ul>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-content active" id="tab-dashboard">
+        <div class="main-header">
+            <h1><i class="fas fa-chart-pie"></i> Dashboard</h1>
+            <div class="header-actions">
+                <button class="btn btn-outline" onclick="loadDemoData()"><i class="fas fa-database"></i> Cargar datos demo</button>
+                <button class="btn btn-primary" onclick="exportCSV()"><i class="fas fa-download"></i> Exportar CSV</button>
+            </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div>
+                <div class="stat-info">
+                    <h3 id="statTotal">0</h3>
+                    <p>Total Reservas</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon yellow"><i class="fas fa-clock"></i></div>
+                <div class="stat-info">
+                    <h3 id="statPending">0</h3>
+                    <p>Pendientes</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-info">
+                    <h3 id="statConfirmed">0</h3>
+                    <p>Confirmadas</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon navy"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-info">
+                    <h3 id="statRevenue">$0</h3>
+                    <p>Ingresos Estimados</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Reservations -->
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Ultimas Reservas</h3>
+            </div>
+            <div id="recentTable"></div>
+        </div>
+    </div>
+
+    <!-- RESERVATIONS TAB -->
+    <div class="tab-content" id="tab-reservations">
+        <div class="main-header">
+            <h1><i class="fas fa-calendar-check"></i> Reservas</h1>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Todas las Reservas</h3>
+                <div class="table-search">
+                    <input type="text" placeholder="Buscar por nombre o codigo..." id="searchInput" oninput="renderReservations()">
+                    <select id="filterStatus" onchange="renderReservations()">
+                        <option value="all">Todos los estados</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="confirmado">Confirmado</option>
+                        <option value="pagado">Pagado</option>
+                        <option value="completado">Completado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+            <div id="allReservationsTable"></div>
+        </div>
+    </div>
+
+    <!-- CLIENTS TAB -->
+    <div class="tab-content" id="tab-clients">
+        <div class="main-header">
+            <h1><i class="fas fa-users"></i> Clientes</h1>
+        </div>
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Base de Clientes</h3>
+                <div class="table-search">
+                    <input type="text" placeholder="Buscar cliente..." id="clientSearch" oninput="renderClients()">
+                </div>
+            </div>
+            <div id="clientsTable"></div>
+        </div>
+    </div>
+
+    <!-- AUTOMATION TAB -->
+    <div class="tab-content" id="tab-automation">
+        <div class="main-header">
+            <h1><i class="fab fa-whatsapp"></i> Centro de Automatizacion</h1>
+        </div>
+
+        <!-- Automation Cards -->
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="stat-card" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                <div style="display:flex; align-items:center; gap:12px; width:100%;">
+                    <div class="stat-icon green"><i class="fab fa-whatsapp"></i></div>
+                    <div class="stat-info">
+                        <h3 style="font-size:1rem;">Recordatorios</h3>
+                        <p>Tours de manana</p>
+                    </div>
+                </div>
+                <div id="remindersList" style="width:100%; font-size:0.82rem;"></div>
+                <button class="btn btn-success btn-sm" onclick="sendAllReminders()" style="width:100%;">
+                    <i class="fab fa-whatsapp"></i> Enviar Recordatorios
+                </button>
+            </div>
+
+            <div class="stat-card" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                <div style="display:flex; align-items:center; gap:12px; width:100%;">
+                    <div class="stat-icon blue"><i class="fas fa-paper-plane"></i></div>
+                    <div class="stat-info">
+                        <h3 style="font-size:1rem;">Mensaje Masivo</h3>
+                        <p>Enviar a todos los clientes</p>
+                    </div>
+                </div>
+                <textarea id="massMessage" rows="3" style="width:100%; padding:10px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; font-family:'Open Sans',sans-serif; resize:vertical;" placeholder="Escribe tu mensaje promocional aqui..."></textarea>
+                <select id="massTarget" style="width:100%; padding:8px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem;">
+                    <option value="all">Todos los clientes</option>
+                    <option value="confirmed">Solo confirmados</option>
+                    <option value="pending">Solo pendientes</option>
+                </select>
+                <button class="btn btn-primary btn-sm" onclick="prepareMassMessage()" style="width:100%;">
+                    <i class="fas fa-list"></i> Generar Lista de Envio
+                </button>
+            </div>
+
+            <div class="stat-card" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                <div style="display:flex; align-items:center; gap:12px; width:100%;">
+                    <div class="stat-icon yellow"><i class="fas fa-robot"></i></div>
+                    <div class="stat-info">
+                        <h3 style="font-size:1rem;">Plantillas</h3>
+                        <p>Mensajes predefinidos</p>
+                    </div>
+                </div>
+                <div style="width:100%; display:flex; flex-direction:column; gap:6px;">
+                    <button class="btn btn-outline btn-sm" onclick="useTemplate('welcome')" style="width:100%; justify-content:flex-start;">
+                        <i class="fas fa-hand-wave"></i> Bienvenida
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="useTemplate('confirm')" style="width:100%; justify-content:flex-start;">
+                        <i class="fas fa-check"></i> Confirmacion
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="useTemplate('reminder')" style="width:100%; justify-content:flex-start;">
+                        <i class="fas fa-bell"></i> Recordatorio
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="useTemplate('thanks')" style="width:100%; justify-content:flex-start;">
+                        <i class="fas fa-heart"></i> Agradecimiento
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="useTemplate('promo')" style="width:100%; justify-content:flex-start;">
+                        <i class="fas fa-tag"></i> Promocion
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mass Send List -->
+        <div class="table-container" id="massSendContainer" style="display:none; margin-top:20px;">
+            <div class="table-header">
+                <h3>Lista de Envio</h3>
+                <button class="btn btn-success btn-sm" onclick="openAllWALinks()"><i class="fab fa-whatsapp"></i> Abrir Todos en WhatsApp</button>
+            </div>
+            <div id="massSendList"></div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATIONS TAB -->
+    <div class="tab-content" id="tab-notifications">
+        <div class="main-header">
+            <h1><i class="fas fa-bell"></i> Notificaciones</h1>
+            <button class="btn btn-outline" onclick="clearNotifications()"><i class="fas fa-check-double"></i> Marcar todas leidas</button>
+        </div>
+        <div class="table-container">
+            <div id="notificationsContainer" style="padding: 16px;"></div>
+        </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-content" id="tab-settings">
+        <div class="main-header">
+            <h1><i class="fas fa-cog"></i> Configuracion</h1>
+        </div>
+        <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:12px;">
+                <h3 style="font-size:1rem;"><i class="fas fa-credit-card"></i> Pasarela de Pagos (Bold)</h3>
+                <p style="font-size:0.82rem; color:var(--gray-500);">Configura tu API Key de Bold para recibir pagos con tarjeta, PSE, Nequi y Daviplata. Registrate en <a href="https://bold.co" target="_blank" style="color:var(--blue);">bold.co</a></p>
+                <div style="width:100%;">
+                    <label style="font-size:0.78rem; font-weight:600; color:var(--gray-500);">API Key Bold</label>
+                    <input type="text" id="boldKey" placeholder="Tu API Key de Bold" style="width:100%; padding:10px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; margin-top:4px; font-family:monospace;">
+                </div>
+                <div style="width:100%; margin-top:4px;">
+                    <label style="font-size:0.78rem; font-weight:600; color:var(--gray-500);">Link de pago Bold (para enviar manual)</label>
+                    <input type="text" id="boldPaymentLink" placeholder="https://checkout.bold.co/payment/link/XXXXXX" style="width:100%; padding:10px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; margin-top:4px;">
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="saveBoldConfig()"><i class="fas fa-save"></i> Guardar</button>
+                <p style="font-size:0.72rem; color:var(--gray-500); margin-top:4px;"><strong>Tip:</strong> Tambien puedes crear links de pago directamente desde la app Bold en tu celular y enviarlos por WhatsApp al cliente.</p>
+            </div>
+
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:12px;">
+                <h3 style="font-size:1rem;"><i class="fab fa-whatsapp"></i> WhatsApp</h3>
+                <p style="font-size:0.82rem; color:var(--gray-500);">Numero de contacto principal para reservas y notificaciones.</p>
+                <div style="width:100%;">
+                    <label style="font-size:0.78rem; font-weight:600; color:var(--gray-500);">Numero WhatsApp</label>
+                    <input type="text" id="waNumber" value="573222123751" style="width:100%; padding:10px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; margin-top:4px;">
+                </div>
+                <button class="btn btn-success btn-sm" onclick="saveWANumber()"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:12px;">
+                <h3 style="font-size:1rem;"><i class="fas fa-link"></i> Redes Sociales</h3>
+                <div style="width:100%; display:flex; flex-direction:column; gap:8px;">
+                    <div>
+                        <label style="font-size:0.78rem; font-weight:600; color:var(--gray-500);">Instagram</label>
+                        <input type="text" id="igHandle" placeholder="@touresbaratossanandres" style="width:100%; padding:8px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; margin-top:2px;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.78rem; font-weight:600; color:var(--gray-500);">TikTok</label>
+                        <input type="text" id="ttHandle" placeholder="@touresbaratos" style="width:100%; padding:8px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; margin-top:2px;">
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="saveSocials()"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:12px;">
+                <h3 style="font-size:1rem;"><i class="fas fa-database"></i> Datos</h3>
+                <p style="font-size:0.82rem; color:var(--gray-500);">Gestion de datos del CRM local.</p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-primary btn-sm" onclick="exportCSV()"><i class="fas fa-download"></i> Exportar CSV</button>
+                    <button class="btn btn-warning btn-sm" onclick="loadDemoData()"><i class="fas fa-database"></i> Datos Demo</button>
+                    <button class="btn btn-danger btn-sm" onclick="clearAllData()"><i class="fas fa-trash"></i> Borrar Todo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeDetail()">&times;</button>
+        <h2 id="detailTitle">Detalle de Reserva</h2>
+        <div id="detailContent"></div>
+    </div>
+</div>
+
+<!-- VOUCHER MODAL -->
+<div class="modal-overlay" id="voucherModal">
+    <div class="modal" style="max-width: 500px;">
+        <button class="modal-close" onclick="closeVoucher()">&times;</button>
+        <div id="voucherContent"></div>
+        <div style="text-align: center; margin-top: 16px;">
+            <button class="btn btn-primary" onclick="printVoucher()"><i class="fas fa-print"></i> Imprimir Voucher</button>
+            <button class="btn btn-success" onclick="sendVoucherWA()"><i class="fab fa-whatsapp"></i> Enviar por WhatsApp</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== TOURS DATA =====
+const TOURS = [
+    { id:1, name:"Tour Platino (Ponton)", price:65000 },
+    { id:2, name:"Yate Rumba", price:130000 },
+    { id:3, name:"Acuario Directo", price:45000 },
+    { id:4, name:"Johnny Cay Directo", price:55000 },
+    { id:5, name:"Johnny Cay + Acuario", price:65000 },
+    { id:6, name:"Semi-Submarino", price:110000 },
+    { id:7, name:"Noche Blanca", price:245000 },
+    { id:8, name:"Buceo (Mini-curso)", price:110000 },
+    { id:9, name:"Parasail", price:220000 },
+    { id:10, name:"Paddle Nocturno LED", price:220000 },
+    { id:11, name:"Tour Siete Colores", price:220000 },
+    { id:12, name:"Amanecer en Ponton", price:130000 }
+];
+
+const WA_NUMBER = "573222123751";
+
+function formatCOP(n) { return "$" + n.toLocaleString('es-CO'); }
+
+// ===== CRM =====
+function getReservations() {
+    return JSON.parse(localStorage.getItem('tb_reservations') || '[]');
+}
+
+function saveReservations(data) {
+    localStorage.setItem('tb_reservations', JSON.stringify(data));
+}
+
+// ===== TABS =====
+function showTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+    event.target.closest('a').classList.add('active');
+
+    if (tab === 'dashboard') refreshDashboard();
+    if (tab === 'reservations') renderReservations();
+    if (tab === 'clients') renderClients();
+    if (tab === 'automation') loadReminders();
+    if (tab === 'notifications') renderNotifications();
+}
+
+// ===== DASHBOARD =====
+function refreshDashboard() {
+    const data = getReservations();
+    const pending = data.filter(r => r.status === 'pendiente').length;
+    const confirmed = data.filter(r => r.status === 'confirmado' || r.status === 'pagado').length;
+    const revenue = data.filter(r => r.status !== 'cancelado').reduce((s, r) => s + (r.total || 0), 0);
+
+    document.getElementById('statTotal').textContent = data.length;
+    document.getElementById('statPending').textContent = pending;
+    document.getElementById('statConfirmed').textContent = confirmed;
+    document.getElementById('statRevenue').textContent = formatCOP(revenue);
+
+    // Recent table
+    const recent = data.slice(0, 8);
+    renderTable('recentTable', recent);
+}
+
+// ===== RENDER TABLE =====
+function renderTable(containerId, data) {
+    const container = document.getElementById(containerId);
+
+    if (data.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h3>No hay reservas aun</h3>
+                <p>Las reservas desde la pagina web apareceran aqui automaticamente.</p>
+            </div>`;
+        return;
+    }
+
+    let html = `<table>
+        <thead><tr>
+            <th>Codigo</th>
+            <th>Cliente</th>
+            <th>Tour</th>
+            <th>Fecha</th>
+            <th>Personas</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr></thead><tbody>`;
+
+    data.forEach(r => {
+        html += `<tr>
+            <td><span class="code-badge">${r.code}</span></td>
+            <td>${r.clientName || '-'}</td>
+            <td>${r.tourName || '-'}</td>
+            <td>${r.tourDate || '-'}</td>
+            <td>${r.qty || 1}</td>
+            <td><strong>${formatCOP(r.total || 0)}</strong></td>
+            <td><span class="status-badge status-${r.status || 'pendiente'}">${(r.status || 'pendiente').toUpperCase()}</span></td>
+            <td>
+                <div class="actions-cell">
+                    <button class="action-btn view" title="Ver detalle" onclick="viewDetail('${r.code}')"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn voucher" title="Generar voucher" onclick="generateVoucher('${r.code}')"><i class="fas fa-file-alt"></i></button>
+                    <button class="action-btn whatsapp" title="Contactar por WA" onclick="contactWA('${r.code}')"><i class="fab fa-whatsapp"></i></button>
+                </div>
+            </td>
+        </tr>`;
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+// ===== RENDER RESERVATIONS WITH FILTERS =====
+function renderReservations() {
+    const search = (document.getElementById('searchInput').value || '').toLowerCase();
+    const status = document.getElementById('filterStatus').value;
+    let data = getReservations();
+
+    if (search) {
+        data = data.filter(r =>
+            (r.clientName || '').toLowerCase().includes(search) ||
+            (r.code || '').toLowerCase().includes(search) ||
+            (r.clientPhone || '').includes(search)
+        );
+    }
+
+    if (status !== 'all') {
+        data = data.filter(r => r.status === status);
+    }
+
+    renderTable('allReservationsTable', data);
+}
+
+// ===== CLIENTS =====
+function renderClients() {
+    const search = (document.getElementById('clientSearch').value || '').toLowerCase();
+    const data = getReservations();
+
+    // Group by phone or doc
+    const clientMap = {};
+    data.forEach(r => {
+        const key = r.clientPhone || r.clientDoc || r.clientName;
+        if (!clientMap[key]) {
+            clientMap[key] = {
+                name: r.clientName,
+                phone: r.clientPhone,
+                doc: r.clientDoc,
+                email: r.clientEmail,
+                reservations: 0,
+                totalSpent: 0,
+                lastDate: r.createdAt
+            };
+        }
+        clientMap[key].reservations++;
+        clientMap[key].totalSpent += r.total || 0;
+    });
+
+    let clients = Object.values(clientMap);
+
+    if (search) {
+        clients = clients.filter(c =>
+            (c.name || '').toLowerCase().includes(search) ||
+            (c.phone || '').includes(search)
+        );
+    }
+
+    const container = document.getElementById('clientsTable');
+
+    if (clients.length === 0) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-users"></i><h3>No hay clientes</h3></div>`;
+        return;
+    }
+
+    let html = `<table><thead><tr>
+        <th>Nombre</th><th>WhatsApp</th><th>Documento</th><th>Email</th><th>Reservas</th><th>Total Gastado</th>
+    </tr></thead><tbody>`;
+
+    clients.forEach(c => {
+        html += `<tr>
+            <td><strong>${c.name || '-'}</strong></td>
+            <td>${c.phone || '-'}</td>
+            <td>${c.doc || '-'}</td>
+            <td>${c.email || '-'}</td>
+            <td>${c.reservations}</td>
+            <td><strong>${formatCOP(c.totalSpent)}</strong></td>
+        </tr>`;
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+// ===== VIEW DETAIL =====
+function viewDetail(code) {
+    const data = getReservations();
+    const r = data.find(x => x.code === code);
+    if (!r) return;
+
+    document.getElementById('detailTitle').textContent = 'Reserva ' + r.code;
+
+    let html = `
+        <div class="detail-grid">
+            <div class="detail-item"><label>Tour</label><span>${r.tourName}</span></div>
+            <div class="detail-item"><label>Fecha</label><span>${r.tourDate}</span></div>
+            <div class="detail-item"><label>Cliente</label><span>${r.clientName}</span></div>
+            <div class="detail-item"><label>Documento</label><span>${r.clientDoc}</span></div>
+            <div class="detail-item"><label>WhatsApp</label><span>${r.clientPhone}</span></div>
+            <div class="detail-item"><label>Email</label><span>${r.clientEmail || '-'}</span></div>
+            <div class="detail-item"><label>Personas</label><span>${r.qty}</span></div>
+            <div class="detail-item"><label>Precio unitario</label><span>${formatCOP(r.unitPrice || 0)}</span></div>
+            <div class="detail-item"><label>Subtotal</label><span>${formatCOP(r.subtotal || r.total || 0)}</span></div>
+            ${r.surcharge ? `<div class="detail-item"><label>Recargo tarjeta (${r.surchargePercent || 7}%)</label><span style="color:#B45309;">+${formatCOP(r.surcharge)}</span></div>` : ''}
+            <div class="detail-item"><label>Total</label><span><strong style="font-size:1.1rem;">${formatCOP(r.total || 0)}</strong></span></div>
+            <div class="detail-item"><label>Pago</label><span>${r.payMethod || '-'}</span></div>
+            <div class="detail-item"><label>Hotel</label><span>${r.hotel || '-'}</span></div>
+            <div class="detail-item"><label>Horario</label><span>${r.tourSchedule || '-'}</span></div>
+        </div>
+        ${r.notes ? '<p><strong>Notas:</strong> ' + r.notes + '</p>' : ''}
+        <div class="detail-actions">
+            <label style="font-size:0.85rem; font-weight:600;">Cambiar estado:</label>
+            <select class="status-select" onchange="updateStatus('${r.code}', this.value)">
+                <option value="pendiente" ${r.status==='pendiente'?'selected':''}>Pendiente</option>
+                <option value="confirmado" ${r.status==='confirmado'?'selected':''}>Confirmado</option>
+                <option value="pagado" ${r.status==='pagado'?'selected':''}>Pagado</option>
+                <option value="completado" ${r.status==='completado'?'selected':''}>Completado</option>
+                <option value="cancelado" ${r.status==='cancelado'?'selected':''}>Cancelado</option>
+            </select>
+            <button class="btn btn-success btn-sm" onclick="generateVoucher('${r.code}')"><i class="fas fa-file-alt"></i> Voucher</button>
+            <button class="btn btn-primary btn-sm" onclick="contactWA('${r.code}')"><i class="fab fa-whatsapp"></i> Contactar</button>
+            <button class="btn btn-warning btn-sm" onclick="sendBoldLink('${r.code}')"><i class="fas fa-credit-card"></i> Enviar Link Bold</button>
+        </div>`;
+
+    document.getElementById('detailContent').innerHTML = html;
+    document.getElementById('detailModal').classList.add('active');
+}
+
+function closeDetail() {
+    document.getElementById('detailModal').classList.remove('active');
+}
+
+// ===== UPDATE STATUS =====
+function updateStatus(code, newStatus) {
+    const data = getReservations();
+    const idx = data.findIndex(r => r.code === code);
+    if (idx !== -1) {
+        data[idx].status = newStatus;
+        saveReservations(data);
+        refreshDashboard();
+        renderReservations();
+    }
+}
+
+// ===== VOUCHER =====
+let currentVoucherCode = null;
+
+function generateVoucher(code) {
+    const data = getReservations();
+    const r = data.find(x => x.code === code);
+    if (!r) return;
+    currentVoucherCode = code;
+
+    const html = `
+        <div class="voucher-preview" id="voucherPrintArea">
+            <div class="v-header">
+                <h2>&#9992; TOURESBARATOS.COM</h2>
+                <small>NISSI VIP TRAVEL & TOURS</small>
+            </div>
+            <h3 style="margin-top:12px;">VOUCHER DE RESERVA</h3>
+            <div class="v-code">${r.code}</div>
+            <div class="v-details">
+                <div class="v-row"><span>Tour:</span><strong>${r.tourName}</strong></div>
+                <div class="v-row"><span>Fecha:</span><strong>${r.tourDate}</strong></div>
+                <div class="v-row"><span>Horario:</span><strong>${r.tourSchedule || '-'}</strong></div>
+                <div class="v-row"><span>Cliente:</span><strong>${r.clientName}</strong></div>
+                <div class="v-row"><span>Documento:</span><strong>${r.clientDoc}</strong></div>
+                <div class="v-row"><span>Personas:</span><strong>${r.qty}</strong></div>
+                <div class="v-row"><span>Hotel:</span><strong>${r.hotel || '-'}</strong></div>
+                <div class="v-row"><span>Metodo de pago:</span><strong>${r.payMethod || '-'}</strong></div>
+                ${r.surcharge ? `<div class="v-row"><span>Subtotal:</span><strong>${formatCOP(r.subtotal || 0)}</strong></div>
+                <div class="v-row" style="color:#B45309;"><span>Recargo tarjeta (${r.surchargePercent || 7}%):</span><strong>+${formatCOP(r.surcharge)}</strong></div>` : ''}
+            </div>
+            <div class="v-total">TOTAL: ${formatCOP(r.total || 0)}</div>
+            <div class="v-footer">
+                <p>Presentar este voucher el dia del tour. | WhatsApp: +${WA_NUMBER}</p>
+                <p>San Andres Islas, Colombia | touresbaratos.com</p>
+            </div>
+        </div>`;
+
+    document.getElementById('voucherContent').innerHTML = html;
+    document.getElementById('voucherModal').classList.add('active');
+    closeDetail();
+}
+
+function closeVoucher() {
+    document.getElementById('voucherModal').classList.remove('active');
+}
+
+function printVoucher() {
+    const content = document.getElementById('voucherPrintArea').innerHTML;
+    const win = window.open('', '_blank');
+    win.document.write(`
+        <html><head><title>Voucher</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+        <style>
+            body { font-family: 'Montserrat', sans-serif; padding: 40px; text-align: center; }
+            .v-header { border-bottom: 3px solid #1B2A4A; padding-bottom: 16px; margin-bottom: 20px; }
+            .v-header h2 { color: #1B2A4A; }
+            .v-header small { color: #B8860B; font-weight: 700; }
+            .v-code { background: #1B2A4A; color: #FFE600; padding: 8px 20px; border-radius: 8px;
+                      font-weight: 800; font-size: 1.3rem; display: inline-block; margin: 16px 0; letter-spacing: 2px; }
+            .v-details { text-align: left; margin: 20px auto; max-width: 400px; }
+            .v-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+            .v-row strong { color: #1B2A4A; }
+            .v-total { font-size: 1.3rem; font-weight: 800; color: #1B2A4A; margin-top: 16px; }
+            .v-footer { margin-top: 20px; font-size: 0.75rem; color: #999; border-top: 1px solid #ddd; padding-top: 12px; }
+            @media print { body { padding: 20px; } }
+        </style></head><body>${content}</body></html>`);
+    win.document.close();
+    setTimeout(() => win.print(), 500);
+}
+
+function sendVoucherWA() {
+    const data = getReservations();
+    const r = data.find(x => x.code === currentVoucherCode);
+    if (!r) return;
+
+    const msg = encodeURIComponent(
+        `*VOUCHER DE RESERVA*\n` +
+        `========================\n` +
+        `*TOURESBARATOS.COM*\n` +
+        `NISSI VIP Travel & Tours\n\n` +
+        `Codigo: *${r.code}*\n` +
+        `Tour: *${r.tourName}*\n` +
+        `Fecha: *${r.tourDate}*\n` +
+        `Horario: ${r.tourSchedule || '-'}\n` +
+        `Cliente: ${r.clientName}\n` +
+        `Personas: ${r.qty}\n` +
+        `Hotel: ${r.hotel || '-'}\n` +
+        `Total: *${formatCOP(r.total)}*\n\n` +
+        `Presentar este voucher el dia del tour.\n` +
+        `========================`
+    );
+
+    const phone = r.clientPhone ? r.clientPhone.replace(/\D/g, '') : WA_NUMBER;
+    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+}
+
+// ===== CONTACT WA =====
+function contactWA(code) {
+    const data = getReservations();
+    const r = data.find(x => x.code === code);
+    if (!r) return;
+
+    const msg = encodeURIComponent(
+        `Hola ${r.clientName}! Te escribimos de Tours Baratos San Andres.\n\n` +
+        `Tu reserva *${r.code}* para *${r.tourName}* el *${r.tourDate}* esta ${r.status}.\n\n` +
+        `Alguna pregunta? Estamos para servirte!`
+    );
+
+    const phone = r.clientPhone ? r.clientPhone.replace(/\D/g, '') : '';
+    if (phone) {
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    }
+}
+
+// ===== EXPORT CSV =====
+function exportCSV() {
+    const data = getReservations();
+    if (data.length === 0) { alert('No hay datos para exportar'); return; }
+
+    const headers = ['Codigo','Cliente','Documento','WhatsApp','Email','Tour','Fecha','Personas','Total','Estado','Pago','Hotel','Notas','Creado'];
+    const rows = data.map(r => [
+        r.code, r.clientName, r.clientDoc, r.clientPhone, r.clientEmail,
+        r.tourName, r.tourDate, r.qty, r.total, r.status, r.payMethod,
+        r.hotel, r.notes, r.createdAt
+    ]);
+
+    let csv = headers.join(',') + '\n';
+    rows.forEach(row => {
+        csv += row.map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',') + '\n';
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `reservas_touresbaratos_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// ===== DEMO DATA =====
+function loadDemoData() {
+    if (getReservations().length > 0) {
+        if (!confirm('Esto agregara datos de prueba. Continuar?')) return;
+    }
+
+    const names = ['Maria Lopez', 'Carlos Gomez', 'Ana Rodriguez', 'Pedro Martinez', 'Laura Diaz', 'Diego Herrera'];
+    const hotels = ['Decameron Aquarium', 'Hotel Casablanca', 'Sol Caribe Sea Flower', 'Hostal Posada Nativa', 'Hotel Cocoplum'];
+    const statuses = ['pendiente', 'confirmado', 'pagado', 'completado'];
+    const methods = ['nequi', 'efectivo', 'tarjeta'];
+
+    const demos = [];
+    for (let i = 0; i < 12; i++) {
+        const tour = TOURS[Math.floor(Math.random() * TOURS.length)];
+        const qty = Math.floor(Math.random() * 4) + 1;
+        const date = new Date();
+        date.setDate(date.getDate() + Math.floor(Math.random() * 14) + 1);
+
+        demos.push({
+            code: 'TB-' + String(Math.random()).slice(2, 8).toUpperCase(),
+            tourId: tour.id,
+            tourName: tour.name,
+            tourSchedule: '',
+            clientName: names[Math.floor(Math.random() * names.length)],
+            clientDoc: String(Math.floor(Math.random() * 900000000) + 100000000),
+            clientPhone: '+57 3' + String(Math.floor(Math.random() * 100000000) + 100000000),
+            clientEmail: '',
+            tourDate: date.toISOString().slice(0, 10),
+            qty: qty,
+            unitPrice: tour.price,
+            total: tour.price * qty,
+            hotel: hotels[Math.floor(Math.random() * hotels.length)],
+            notes: '',
+            payMethod: methods[Math.floor(Math.random() * methods.length)],
+            status: statuses[Math.floor(Math.random() * statuses.length)],
+            createdAt: new Date().toISOString()
+        });
+    }
+
+    const existing = getReservations();
+    saveReservations([...demos, ...existing]);
+    refreshDashboard();
+    alert('Datos demo cargados!');
+}
+
+// ===== MODAL CLOSE ON OVERLAY =====
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
+});
+
+// ===== AUTOMATION: TEMPLATES =====
+const TEMPLATES = {
+    welcome: `Hola {nombre}! Bienvenido/a a Tours Baratos San Andres.\n\nGracias por tu reserva *{codigo}*.\nTour: *{tour}*\nFecha: *{fecha}*\n\nTe confirmaremos tu cupo muy pronto. Cualquier duda, escribenos!\n\n- Tours Baratos San Andres`,
+
+    confirm: `Hola {nombre}! Tu reserva esta *CONFIRMADA*.\n\nCodigo: *{codigo}*\nTour: *{tour}*\nFecha: *{fecha}*\nPersonas: {personas}\nTotal: {total}\n\nRecuerda llegar 15 min antes. Te esperamos!\n\n- Tours Baratos San Andres`,
+
+    reminder: `Hola {nombre}! Te recordamos que *manana* tienes tu tour:\n\n*{tour}*\nFecha: *{fecha}*\nPersonas: {personas}\nHotel: {hotel}\n\nCodigo: *{codigo}*\n\nLlega 15 min antes. Nos vemos!\n\n- Tours Baratos San Andres`,
+
+    thanks: `Hola {nombre}! Gracias por elegir Tours Baratos San Andres.\n\nEsperamos que hayas disfrutado tu *{tour}*.\n\nSi te gusto, dejanos tu resena en Google y comparte tus fotos etiquetandonos en Instagram @touresbaratossanandres\n\nTe esperamos de vuelta!\n\n- Tours Baratos San Andres`,
+
+    promo: `Hola {nombre}! Tenemos una promo especial para ti en San Andres:\n\nReserva cualquier tour esta semana y obtiene precio especial.\n\nVe todos nuestros tours en: touresbaratos.com\n\nReserva ya por este mismo chat!\n\n- Tours Baratos San Andres`
+};
+
+function useTemplate(type) {
+    const template = TEMPLATES[type] || '';
+    document.getElementById('massMessage').value = template;
+}
+
+// ===== AUTOMATION: REMINDERS =====
+function loadReminders() {
+    const data = getReservations();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+
+    const upcoming = data.filter(r =>
+        r.tourDate === tomorrowStr &&
+        (r.status === 'confirmado' || r.status === 'pagado') &&
+        !r.reminderSent
+    );
+
+    const container = document.getElementById('remindersList');
+    if (upcoming.length === 0) {
+        container.innerHTML = '<p style="color:var(--gray-500); font-size:0.8rem;">No hay tours para manana pendientes de recordatorio.</p>';
+    } else {
+        container.innerHTML = upcoming.map(r =>
+            `<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--gray-100);">
+                <span>${r.clientName} - ${r.tourName}</span>
+                <button class="btn btn-success btn-sm" onclick="sendReminder('${r.code}')" style="padding:4px 8px; font-size:0.7rem;"><i class="fab fa-whatsapp"></i></button>
+            </div>`
+        ).join('');
+    }
+}
+
+function sendReminder(code) {
+    const data = getReservations();
+    const r = data.find(x => x.code === code);
+    if (!r) return;
+
+    let msg = TEMPLATES.reminder
+        .replace(/{nombre}/g, r.clientName)
+        .replace(/{codigo}/g, r.code)
+        .replace(/{tour}/g, r.tourName)
+        .replace(/{fecha}/g, r.tourDate)
+        .replace(/{personas}/g, r.qty)
+        .replace(/{hotel}/g, r.hotel || 'No indicado')
+        .replace(/{total}/g, formatCOP(r.total || 0));
+
+    const phone = (r.clientPhone || '').replace(/\D/g, '');
+    if (phone) {
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        // Mark as sent
+        const idx = data.findIndex(x => x.code === code);
+        if (idx !== -1) {
+            data[idx].reminderSent = true;
+            data[idx].reminderSentAt = new Date().toISOString();
+            saveReservations(data);
+            loadReminders();
+        }
+    }
+}
+
+function sendAllReminders() {
+    const data = getReservations();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+
+    const upcoming = data.filter(r =>
+        r.tourDate === tomorrowStr &&
+        (r.status === 'confirmado' || r.status === 'pagado') &&
+        !r.reminderSent
+    );
+
+    if (upcoming.length === 0) {
+        alert('No hay recordatorios pendientes para manana.');
+        return;
+    }
+
+    upcoming.forEach((r, i) => {
+        setTimeout(() => sendReminder(r.code), i * 1500);
+    });
+}
+
+// ===== AUTOMATION: MASS MESSAGES =====
+function prepareMassMessage() {
+    const msg = document.getElementById('massMessage').value.trim();
+    if (!msg) { alert('Escribe un mensaje primero.'); return; }
+
+    const target = document.getElementById('massTarget').value;
+    const data = getReservations();
+
+    // Get unique clients by phone
+    const clientMap = {};
+    data.forEach(r => {
+        const phone = (r.clientPhone || '').replace(/\D/g, '');
+        if (!phone || clientMap[phone]) return;
+        if (target === 'confirmed' && r.status !== 'confirmado' && r.status !== 'pagado') return;
+        if (target === 'pending' && r.status !== 'pendiente') return;
+        clientMap[phone] = r;
+    });
+
+    const clients = Object.values(clientMap);
+
+    if (clients.length === 0) {
+        alert('No hay clientes que coincidan con el filtro.');
+        return;
+    }
+
+    // Build table
+    let html = `<table><thead><tr><th>Cliente</th><th>WhatsApp</th><th>Accion</th></tr></thead><tbody>`;
+    clients.forEach(r => {
+        const phone = (r.clientPhone || '').replace(/\D/g, '');
+        const personalMsg = msg
+            .replace(/{nombre}/g, r.clientName || 'Cliente')
+            .replace(/{codigo}/g, r.code || '')
+            .replace(/{tour}/g, r.tourName || '')
+            .replace(/{fecha}/g, r.tourDate || '')
+            .replace(/{personas}/g, r.qty || 1)
+            .replace(/{hotel}/g, r.hotel || '')
+            .replace(/{total}/g, formatCOP(r.total || 0));
+
+        html += `<tr>
+            <td>${r.clientName}</td>
+            <td>${r.clientPhone}</td>
+            <td><a href="https://wa.me/${phone}?text=${encodeURIComponent(personalMsg)}" target="_blank" class="btn btn-success btn-sm"><i class="fab fa-whatsapp"></i> Enviar</a></td>
+        </tr>`;
+    });
+    html += '</tbody></table>';
+    html += `<p style="padding:12px; font-size:0.8rem; color:var(--gray-500);">${clients.length} clientes en la lista. Haz clic en cada uno o usa "Abrir Todos".</p>`;
+
+    document.getElementById('massSendList').innerHTML = html;
+    document.getElementById('massSendContainer').style.display = 'block';
+
+    // Store links for batch open
+    window._massWALinks = clients.map(r => {
+        const phone = (r.clientPhone || '').replace(/\D/g, '');
+        const personalMsg = msg
+            .replace(/{nombre}/g, r.clientName || 'Cliente')
+            .replace(/{codigo}/g, r.code || '')
+            .replace(/{tour}/g, r.tourName || '')
+            .replace(/{fecha}/g, r.tourDate || '')
+            .replace(/{personas}/g, r.qty || 1)
+            .replace(/{hotel}/g, r.hotel || '')
+            .replace(/{total}/g, formatCOP(r.total || 0));
+        return `https://wa.me/${phone}?text=${encodeURIComponent(personalMsg)}`;
+    });
+}
+
+function openAllWALinks() {
+    if (!window._massWALinks || window._massWALinks.length === 0) return;
+    if (!confirm(`Se abriran ${window._massWALinks.length} pestanas de WhatsApp. Continuar?`)) return;
+    window._massWALinks.forEach((url, i) => {
+        setTimeout(() => window.open(url, '_blank'), i * 1200);
+    });
+}
+
+// ===== NOTIFICATIONS =====
+function getNotifications() {
+    return JSON.parse(localStorage.getItem('tb_notifications') || '[]');
+}
+
+function renderNotifications() {
+    const notifs = getNotifications();
+    const unread = notifs.filter(n => !n.read).length;
+    const badge = document.getElementById('notifBadge');
+    badge.textContent = unread > 0 ? unread : '';
+
+    const container = document.getElementById('notificationsContainer');
+    if (notifs.length === 0) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-bell-slash"></i><h3>Sin notificaciones</h3></div>';
+        return;
+    }
+
+    container.innerHTML = notifs.slice(0, 50).map(n => {
+        const time = new Date(n.timestamp).toLocaleString('es-CO');
+        const icon = n.type === 'new_booking' ? 'fa-calendar-plus' : 'fa-bell';
+        const bg = n.read ? '' : 'background: rgba(46,111,207,0.05); border-left: 3px solid var(--blue);';
+        return `<div style="padding:12px 16px; border-bottom:1px solid var(--gray-100); ${bg} display:flex; gap:12px; align-items:flex-start;">
+            <i class="fas ${icon}" style="color:var(--blue); margin-top:4px;"></i>
+            <div>
+                <p style="font-size:0.88rem; font-weight:500;">${n.message}</p>
+                <span style="font-size:0.75rem; color:var(--gray-500);">${time}</span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function clearNotifications() {
+    const notifs = getNotifications();
+    notifs.forEach(n => n.read = true);
+    localStorage.setItem('tb_notifications', JSON.stringify(notifs));
+    renderNotifications();
+}
+
+// ===== SETTINGS =====
+function saveBoldConfig() {
+    const key = document.getElementById('boldKey').value.trim();
+    const link = document.getElementById('boldPaymentLink').value.trim();
+    localStorage.setItem('tb_bold_key', key);
+    localStorage.setItem('tb_bold_link', link);
+    alert('Configuracion Bold guardada!');
+}
+
+function saveWANumber() {
+    const num = document.getElementById('waNumber').value.trim();
+    localStorage.setItem('tb_wa_number', num);
+    alert('Numero WhatsApp guardado: ' + num);
+}
+
+function saveSocials() {
+    localStorage.setItem('tb_ig', document.getElementById('igHandle').value.trim());
+    localStorage.setItem('tb_tt', document.getElementById('ttHandle').value.trim());
+    alert('Redes sociales guardadas!');
+}
+
+// ===== SEND BOLD PAYMENT LINK =====
+function sendBoldLink(code) {
+    const data = getReservations();
+    const r = data.find(x => x.code === code);
+    if (!r) return;
+
+    const savedLink = localStorage.getItem('tb_bold_link') || '';
+    const boldLink = savedLink || 'https://bold.co (configura tu link en Ajustes)';
+
+    const msg = encodeURIComponent(
+        `Hola ${r.clientName}! Aqui tienes tu link de pago seguro para tu reserva:\n\n` +
+        `Reserva: *${r.code}*\n` +
+        `Tour: *${r.tourName}*\n` +
+        `Fecha: *${r.tourDate}*\n` +
+        `Total: *${formatCOP(r.total)}*\n\n` +
+        `Paga aqui de forma segura:\n` +
+        `${boldLink}\n\n` +
+        `Aceptamos tarjeta, PSE, Nequi y Daviplata.\n` +
+        `Una vez pagues, tu cupo queda confirmado!\n\n` +
+        `- Tours Baratos San Andres`
+    );
+
+    const phone = (r.clientPhone || '').replace(/\D/g, '');
+    if (phone) {
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    }
+}
+
+function clearAllData() {
+    if (!confirm('ATENCION: Esto borrara TODAS las reservas y datos. Esta seguro?')) return;
+    if (!confirm('ULTIMA OPORTUNIDAD: Todos los datos se perderan. Continuar?')) return;
+    localStorage.removeItem('tb_reservations');
+    localStorage.removeItem('tb_notifications');
+    refreshDashboard();
+    alert('Todos los datos han sido borrados.');
+}
+
+// ===== INIT =====
+refreshDashboard();
+renderNotifications();
+loadReminders();
+
+// Load saved settings
+if (localStorage.getItem('tb_bold_key')) {
+    const keyInput = document.getElementById('boldKey');
+    if (keyInput) keyInput.value = localStorage.getItem('tb_bold_key');
+}
+if (localStorage.getItem('tb_bold_link')) {
+    const linkInput = document.getElementById('boldPaymentLink');
+    if (linkInput) linkInput.value = localStorage.getItem('tb_bold_link');
+}
+if (localStorage.getItem('tb_ig')) {
+    const igInput = document.getElementById('igHandle');
+    if (igInput) igInput.value = localStorage.getItem('tb_ig');
+}
+if (localStorage.getItem('tb_tt')) {
+    const ttInput = document.getElementById('ttHandle');
+    if (ttInput) ttInput.value = localStorage.getItem('tb_tt');
+}
+</script>
+</body>
+</html>

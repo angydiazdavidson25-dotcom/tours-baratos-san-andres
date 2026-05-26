@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Técnico Operativo CRM – Nissi VIP Travel and Tours 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --azul: #0A2D5E;
+    --oro: #C9A84C;
+    --azul-claro: #D6E8F7;
+    --oro-claro: #FDF3DC;
+    --gris: #4A4A4A;
+    --blanco: #FFFFFF;
+    --borde: #C9A84C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #F2F4F8;
+    color: var(--gris);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  /* ── PORTADA ──────────────────────────────────────────────────── */
+  .portada {
+    background: linear-gradient(160deg, var(--azul) 0%, #0d3b7a 60%, #0a2d5e 100%);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 40px;
+    page-break-after: always;
+  }
+  .portada .brand-line {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--oro);
+    margin-bottom: 28px;
+  }
+  .portada h1 {
+    font-size: 42px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .portada .subtitle {
+    font-size: 18px;
+    color: var(--oro);
+    font-style: italic;
+    margin-bottom: 36px;
+  }
+  .portada .title-box {
+    border-top: 3px solid var(--oro);
+    border-bottom: 3px solid var(--oro);
+    padding: 24px 48px;
+    margin: 20px 0 36px;
+  }
+  .portada .title-box h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .portada .title-box p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 8px;
+  }
+  .portada .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .portada .chip {
+    background: rgba(201,168,76,0.2);
+    border: 1px solid var(--oro);
+    color: var(--oro);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .portada .meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    border-top: 1px solid rgba(201,168,76,0.35);
+    padding-top: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  /* ── CONTENEDOR PRINCIPAL ───────────────────────────────────── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ── FASES / SECCIONES ───────────────────────────────────────── */
+  .fase {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(10,45,94,0.08);
+    margin: 40px 0;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+
+  .fase-header {
+    background: linear-gradient(135deg, var(--azul) 0%, #0d3b7a 100%);
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .fase-num {
+    background: var(--oro);
+    color: var(--azul);
+    font-size: 22px;
+    font-weight: 800;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .fase-header h2 {
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .fase-header p {
+    color: rgba(255,255,255,0.7);
+    font-size: 12.5px;
+    margin-top: 4px;
+  }
+
+  .fase-body {
+    padding: 32px 36px;
+  }
+
+  /* ── TABLAS ───────────────────────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 12.5px;
+  }
+  thead th {
+    background: var(--azul);
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border: 1.5px solid var(--oro);
+  }
+  tbody tr:nth-child(odd) td { background: #F8FBFF; }
+  tbody tr:nth-child(even) td { background: var(--azul-claro); }
+  tbody td {
+    padding: 11px 14px;
+    border: 1px solid #d0dce8;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tbody tr:hover td { background: var(--oro-claro); }
+  .td-label {
+    font-weight: 700;
+    color: var(--azul);
+    white-space: nowrap;
+  }
+  .tarifa-val {
+    font-weight: 700;
+    color: var(--azul);
+    text-align: center;
+    background: var(--oro-claro) !important;
+  }
+
+  /* ── PIPELINE CARDS ───────────────────────────────────────────── */
+  .pipeline-grid {
+    display: grid;
+    gap: 24px;
+    margin: 20px 0;
+  }
+  .pipeline-card {
+    border: 1.5px solid var(--borde);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .pipeline-card-header {
+    background: var(--azul);
+    color: white;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 13.5px;
+  }
+  .pipeline-card-header span {
+    display: inline-block;
+    background: var(--oro);
+    color: var(--azul);
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-right: 8px;
+  }
+  .pipeline-rows {}
+  .pipeline-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid #e8eef4;
+  }
+  .pipeline-row:last-child { border-bottom: none; }
+  .pipeline-row-label {
+    background: #EEF4FB;
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 11.5px;
+    color: var(--azul);
+    border-right: 2px solid var(--borde);
+    display: flex;
+    align-items: flex-start;
+  }
+  .pipeline-row-value {
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: var(--gris);
+    line-height: 1.55;
+    background: white;
+  }
+  .pipeline-row-value ul {
+    padding-left: 18px;
+    margin: 0;
+  }
+  .pipeline-row-value li { margin: 4px 0; }
+  .doc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--oro-claro);
+    border: 1px solid var(--oro);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--azul);
+  }
+
+  /* ── SLA CARDS ────────────────────────────────────────────────── */
+  .sla-card {
+    border: 1.5px solid var(--azul-claro);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+  .sla-card-header {
+    background: linear-gradient(135deg, var(--azul), #1a4080);
+    color: white;
+    padding: 18px 24px;
+  }
+  .sla-card-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .sla-card-header p { font-size: 12px; color: rgba(255,255,255,0.7); }
+  .sla-steps {}
+  .sla-step {
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    border-bottom: 1px solid #e5eef5;
+  }
+  .sla-step:last-child { border-bottom: none; }
+  .sla-step-label {
+    background: var(--azul-claro);
+    padding: 14px 18px;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--azul);
+    border-right: 2px solid var(--borde);
+    display: flex;
+    align-items: flex-start;
+  }
+  .sla-step-value {
+    padding: 14px 18px;
+    font-size: 12.5px;
+    color: var(--gris);
+    line-height: 1.55;
+    background: white;
+  }
+  .sla-step:nth-child(even) .sla-step-value { background: #FAFCFF; }
+  .sla-step:nth-child(even) .sla-step-label { background: #C8DDF0; }
+
+  /* ── ALERT BOX ────────────────────────────────────────────────── */
+  .alert-box {
+    border-left: 5px solid var(--oro);
+    background: var(--oro-claro);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .alert-box strong {
+    display: block;
+    color: var(--azul);
+    font-size: 12.5px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .alert-box p { font-size: 12.5px; color: var(--gris); }
+
+  /* ── SECCIÓN MARCA ────────────────────────────────────────────── */
+  .marca-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .marca-item {
+    background: #F8FBFF;
+    border: 1px solid #D0DCE8;
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .marca-item h4 {
+    color: var(--azul);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .marca-item h4::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background: var(--oro);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .marca-item p { font-size: 12.5px; line-height: 1.55; }
+
+  /* ── PDF SECCIONES ────────────────────────────────────────────── */
+  .pdf-section-card {
+    border: 1px solid #D0DCE8;
+    border-radius: 8px;
+    margin: 14px 0;
+    overflow: hidden;
+  }
+  .pdf-section-header {
+    background: var(--azul);
+    color: var(--oro);
+    padding: 10px 18px;
+    font-weight: 700;
+    font-size: 12.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pdf-section-header .num {
+    background: var(--oro);
+    color: var(--azul);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .pdf-section-body {
+    padding: 14px 18px;
+    font-size: 12.5px;
+    color: var(--gris);
+    line-height: 1.6;
+    background: white;
+  }
+
+  /* ── COLORES MUESTRA ──────────────────────────────────────────── */
+  .color-swatches {
+    display: flex;
+    gap: 12px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    border: 1px solid #dde4ec;
+    border-radius: 8px;
+    padding: 10px 14px;
+    min-width: 180px;
+  }
+  .swatch-color {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+  .swatch-info small { display: block; font-size: 10px; color: #888; }
+  .swatch-info strong { font-size: 12px; color: var(--azul); }
+
+  /* ── RESUMEN EJECUTIVO ────────────────────────────────────────── */
+  .exec-table tr td:first-child { font-weight: 700; color: var(--azul); width: 32px; text-align: center; }
+  .exec-table tr td:nth-child(2) { font-weight: 600; }
+
+  /* ── HEADINGS DENTRO DE FASE ──────────────────────────────────── */
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--azul);
+    border-bottom: 2px solid var(--oro);
+    padding-bottom: 8px;
+    margin: 28px 0 16px;
+  }
+  .sub-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--oro);
+    margin: 22px 0 10px;
+  }
+  .body-text { font-size: 13px; line-height: 1.65; color: var(--gris); margin: 10px 0; }
+
+  /* ── TOC ──────────────────────────────────────────────────────── */
+  .toc {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(10,45,94,0.08);
+    margin: 40px 0;
+    overflow: hidden;
+  }
+  .toc-header {
+    background: var(--azul);
+    padding: 20px 32px;
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .toc-body { padding: 28px 32px; }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #D0DCE8;
+    text-decoration: none;
+    color: var(--gris);
+    transition: color 0.2s;
+  }
+  .toc-item:hover { color: var(--azul); }
+  .toc-num {
+    background: var(--azul);
+    color: var(--oro);
+    font-weight: 800;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .toc-title { font-weight: 600; font-size: 13.5px; }
+
+  /* ── FOOTER ───────────────────────────────────────────────────── */
+  .doc-footer {
+    background: var(--azul);
+    color: white;
+    text-align: center;
+    padding: 36px 20px;
+    margin-top: 60px;
+  }
+  .doc-footer h3 { color: var(--oro); font-size: 18px; margin-bottom: 8px; }
+  .doc-footer p { font-size: 12.5px; color: rgba(255,255,255,0.7); }
+  .doc-footer .tagline { font-style: italic; color: var(--oro); margin-top: 12px; font-size: 14px; }
+
+  /* ── PRINT ────────────────────────────────────────────────────── */
+  @media print {
+    body { background: white; font-size: 11px; }
+    .portada { page-break-after: always; min-height: auto; padding: 40px; }
+    .fase { page-break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .pipeline-card { page-break-inside: avoid; }
+    .sla-card { page-break-inside: avoid; }
+    .toc { box-shadow: none; }
+    @page { margin: 1.5cm; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════ PORTADA ════════════════════════════════ -->
+<div class="portada">
+  <div class="brand-line">San Andrés Islas, Colombia — Turismo de Clase Mundial</div>
+  <h1>NISSI VIP<br>Travel and Tours</h1>
+  <p class="subtitle">Donde el Mar Caribe se Convierte en Tu Mejor Recuerdo</p>
+  <div class="title-box">
+    <h2>Manual Técnico y Operativo de CRM</h2>
+    <p>Configuración desde Cero del Entorno Digital • Kommo CRM + WhatsApp Business API</p>
+  </div>
+  <div class="chips">
+    <span class="chip">Kommo CRM</span>
+    <span class="chip">WhatsApp Business API</span>
+    <span class="chip">Pipeline de Ventas</span>
+    <span class="chip">SLA Operativo</span>
+    <span class="chip">Tarifas 2026</span>
+    <span class="chip">PDF Corporativo</span>
+  </div>
+  <div class="meta">
+    Versión 2026 &nbsp;|&nbsp; Documento de Uso Interno Confidencial &nbsp;|&nbsp;
+    Preparado para: <strong style="color:var(--oro)">Angy Díaz Davidson — Directora General</strong>
+  </div>
+</div>
+
+<!-- ════════════════════════ CONTENEDOR ════════════════════════════════════ -->
+<div class="container">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-header">📋 Tabla de Contenido</div>
+    <div class="toc-body">
+      <a href="#intro" class="toc-item"><span class="toc-num">INTRO</span><span class="toc-title">Introducción y Alcance del Manual</span></a>
+      <a href="#fase1" class="toc-item"><span class="toc-num">FASE 1</span><span class="toc-title">Arquitectura de Datos — Campos Personalizados del CRM (31 campos)</span></a>
+      <a href="#fase2" class="toc-item"><span class="toc-num">FASE 2</span><span class="toc-title">Estructura Avanzada del Pipeline — Embudo de Ventas (10 etapas)</span></a>
+      <a href="#fase3" class="toc-item"><span class="toc-num">FASE 3</span><span class="toc-title">Protocolos de Operación Interna (SLA) — José y Heidy</span></a>
+      <a href="#fase4" class="toc-item"><span class="toc-num">FASE 4</span><span class="toc-title">Estandarización de Formatos y Marca — PDF Orden de Servicio</span></a>
+      <a href="#anexo" class="toc-item"><span class="toc-num">ANEXO</span><span class="toc-title">Resumen Ejecutivo de Implementación</span></a>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="fase" id="intro">
+    <div class="fase-header">
+      <div class="fase-num">🌊</div>
+      <div>
+        <h2>Introducción y Alcance del Manual</h2>
+        <p>Base conceptual y objetivos del sistema operativo digital</p>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="body-text">Este manual ha sido diseñado específicamente para <strong>Nissi VIP Travel and Tours</strong>, agencia de turismo especializada en los destinos acuáticos de San Andrés Islas, Colombia. Su objetivo es centralizar, estandarizar y automatizar todas las operaciones comerciales y logísticas a través de la plataforma <strong>Kommo CRM</strong> integrada con <strong>WhatsApp Business API</strong>.</p>
+      <p class="body-text">El manual cubre cuatro áreas fundamentales: la arquitectura de datos, el embudo de ventas, los protocolos operativos del equipo, y la estandarización de documentos corporativos. Cuando se implementa correctamente, este sistema permite que ningún cliente caiga en el olvido, ninguna reserva sea un caos de WhatsApp, y cada tour salga con precisión logística.</p>
+      <div class="alert-box">
+        <strong>🏝️ Alcance de Servicios Cubiertos</strong>
+        <p>Tours masivos (Johnny Cay, El Acuario, Combos) &nbsp;•&nbsp; Tour Platino VIP (Rocky Cay + Haynes Cay) &nbsp;•&nbsp; Pontones grupales &nbsp;•&nbsp; Pontones privados &nbsp;•&nbsp; Servicios especiales y cotizaciones personalizadas</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ FASE 1 ══════════════════════════════════════════════════ -->
+  <div class="fase" id="fase1">
+    <div class="fase-header">
+      <div class="fase-num">1</div>
+      <div>
+        <h2>Arquitectura de Datos — Campos Personalizados del CRM</h2>
+        <p>31 campos obligatorios para que ningún dato crítico quede fuera del sistema</p>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="body-text">Todos los campos listados deben crearse en Kommo CRM bajo: <strong>Configuración (⚙️) → Campos Personalizados → Deals → "+ Agregar Campo"</strong>. Crear con los tipos de dato exactos indicados.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:28%">Nombre del Campo</th>
+            <th style="width:18%">Tipo de Campo</th>
+            <th>Razón de Uso / Impacto Operativo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-label">Nombre Completo del Pasajero</td><td>Texto (Nombre)</td><td>Identificación legal del cliente. Se usa en la Orden de Servicio y en listas de embarque.</td></tr>
+          <tr><td class="td-label">Número de WhatsApp (con país)</td><td>Texto</td><td>Canal primario de comunicación. Debe incluir código de país (+57, +1, etc.) para la integración con Kommo–WA Business API.</td></tr>
+          <tr><td class="td-label">Correo Electrónico</td><td>Texto (Email)</td><td>Envío automático de la Orden de Servicio en PDF, confirmaciones y encuesta post-tour.</td></tr>
+          <tr><td class="td-label">Número de Documento (CC/Pasaporte)</td><td>Texto</td><td>Requerimiento legal para manifiestos de embarque según normativa DIMAR.</td></tr>
+          <tr><td class="td-label">Tipo de Documento</td><td>Desplegable</td><td>Opciones: Cédula Colombiana / Pasaporte / DNI Extranjero. Necesario para validación en muelles.</td></tr>
+          <tr><td class="td-label">Nacionalidad</td><td>Desplegable</td><td>Determina tarifas (nacionales vs. extranjeros) y el idioma de atención preferido.</td></tr>
+          <tr><td class="td-label">Fecha de Llegada a San Andrés</td><td>Fecha</td><td>Punto de inicio del ciclo operativo. Permite calcular disponibilidad y asignar fecha de tour.</td></tr>
+          <tr><td class="td-label">Fecha de Salida de San Andrés</td><td>Fecha</td><td>Define la ventana de tiempo disponible. Evita confirmar tours para fechas posteriores a la salida.</td></tr>
+          <tr><td class="td-label">Hotel / Alojamiento</td><td>Texto</td><td>Punto de recogida (pick-up). Obligatorio para calcular la ruta y el horario del transporte.</td></tr>
+          <tr><td class="td-label">Número de Habitación</td><td>Texto</td><td>Precisión para el pick-up. El guía confirma este dato la noche anterior.</td></tr>
+          <tr><td class="td-label">Número de Adultos</td><td>Número entero</td><td>Calcula la tarifa base del tour y la capacidad requerida en la embarcación.</td></tr>
+          <tr><td class="td-label">Número de Niños (3–11 años)</td><td>Número entero</td><td>Aplica tarifas especiales (50% descuento). Requerido para el manifiesto de embarque.</td></tr>
+          <tr><td class="td-label">Número de Bebés (0–2 años)</td><td>Número entero</td><td>Sin costo en tours regulares. Requiere chaleco salvavidas especial: dato crítico para logística.</td></tr>
+          <tr><td class="td-label">Tipo de Tour Contratado</td><td>Desplegable</td><td>Opciones: Tour Básico Johnny Cay / Acuario / Tour Platino (Rocky Cay) / Pontón Privado / Pontón Grupal / Combo. Determina el pipeline asignado.</td></tr>
+          <tr><td class="td-label">Fecha del Tour</td><td>Fecha</td><td>Fecha exacta de operación. Alimenta el calendario operativo y las alertas automáticas D-1.</td></tr>
+          <tr><td class="td-label">Hora de Pick-up Confirmada</td><td>Texto (HH:MM)</td><td>Horario de recogida en el hotel. Se sincroniza con el guía y el conductor.</td></tr>
+          <tr><td class="td-label">Tarifa Total Acordada (COP)</td><td>Número / Moneda</td><td>Monto total cobrado. Base para la conciliación financiera y la comisión de agentes.</td></tr>
+          <tr><td class="td-label">Monto de Anticipo Recibido (COP)</td><td>Número / Moneda</td><td>Primer pago para confirmar la reserva. Si es $0, el lead no avanza al pipeline de Reserva Confirmada.</td></tr>
+          <tr><td class="td-label">Saldo Pendiente (COP)</td><td>Número / Moneda</td><td>Calculado automáticamente: Tarifa Total menos Anticipo. Visible en el pipeline para seguimiento de cobro.</td></tr>
+          <tr><td class="td-label">Estado de Pago</td><td>Desplegable</td><td>Opciones: Sin Pago / Anticipo Recibido / Pago Parcial / Pago Completo. Controla el avance en el pipeline.</td></tr>
+          <tr><td class="td-label">Método de Pago</td><td>Desplegable</td><td>Opciones: Nequi / Bancolombia / Transferencia Internacional / Efectivo / Daviplata / PayPal. Para conciliación bancaria.</td></tr>
+          <tr><td class="td-label">Canal de Captación</td><td>Desplegable</td><td>Opciones: WhatsApp Orgánico / Instagram / Facebook / Google Ads / Referido / Página Web / TikTok. Para análisis ROI de marketing.</td></tr>
+          <tr><td class="td-label">Restricciones Médicas o Especiales</td><td>Texto largo</td><td>Campo libre para alergias, condiciones cardíacas, movilidad reducida. Datos críticos de seguridad para el guía y la embarcación.</td></tr>
+          <tr><td class="td-label">Número de Orden de Servicio</td><td>Texto (auto-generado)</td><td>Código único de trazabilidad: formato NVT-YYYYMMDD-XXX. Vincula CRM, factura y PDF enviado al cliente.</td></tr>
+          <tr><td class="td-label">Guía / Anfitrión Asignado</td><td>Desplegable</td><td>Opciones: José (tours acuáticos) / Heidy (pontones) / Otro. Para asignación de responsabilidades y comunicación interna.</td></tr>
+          <tr><td class="td-label">Embarcación Asignada</td><td>Desplegable</td><td>Opciones: Lancha 1, Lancha 2, Pontón Nissi 1, Pontón Nissi 2, etc. Evita doble-booking en servicios exclusivos.</td></tr>
+          <tr><td class="td-label">Número Total de Pax Confirmados</td><td>Número entero</td><td>Suma de adultos + niños. Dato final para el manifiesto de embarque enviado a la Capitanía de Puerto.</td></tr>
+          <tr><td class="td-label">Encuesta de Satisfacción Enviada</td><td>Desplegable (Sí/No)</td><td>Control de calidad: confirma que se envió el formulario Google Forms o TypeForm post-servicio.</td></tr>
+          <tr><td class="td-label">Puntuación de Satisfacción (1–5)</td><td>Número</td><td>Alimentado desde la encuesta. Base para reportes de calidad y detección de clientes recurrentes.</td></tr>
+          <tr><td class="td-label">¿Cliente Recurrente?</td><td>Desplegable (Sí/No)</td><td>Activa flujo de fidelización automático. Clientes recurrentes reciben trato VIP y descuento de lealtad.</td></tr>
+          <tr><td class="td-label">Referencia Interna / Notas del Agente</td><td>Texto largo</td><td>Campo libre para contexto adicional: negociaciones especiales, peticiones VIP, historial de contacto previo.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert-box">
+        <strong>⚙️ Nota Técnica Kommo</strong>
+        <p>Los campos tipo "Desplegable" deben tener sus opciones cargadas antes de comenzar. Los campos de "Número/Moneda" se configuran en COP. El campo "Número de Orden de Servicio" debe marcarse como <strong>Requerido</strong> para que ningún deal avance sin él.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ FASE 2 ══════════════════════════════════════════════════ -->
+  <div class="fase" id="fase2">
+    <div class="fase-header">
+      <div class="fase-num">2</div>
+      <div>
+        <h2>Estructura Avanzada del Pipeline — Embudo de Ventas</h2>
+        <p>10 etapas progresivas con disparadores, automatizaciones y documentos</p>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="body-text">En Kommo: <strong>Sales → Pipelines → "Crear nuevo pipeline"</strong>. Agregar las 10 etapas en el orden exacto indicado. Asignar un color diferente a cada etapa para identificación visual inmediata.</p>
+
+      <div class="pipeline-grid">
+
+        <!-- ETAPA 1 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 1</span> Nuevo Contacto / Lead Entrante 🟢</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El cliente escribe al número de WhatsApp Business de Nissi VIP. El canal puede ser: directo, desde anuncio en Meta/Google, o referido.</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>Bot de bienvenida activo en menos de 30 segundos con menú de opciones (Tours / Pontones / Tour Platino / Cotización personalizada).</li>
+                <li>Se crea automáticamente el contacto en Kommo con nombre y WhatsApp capturados.</li>
+                <li>Se asigna etiqueta "Lead Nuevo" y se notifica al agente de guardia.</li>
+                <li>Tiempo máximo de respuesta humana: <strong>5 minutos</strong> (horario operativo 7:00 AM–8:00 PM).</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">💬 Solo mensaje interactivo del bot. Ningún PDF en esta etapa.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 2 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 2</span> Calificación Inicial 🔵</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El agente identifica el tipo de tour, número de personas, fechas y presupuesto mediante preguntas guiadas.</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>Bot o agente recolecta: Tipo de Tour, Fecha deseada, # Adultos, # Niños, Hotel de hospedaje.</li>
+                <li>El sistema verifica disponibilidad en el calendario interno (conectado al CRM).</li>
+                <li>Se asigna etiqueta "Calificando" al detectar palabras clave "cuánto", "precio", "información".</li>
+                <li>Si el cliente no responde en 2 horas: bot envía mensaje de seguimiento automático.</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">📱 Mensaje WhatsApp con tarifas generales 2026 e imágenes del tour.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 3 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 3</span> Cotización Enviada 🟡</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El agente recopiló todos los datos necesarios y genera la cotización oficial.</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>Se genera automáticamente el número de Orden de Servicio (NVT-YYYYMMDD-XXX).</li>
+                <li>El sistema envía por WhatsApp y/o correo el PDF de Cotización Oficial con desglose de tarifas.</li>
+                <li>Se programa alerta de seguimiento a las 24 horas si no hay respuesta.</li>
+                <li>Si el tour es en menos de 3 días: se asigna etiqueta roja "URGENTE" automáticamente.</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">📄 PDF de Cotización Oficial (versión previa a la Orden de Servicio).</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 4 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 4</span> Negociación / Seguimiento 🟠</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El cliente responde con preguntas, solicita ajuste de precio, o pide tiempo para decidir.</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>24h sin respuesta: Bot envía seguimiento #1 ("¿Pudiste revisar nuestra propuesta?").</li>
+                <li>48h sin respuesta: Bot envía seguimiento #2 con valor agregado o disponibilidad limitada.</li>
+                <li>72h sin respuesta: Se asigna tarea manual al agente para llamada de cierre.</li>
+                <li>Si se aplica descuento: se activa el campo "Oferta Especial Aplicada" en el CRM.</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">📄 Reenvío opcional del PDF de cotización con ajustes.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 5 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 5</span> Reserva Confirmada / Anticipo Recibido ✅</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El cliente envía comprobante de pago del anticipo (mínimo 50% del valor total).</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>El agente registra el anticipo y actualiza "Estado de Pago" a "Anticipo Recibido".</li>
+                <li>Se genera y envía automáticamente la <strong>Orden de Servicio en PDF</strong> con todos los detalles.</li>
+                <li>Bot envía instrucciones pre-tour: qué llevar, hora de pick-up, punto de encuentro.</li>
+                <li>Se crea evento en el calendario interno para el D-1 (notificación a José o Heidy).</li>
+                <li>Se asigna etiqueta verde "CONFIRMADO".</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">🌟 PDF de Orden de Servicio Oficial Nissi VIP (documento completo).</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 6 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 6</span> Pago Completo 💳</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El cliente cancela el saldo restante (pago al llegar al muelle o transferencia previa).</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>El agente actualiza "Estado de Pago" a "Pago Completo".</li>
+                <li>El sistema genera un recibo digital simplificado vía WhatsApp.</li>
+                <li>El lead se marca con etiqueta azul "PAGADO AL 100%".</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">📱 Recibo de pago completo (mensaje WhatsApp con resumen).</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 7 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 7</span> Pre-Operativo D-1 (12 horas antes del tour) ⏰</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El sistema dispara automáticamente esta etapa a las 7:00 PM del día anterior al tour.</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>Alerta automática a José o Heidy: "Tienes X pax confirmados para mañana. Revisar lista en CRM."</li>
+                <li>Bot envía al cliente recordatorio: hora de pick-up, qué llevar (protector solar, ropa de baño, documento, efectivo para extras).</li>
+                <li>El agente verifica que el campo "Restricciones Médicas" ha sido revisado por el guía.</li>
+                <li>Si saldo pendiente > $0: bot envía recordatorio de pago.</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">📋 Lista de Pasajeros (exportación interna CRM para el guía).</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 8 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 8</span> Tour en Progreso 🚤</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El guía confirma por WhatsApp interno que el grupo ha embarcado.</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>El agente mueve el lead a esta etapa manualmente o por botón de acceso rápido desde el móvil.</li>
+                <li>Se activa temporizador interno según la duración del tour para anticipar la etapa de regreso.</li>
+                <li>Lead etiquetado "EN OPERACIÓN" — bloqueado para modificaciones sin autorización del director.</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">🌊 Sin documento. La operación es responsabilidad del guía en campo.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 9 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 9</span> Servicio Completado ⭐</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El guía reporta el regreso exitoso del grupo al muelle.</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>El sistema registra la fecha y hora de cierre del servicio.</li>
+                <li>A los 30 minutos: bot envía mensaje de agradecimiento y encuesta de satisfacción.</li>
+                <li>Si puntuación ≥ 4: bot pide reseña en Google Maps o TripAdvisor.</li>
+                <li>Si puntuación ≤ 3: se crea tarea urgente para el director de atención al cliente.</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">📊 Encuesta de satisfacción (Google Forms / TypeForm enlazada al CRM).</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 10 -->
+        <div class="pipeline-card">
+          <div class="pipeline-card-header"><span>ETAPA 10</span> Post-Venta / Fidelización 💛</div>
+          <div class="pipeline-rows">
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Acción que la Detona</div>
+              <div class="pipeline-row-value">El cliente ha completado su estancia y regresó a su ciudad (D+3 días).</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Automatizaciones</div>
+              <div class="pipeline-row-value"><ul>
+                <li>Bot envía mensaje de despedida personalizado con invitación a regresar.</li>
+                <li>El contacto se agrega automáticamente a la lista "Clientes Recurrentes" en Kommo.</li>
+                <li>A los 30 días: bot envía mensaje de reactivación con nueva oferta o novedad de temporada.</li>
+                <li>Si el cliente responde positivamente: el lead se reactiva automáticamente en la Etapa 2.</li>
+              </ul></div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-row-label">Documento a Enviar</div>
+              <div class="pipeline-row-value"><span class="doc-badge">💌 Opcional: newsletter mensual vía correo electrónico.</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /pipeline-grid -->
+    </div>
+  </div>
+
+  <!-- ══════════════ FASE 3 ══════════════════════════════════════════════════ -->
+  <div class="fase" id="fase3">
+    <div class="fase-header">
+      <div class="fase-num">3</div>
+      <div>
+        <h2>Protocolos de Operación Interna — SLA (Reglas de Oro del Equipo)</h2>
+        <p>Instrucciones técnicas exactas para José (logística) y Heidy (pontones)</p>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="alert-box">
+        <strong>⚓ Regla General de Oro</strong>
+        <p>Ningún tour sale sin que la Lista de Pasajeros haya sido generada, verificada y compartida con el equipo operativo. Este paso no es negociable y su incumplimiento es causal de llamada de atención formal.</p>
+      </div>
+
+      <!-- JOSÉ -->
+      <div class="sla-card">
+        <div class="sla-card-header">
+          <h3>👨‍✈️ Protocolo de JOSÉ — Logística Tours Acuáticos (Johnny Cay / El Acuario / Combo)</h3>
+          <p>Ejecutar todos los días hábiles a más tardar a las 7:00 PM del día anterior al tour</p>
+        </div>
+        <div class="sla-steps">
+          <div class="sla-step">
+            <div class="sla-step-label">1. Abrir vista del CRM</div>
+            <div class="sla-step-value">En Kommo, ir a la sección <strong>"Deals" (Negocios)</strong>. Aplicar filtro: <strong>Etapa = "Pre-Operativo (D-1)"</strong> O <strong>Etapa = "Reserva Confirmada"</strong>. Agregar filtro secundario: <strong>Fecha del Tour = HOY</strong>.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">2. Verificar estado de pago</div>
+            <div class="sla-step-value">Verificar que el campo <strong>"Estado de Pago"</strong> de cada cliente sea "Anticipo Recibido" o "Pago Completo". Los clientes con "Sin Pago" deben ser escalados al director <strong>antes de continuar</strong>.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">3. Exportar lista de pasajeros</div>
+            <div class="sla-step-value">Seleccionar todos los deals filtrados. Exportar a CSV/Excel. Campos obligatorios: Nombre Completo, Hotel/Alojamiento, Hora de Pick-up, # Adultos, # Niños, # Bebés, Restricciones Médicas, Número de Orden de Servicio.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">4. Ordenar por hora de pick-up</div>
+            <div class="sla-step-value">En el Excel exportado, ordenar de menor a mayor por la columna <strong>"Hora de Pick-up"</strong>. Esta es la secuencia de la ruta de recogida.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">5. Verificar capacidad de la embarcación</div>
+            <div class="sla-step-value">Sumar la columna "Pax Confirmados Total". Comparar con la capacidad máxima de la lancha asignada. Si la suma supera la capacidad: <strong>alertar al director de operaciones de inmediato.</strong></div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">6. Generar y compartir lista final</div>
+            <div class="sla-step-value">Guardar como <strong>"Lista_Pasajeros_[FECHA].xlsx"</strong>. Compartir vía WhatsApp al grupo interno del equipo operativo. Archivar en la carpeta "Manifiestos" de Google Drive.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">7. Enviar recordatorio al cliente</div>
+            <div class="sla-step-value">En Kommo, para cada deal en estado D-1, usar la plantilla "Recordatorio_Pre_Tour" con: hora de pick-up, punto de encuentro, qué llevar, número de contacto de José.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">8. SLA de tiempo</div>
+            <div class="sla-step-value">Este proceso completo debe ejecutarse antes de las <strong>7:00 PM del día anterior al tour, sin excepción.</strong> Si José tiene dificultades técnicas, el agente de turno es responsable de ejecutarlo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HEIDY -->
+      <div class="sla-card">
+        <div class="sla-card-header">
+          <h3>👩‍✈️ Protocolo de HEIDY — Anfitriona de Pontones (VIP y Tour Platino)</h3>
+          <p>Checklist obligatorio a completar 12 horas antes del zarpe. Aplica para todos los servicios de pontón y Tour Platino.</p>
+        </div>
+        <div class="sla-steps">
+          <div class="sla-step">
+            <div class="sla-step-label">1. Verificar lista del pontón</div>
+            <div class="sla-step-value">En Kommo, filtrar: <strong>Tipo de Tour = "Pontón Privado" O "Pontón Grupal"</strong>, Fecha del Tour = MAÑANA. Exportar lista con: nombre completo, WhatsApp, # pax totales, restricciones médicas, hotel y hora de pick-up.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">2. Confirmar embarcación asignada</div>
+            <div class="sla-step-value">Verificar el campo <strong>"Embarcación Asignada"</strong> en cada deal. Confirmar con el capitán que el pontón está disponible, en buen estado y con el combustible necesario para la ruta.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">3. Revisar restricciones médicas</div>
+            <div class="sla-step-value">Leer con atención el campo "Restricciones Médicas o Especiales" de CADA pasajero. Informar al capitán sobre cualquier condición relevante (no sabe nadar, problema cardíaco, embarazo, movilidad reducida). Verificar chalecos salvavidas para bebés.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">4. Confirmar menú / catering</div>
+            <div class="sla-step-value">Para pontones VIP o Tour Platino: verificar con el proveedor de catering la lista de platos, restricciones alimentarias y hora de entrega a bordo. Registrar cualquier cambio en las notas del deal en Kommo.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">5. Verificar saldo pendiente</div>
+            <div class="sla-step-value">Revisar el campo <strong>"Saldo Pendiente (COP)"</strong> de cada deal. Si hay saldo > $0: enviar mensaje de WhatsApp al cliente. Si el pago no se confirma antes de las 8:00 AM del día del zarpe: <strong>escalar al director.</strong></div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">6. Preparar kit de bienvenida</div>
+            <div class="sla-step-value">Verificar que a bordo haya: toallas de playa (si incluye), nevera con bebidas (si incluye), botiquín de primeros auxilios, protector solar de cortesía (Tour Platino), lista impresa de pasajeros para el manifiesto de Capitanía.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">7. Enviar confirmación al cliente</div>
+            <div class="sla-step-value">Usando la plantilla <strong>"Confirmacion_Zarpe_Ponton"</strong>, enviar a cada cliente: hora y punto exacto de abordaje, nombre del capitán, número de emergencia de Heidy, y resumen de lo que incluye el servicio.</div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">8. Informar a la Capitanía de Puerto</div>
+            <div class="sla-step-value">Completar y radicar el <strong>manifiesto de pasajeros ante la Capitanía de Puerto de San Andrés</strong>. Paso obligatorio por normativa DIMAR. Debe hacerse mínimo <strong>2 horas antes del zarpe.</strong></div>
+          </div>
+          <div class="sla-step">
+            <div class="sla-step-label">9. SLA de tiempo</div>
+            <div class="sla-step-value">El checklist completo (pasos 1–7) se ejecuta a más tardar a las <strong>8:00 PM del día anterior</strong>. El paso 8 (Capitanía) se ejecuta el mismo día del zarpe, mínimo 2 horas antes.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-box">
+        <strong>🤝 Responsabilidad Compartida</strong>
+        <p>Si José o Heidy no pueden ejecutar su protocolo por fuerza mayor, deben notificarlo al Director de Operaciones con mínimo 4 horas de anticipación para que se designe un reemplazo. El CRM garantiza que cualquier persona capacitada pueda ejecutar el protocolo con la información disponible.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ FASE 4 ══════════════════════════════════════════════════ -->
+  <div class="fase" id="fase4">
+    <div class="fase-header">
+      <div class="fase-num">4</div>
+      <div>
+        <h2>Estandarización de Formatos y Marca — PDF Orden de Servicio</h2>
+        <p>Estructura exacta, directrices de marca y tarifas 2026</p>
+      </div>
+    </div>
+    <div class="fase-body">
+
+      <p class="section-title">4.1. Propósito del Documento</p>
+      <p class="body-text">La Orden de Servicio es el documento más importante que el cliente recibe. Es prueba de compra, contrato de servicio y guía logística en uno solo. Un PDF bien diseñado transmite profesionalismo, genera confianza y reduce llamadas de consulta porque el cliente tiene toda la información que necesita.</p>
+      <p class="body-text">Este documento debe enviarse <strong>siempre</strong> al confirmar la reserva (Etapa 5), al completar el pago (Etapa 6) y a solicitud del cliente en cualquier momento.</p>
+
+      <p class="section-title">4.2. Directrices Estrictas de Marca y Diseño</p>
+
+      <p class="sub-title">Paleta de Colores Corporativos Obligatorios</p>
+      <div class="color-swatches">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#0A2D5E"></div>
+          <div class="swatch-info"><strong>Azul Marino</strong><small>#0A2D5E</small><small>Títulos y encabezados</small></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C9A84C"></div>
+          <div class="swatch-info"><strong>Dorado</strong><small>#C9A84C</small><small>Acentos y datos clave VIP</small></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D6E8F7; border:1px solid #aac"></div>
+          <div class="swatch-info"><strong>Azul Claro</strong><small>#D6E8F7</small><small>Fondos de tabla alternos</small></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#4A4A4A"></div>
+          <div class="swatch-info"><strong>Gris Oscuro</strong><small>#4A4A4A</small><small>Cuerpo de texto</small></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFFFFF; border:1px solid #ddd"></div>
+          <div class="swatch-info"><strong>Blanco</strong><small>#FFFFFF</small><small>Fondo principal del PDF</small></div>
+        </div>
+      </div>
+
+      <div class="marca-grid">
+        <div class="marca-item">
+          <h4>Tipografía</h4>
+          <p>Encabezados: <strong>Montserrat Bold</strong> o Arial Bold. Cuerpo: Montserrat Regular o Arial. Tamaño mínimo en cuerpo: 10pt. Jamás usar Comic Sans ni tipografías decorativas.</p>
+        </div>
+        <div class="marca-item">
+          <h4>Logo</h4>
+          <p>Debe aparecer en la esquina superior izquierda de TODAS las páginas. Tamaño mínimo: 3 cm de ancho. Jamás distorsionar el logo ni cambiar sus proporciones.</p>
+        </div>
+        <div class="marca-item">
+          <h4>Formato del PDF</h4>
+          <p>Una sola página preferiblemente (máximo 2 para servicios complejos). Tamaño carta (Letter). Márgenes: 2 cm en todos los lados. Legible en pantalla de móvil sin hacer zoom.</p>
+        </div>
+        <div class="marca-item">
+          <h4>Regla de Oro de Marca</h4>
+          <p>Si el documento NO tiene logo, colores corporativos y número de Orden NVT-YYYYMMDD-XXX, <strong>no puede enviarse al cliente.</strong> El agente debe rehacerlo.</p>
+        </div>
+      </div>
+
+      <p class="section-title">4.3. Estructura Exacta del PDF — Sección por Sección</p>
+
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">1</div> Encabezado Corporativo</div>
+        <div class="pdf-section-body">Columna izquierda: Logo Nissi VIP a color, sobre fondo blanco o azul marino. Columna derecha: Nombre legal de la agencia, ciudad (San Andrés Islas, Colombia), WhatsApp de contacto, correo electrónico institucional, perfil de Instagram/página web. Línea divisoria dorada bajo el encabezado.</div>
+      </div>
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">2</div> Identificación del Documento</div>
+        <div class="pdf-section-body">Título centrado en mayúsculas: <strong>"ORDEN DE SERVICIO"</strong>. Número de orden prominente en dorado: NVT-20260615-001. Fecha de emisión. Estado del documento (CONFIRMADA / PENDIENTE DE PAGO). Número de página.</div>
+      </div>
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">3</div> Datos del Cliente</div>
+        <div class="pdf-section-body">Nombre completo del pasajero principal. Número de WhatsApp. Correo electrónico. Documento de identidad (tipo y número). Hotel/Alojamiento en San Andrés. Fecha de llegada y fecha de salida de la isla.</div>
+      </div>
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">4</div> Detalle del Servicio Contratado</div>
+        <div class="pdf-section-body">Tipo de tour/servicio (nombre completo y descripción breve). Fecha exacta del tour. Hora de pick-up confirmada y punto de recogida. Número de pasajeros desglosado: X Adultos + X Niños (3–11 años) + X Bebés (0–2 años). Guía/Anfitriona asignada. Embarcación asignada (para pontones). Punto de embarque (nombre del muelle).</div>
+      </div>
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">5</div> Detalle de Tarifas y Pago (Tono cálido y transparente)</div>
+        <div class="pdf-section-body">
+          <p style="margin-bottom:14px; font-style:italic; color:var(--azul);">"Con mucho gusto te compartimos el detalle de tu servicio:"</p>
+          <p style="margin-bottom:14px;">Tabla con columnas: Concepto | Cantidad | Tarifa Unitaria (COP) | Subtotal. Línea de <strong>Total</strong> destacada en azul marino y dorado. Línea de <strong>Anticipo Recibido</strong>. Línea de <strong>Saldo Pendiente</strong> (rojo si &gt;$0, verde si =$0). Nota: "Todas las tarifas incluyen IVA. No se aceptan cancelaciones con menos de 24 horas de anticipación."</p>
+        </div>
+      </div>
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">6</div> Información Logística Esencial — "Lo que debes saber antes de tu aventura"</div>
+        <div class="pdf-section-body">Hora límite de espera en el punto de recogida (máximo 10 minutos sin previo aviso). Qué INCLUYE el tour. Qué NO incluye. Qué llevar: protector solar <strong>biodegradable</strong> (obligatorio en áreas marinas protegidas de San Andrés), ropa de baño, toalla, efectivo para extras, documento de identidad original. Nota de condiciones climáticas. Número de WhatsApp del guía asignado.</div>
+      </div>
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">7</div> Términos y Política de Cancelación</div>
+        <div class="pdf-section-body">Cancelación con más de 48h: reembolso del 80%. Cancelación entre 24–48h: reembolso del 50%. Cancelación con menos de 24h o no-show: sin reembolso. Cancelación por condiciones del mar (fuerza mayor): reagendamiento sin costo o reembolso total. Nissi VIP se reserva el derecho de modificar rutas según condiciones de seguridad marítima.</div>
+      </div>
+      <div class="pdf-section-card">
+        <div class="pdf-section-header"><div class="num">8</div> Pie de Página Corporativo</div>
+        <div class="pdf-section-body">Línea divisoria dorada. Texto: <em>"Nissi VIP Travel and Tours — Gracias por elegirnos para vivir la magia del mar de San Andrés. ¡Te esperamos con el alma!"</em> Número de Orden de Servicio repetido. Fecha de emisión. Número de página.</div>
+      </div>
+
+      <p class="section-title">4.4. Tarifas Oficiales 2026 — Nissi VIP Travel and Tours</p>
+      <p class="body-text">La siguiente tabla debe actualizarse al inicio de cada temporada. Toda cotización enviada al cliente debe reflejar las tarifas vigentes. Está prohibido enviar tarifas desactualizadas.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:26%">Servicio</th>
+            <th style="width:18%">Tipo de Pasajero</th>
+            <th style="width:14%; text-align:center">Tarifa 2026</th>
+            <th>Incluye / Observaciones Importantes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-label">Tour Básico — Johnny Cay</td>
+            <td>Adulto Nacional</td>
+            <td class="tarifa-val">$65.000 COP</td>
+            <td>Transporte acuático ida y vuelta, acceso a la isla. No incluye: silletería, bebidas, alquiler de equipos.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Básico — Johnny Cay</td>
+            <td>Niño (3–11 años)</td>
+            <td class="tarifa-val">$32.500 COP</td>
+            <td>50% descuento. Mismas inclusiones que adulto.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Básico — Johnny Cay</td>
+            <td>Bebé (0–2 años)</td>
+            <td class="tarifa-val" style="color:#007700">GRATIS</td>
+            <td>Requiere chaleco salvavidas de bebé. Notificación obligatoria al operador.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Básico — Acuario (El Acuario)</td>
+            <td>Adulto Nacional</td>
+            <td class="tarifa-val">$70.000 COP</td>
+            <td>Transporte acuático, acceso al área de snorkel. Equipo de snorkel: alquiler en sitio $15.000 COP.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Básico — Acuario (El Acuario)</td>
+            <td>Niño (3–11 años)</td>
+            <td class="tarifa-val">$35.000 COP</td>
+            <td>50% descuento. Se recomienda adulto acompañante en el agua.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Combo (Johnny Cay + Acuario)</td>
+            <td>Adulto Nacional</td>
+            <td class="tarifa-val">$110.000 COP</td>
+            <td>Día completo. Incluye almuerzo en restaurante local (menú fijo).</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Combo (Johnny Cay + Acuario)</td>
+            <td>Niño (3–11 años)</td>
+            <td class="tarifa-val">$55.000 COP</td>
+            <td>50% descuento. Incluye media porción de almuerzo.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Platino — Rocky Cay + Haynes Cay</td>
+            <td>Adulto</td>
+            <td class="tarifa-val">$180.000 COP</td>
+            <td>Servicio premium. Incluye: transporte privado, snorkel guiado, almuerzo gourmet, bebidas ilimitadas no alcohólicas, guía bilingüe.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Tour Platino — Rocky Cay + Haynes Cay</td>
+            <td>Niño (3–11 años)</td>
+            <td class="tarifa-val">$90.000 COP</td>
+            <td>Incluye mismas premiums. Menú especial para niños.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Pontón Grupal (hasta 25 pax)</td>
+            <td>Precio por persona</td>
+            <td class="tarifa-val">Desde $150.000</td>
+            <td>Zarpe desde el Muelle Tonina o Tony. Incluye: 4 horas en pontón, música, nevera básica. No incluye bebidas ni alimentos.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Pontón Privado VIP (hasta 15 pax)</td>
+            <td>Tarifa fija por embarcación</td>
+            <td class="tarifa-val">Desde $2.200.000</td>
+            <td>Contratación completa. Incluye: 6 horas, capitán, catering a elección (cotización aparte), decoración básica.</td>
+          </tr>
+          <tr>
+            <td class="td-label">Pontón Privado — Paquete Premium</td>
+            <td>Tarifa fija por embarcación</td>
+            <td class="tarifa-val">Desde $3.500.000</td>
+            <td>Incluye todo el Paquete Base más: decoración temática, open bar 3 horas, fotografía profesional 2 horas, acceso a isla privada.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alert-box">
+        <strong>🎨 Directriz Final de Marca</strong>
+        <p>Cada PDF enviado al cliente es una pieza de marketing. Debe transmitir profesionalismo, calidez y confianza en igual medida. El estándar es que el cliente lo guarde en su galería porque le parece tan bonito y completo que quiere tenerlo a mano. Si el documento no cumple este estándar visual, no debe enviarse.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ ANEXO ════════════════════════════════════════════════════ -->
+  <div class="fase" id="anexo">
+    <div class="fase-header">
+      <div class="fase-num">✓</div>
+      <div>
+        <h2>Anexo: Resumen Ejecutivo de Implementación</h2>
+        <p>Prioridad y orden de configuración recomendado para el equipo</p>
+      </div>
+    </div>
+    <div class="fase-body">
+
+      <table class="exec-table">
+        <thead>
+          <tr>
+            <th style="width:40px">#</th>
+            <th style="width:40%">Acción de Implementación</th>
+            <th style="width:22%">Responsable</th>
+            <th>Tiempo Estimado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Crear todos los campos personalizados en Kommo (Fase 1 — 31 campos)</td><td>Director / Administrador CRM</td><td>2 horas</td></tr>
+          <tr><td>2</td><td>Configurar el pipeline con las 10 etapas, colores y etiquetas</td><td>Director / Administrador CRM</td><td>1 hora</td></tr>
+          <tr><td>3</td><td>Conectar WhatsApp Business API a Kommo</td><td>Técnico / Soporte Kommo</td><td>1–3 horas</td></tr>
+          <tr><td>4</td><td>Programar los bots y mensajes automáticos de cada etapa del pipeline</td><td>Director / Soporte Kommo</td><td>4–6 horas</td></tr>
+          <tr><td>5</td><td>Crear las plantillas de documentos (Cotización + Orden de Servicio PDF)</td><td>Diseñador / Director</td><td>3–5 horas</td></tr>
+          <tr><td>6</td><td>Capacitar a José en su protocolo de logística (Fase 3)</td><td>Director de Operaciones</td><td>1 hora</td></tr>
+          <tr><td>7</td><td>Capacitar a Heidy en su protocolo de pontones (Fase 3)</td><td>Director de Operaciones</td><td>1 hora</td></tr>
+          <tr><td>8</td><td>Prueba piloto con 5 clientes reales antes del lanzamiento total</td><td>Todo el equipo</td><td>1 semana</td></tr>
+          <tr><td>9</td><td>Revisión y ajuste del sistema tras la prueba piloto</td><td>Director / Equipo</td><td>2–3 horas</td></tr>
+          <tr><td>10</td><td>Lanzamiento completo del sistema operativo digital Nissi VIP</td><td>Toda la agencia</td><td>Día de lanzamiento</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <h3>Nissi VIP Travel and Tours</h3>
+  <p>San Andrés Islas, Colombia &nbsp;|&nbsp; Manual Técnico Operativo CRM 2026</p>
+  <p>Documento de uso interno confidencial &nbsp;|&nbsp; Preparado para Angy Díaz Davidson — Directora General</p>
+  <p class="tagline">"¡Donde el mar Caribe se convierte en tu mejor recuerdo!"</p>
+</div>
+
+</body>
+</html>

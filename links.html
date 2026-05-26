@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tours Baratos San Andres | Links</title>
+    <meta name="description" content="Reserva tours en San Andres al mejor precio. Links directos a WhatsApp, reservas y redes sociales.">
+
+    <!-- Open Graph / WhatsApp / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tours Baratos San Andres | Reserva Ahora">
+    <meta property="og:description" content="Los mejores tours en San Andres Islas. Parasail, Noche Blanca, Johnny Cay, Buceo y mas. Reserva por WhatsApp o en linea.">
+    <meta property="og:image" content="assets/flyers/web/flyer_page_09.jpg">
+    <meta property="og:url" content="https://touresbaratos.com/links">
+    <meta property="og:locale" content="es_CO">
+
+    <!-- Favicon & Theme -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈</text></svg>">
+    <meta name="theme-color" content="#1B2A4A">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --yellow: #FFE600;
+            --navy: #1B2A4A;
+            --blue: #2E6FCF;
+            --green: #25D366;
+            --white: #FFFFFF;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #0a1628 0%, #1B2A4A 40%, #0077b6 80%, #00b4d8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        .links-container {
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Profile */
+        .profile {
+            margin-bottom: 28px;
+        }
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            background: var(--yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 2.5rem;
+            box-shadow: 0 4px 20px rgba(255,230,0,0.3);
+        }
+
+        .profile h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 0.5px;
+        }
+
+        .profile .subtitle {
+            color: var(--yellow);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .profile .location {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .profile .location i { margin-right: 4px; }
+
+        /* Social Icons */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .social-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--yellow);
+            color: var(--navy);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(255,230,0,0.3);
+        }
+
+        /* Links */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.92rem;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .link-btn .link-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .link-btn .link-arrow {
+            margin-left: auto;
+            opacity: 0.4;
+            font-size: 0.8rem;
+        }
+
+        /* Specific link styles */
+        .link-wa .link-icon { background: #25D366; }
+        .link-web .link-icon { background: var(--blue); }
+        .link-tours .link-icon { background: var(--yellow); color: var(--navy); }
+        .link-noche .link-icon { background: #7C3AED; }
+        .link-buceo .link-icon { background: #0891B2; }
+        .link-parasail .link-icon { background: #EC4899; }
+        .link-paddle .link-icon { background: #6366F1; }
+        .link-yate .link-icon { background: #F59E0B; color: var(--navy); }
+
+        /* Promo Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--yellow), #FFD000);
+            color: var(--navy);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .promo-banner .promo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .promo-banner .promo-sub {
+            font-size: 0.78rem;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        /* Tour Quick Cards */
+        .tour-quick-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tour-quick-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 14px 12px;
+            text-decoration: none;
+            color: var(--white);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tour-quick-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .tour-quick-card .tq-emoji {
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .tour-quick-card .tq-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .tour-quick-card .tq-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--yellow);
+        }
+
+        /* Footer */
+        .links-footer {
+            margin-top: 28px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+        }
+
+        .links-footer a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="links-container">
+
+    <!-- Profile -->
+    <div class="profile">
+        <div class="profile-avatar">&#9992;</div>
+        <h1>TOURESBARATOS.COM</h1>
+        <p class="subtitle">Nissi VIP Travel & Tours</p>
+        <p class="location"><i class="fas fa-map-marker-alt"></i> San Andres Islas, Colombia</p>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="social-icons">
+        <a href="https://instagram.com/touresbaratossanandres" target="_blank" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://tiktok.com/@touresbaratos" target="_blank" class="social-icon" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://facebook.com/touresbaratos" target="_blank" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://wa.me/573222123751" target="_blank" class="social-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <!-- Promo -->
+    <div class="promo-banner">
+        <p class="promo-text">&#127796; Reserva hoy y asegura tu cupo!</p>
+        <p class="promo-sub">Los mejores tours al mejor precio directo</p>
+    </div>
+
+    <!-- Main Links -->
+    <a href="https://wa.me/573222123751?text=Hola!%20Quiero%20info%20sobre%20tours%20en%20San%20Andres" target="_blank" class="link-btn link-wa">
+        <span class="link-icon"><i class="fab fa-whatsapp"></i></span>
+        Reserva por WhatsApp
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <a href="index.html" class="link-btn link-web">
+        <span class="link-icon"><i class="fas fa-globe"></i></span>
+        Ver Todos los Tours y Precios
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <!-- Popular Tours Grid -->
+    <div class="tour-quick-grid">
+        <a href="index.html#tours" class="tour-quick-card">
+            <span class="tq-emoji">&#128741;</span>
+            <span class="tq-name">Tour Platino</span>
+            <span class="tq-price">$65.000</span>
+        </a>
+        <a href="index.html#tours" class="tour-quick-card">
+            <span class="tq-emoji">&#127880;</span>
+            <span class="tq-name">Yate Rumba</span>
+            <span class="tq-price">$130.000</span>
+        </a>
+        <a href="index.html#tours" class="tour-quick-card">
+            <span class="tq-emoji">&#128676;</span>
+            <span class="tq-name">J.Cay + Acuario</span>
+            <span class="tq-price">$65.000</span>
+        </a>
+        <a href="index.html#tours" class="tour-quick-card">
+            <span class="tq-emoji">&#9898;</span>
+            <span class="tq-name">Noche Blanca</span>
+            <span class="tq-price">$245.000</span>
+        </a>
+    </div>
+
+    <!-- More Links -->
+    <a href="index.html#tours" class="link-btn link-buceo">
+        <span class="link-icon"><i class="fas fa-water"></i></span>
+        Buceo Mini Curso $110.000
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <a href="index.html#tours" class="link-btn" style="">
+        <span class="link-icon" style="background: #0891B2;"><i class="fas fa-sailboat"></i></span>
+        Tour Siete Colores $220.000
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <a href="index.html#tours" class="link-btn link-parasail">
+        <span class="link-icon"><i class="fas fa-wind"></i></span>
+        Parasail - Vuela a 100m $220.000
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <a href="index.html#tours" class="link-btn link-paddle">
+        <span class="link-icon"><i class="fas fa-moon"></i></span>
+        Paddle Nocturno LED $220.000
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <a href="index.html#tours" class="link-btn" style="">
+        <span class="link-icon" style="background: #F59E0B; color: #1B2A4A;"><i class="fas fa-sun"></i></span>
+        Amanecer en Ponton $130.000
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <!-- Google Maps / Reviews -->
+    <a href="https://maps.google.com/?q=San+Andres+Islas+Colombia" target="_blank" class="link-btn" style="margin-top: 8px;">
+        <span class="link-icon" style="background: #EA4335;"><i class="fas fa-map-marker-alt"></i></span>
+        Dejanos tu resena en Google
+        <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+    </a>
+
+    <!-- Footer -->
+    <div class="links-footer">
+        <p>&copy; 2026 Tours Baratos San Andres - Nissi VIP Travel & Tours</p>
+    </div>
+
+</div>
+
+</body>
+</html>

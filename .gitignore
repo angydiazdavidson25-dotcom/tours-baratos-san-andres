@@ -1,0 +1,8 @@
+# Original full-res flyer PNGs (6-8MB each) - only deploy compressed web/ versions
+assets/flyers/*.png
+
+# Dev files
+.claude/
+node_modules/
+.DS_Store
+Thumbs.db
