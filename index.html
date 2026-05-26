@@ -825,6 +825,26 @@ document.addEventListener('DOMContentLoaded', function() {
         cards.forEach(function(card) { observer.observe(card); });
     }
 });
+
+// Scroll reveal for sections
+if ('IntersectionObserver' in window) {
+    var revealEls = document.querySelectorAll('.section-header, .step-card, .testimonial-card, .contact-info, .contact-form');
+    revealEls.forEach(function(el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    var revealObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el) { revealObs.observe(el); });
+}
 </script>
 </body>
 </html>
