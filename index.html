@@ -664,8 +664,22 @@
         </div>
 
         <form id="bookingForm" class="booking-form">
-            <input type="hidden" id="bookingTourId">
+            <!-- ===== CART: Tours seleccionados ===== -->
+            <div style="margin-bottom:12px;">
+                <label style="font-weight:700;color:#1B2A4A;font-size:0.9rem;display:block;margin-bottom:8px;">
+                    <i class="fas fa-shopping-cart"></i> Tours seleccionados
+                </label>
+                <div id="cartItemsList"></div>
+                <div style="margin-top:8px;">
+                    <select id="addTourSelect" style="width:100%;padding:10px 12px;border:1px solid #E2E8F0;border-radius:8px;font-size:0.85rem;color:#334155;background:#F8FAFC;cursor:pointer;">
+                        <option value="">+ Agregar otro tour...</option>
+                    </select>
+                </div>
+            </div>
 
+            <hr style="border:none;border-top:1px solid #E2E8F0;margin:16px 0;">
+
+            <!-- ===== Datos del cliente ===== -->
             <div class="form-row">
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> Nombre completo</label>
@@ -688,21 +702,6 @@
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label><i class="fas fa-calendar"></i> Fecha del tour</label>
-                    <input type="date" id="bookDate" required>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-users"></i> Personas</label>
-                    <div class="qty-control">
-                        <button type="button" onclick="changeQty(-1)">-</button>
-                        <input type="number" id="bookQty" value="1" min="1" max="20" readonly>
-                        <button type="button" onclick="changeQty(1)">+</button>
-                    </div>
-                </div>
-            </div>
-
             <div class="form-group">
                 <label><i class="fas fa-hotel"></i> Hotel donde te hospedas</label>
                 <input type="text" id="bookHotel" placeholder="Nombre del hotel (para recogida)">
@@ -714,16 +713,9 @@
             </div>
 
             <div class="booking-summary" id="bookingSummary">
-                <div class="summary-line">
-                    <span id="summaryTour">Tour</span>
-                    <span id="summaryUnitPrice">$0</span>
-                </div>
-                <div class="summary-line">
-                    <span>Personas: <span id="summaryQty">1</span></span>
-                    <span id="summarySubtotal">$0</span>
-                </div>
+                <div id="summaryLines"></div>
                 <div class="summary-line" id="surchargeRow" style="display:none; color:#B45309;">
-                    <span><i class="fas fa-credit-card" style="font-size:0.75rem;"></i> Recargo pago con tarjeta (7%)</span>
+                    <span><i class="fas fa-credit-card" style="font-size:0.75rem;"></i> Recargo tarjeta (7%)</span>
                     <span id="summarySurcharge">$0</span>
                 </div>
                 <div class="summary-total">

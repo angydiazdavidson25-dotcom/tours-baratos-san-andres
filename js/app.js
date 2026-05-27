@@ -6,117 +6,134 @@
 // ===== TOURS DATABASE =====
 const TOURS = [
     {
-        id: 1,
-        name: "Tour Platino (Ponton)",
-        price: 65000,
-        schedule: "8:30 AM - 4:00 PM",
-        includes: "Avistamiento de Manglares, Acuario, Rocky Cay, parada de bano en El Palito",
-        category: "maritimo",
-        emoji: "\u{1F6E5}"
+        id: 1, name: "Tour Platino (Ponton)", price: 65000,
+        schedule: "8:30 AM - 4:00 PM", checkIn: "8:15 AM",
+        meetingPoint: "Muelle Toninos, San Andres",
+        category: "maritimo", emoji: "\u{1F6E5}",
+        description: "Recorrido completo en ponton colectivo por los mejores puntos de San Andres. Dia completo disfrutando el mar de 7 colores con musica y ambiente.",
+        included: ["Transporte maritimo ida y vuelta", "Paradas en Manglares, Acuario, Rocky Cay y El Palito", "Musica en vivo y ambiente", "Guia turistico", "Chaleco salvavidas"],
+        notIncluded: ["Alimentacion y bebidas", "Impuesto de ingreso a cayos ($15.000)", "Alquiler de equipo de snorkel", "Propinas"]
     },
     {
-        id: 2,
-        name: "Yate Rumba",
-        price: 130000,
-        schedule: "Tarde / Noche",
-        includes: "Fiesta en alta mar a bordo de un yate",
-        category: "fiesta",
-        emoji: "\u{1F389}"
+        id: 2, name: "Yate Rumba", price: 130000,
+        schedule: "Tarde / Noche", checkIn: "30 min antes",
+        meetingPoint: "Muelle Toninos, San Andres",
+        category: "fiesta", emoji: "\u{1F389}",
+        description: "Fiesta en alta mar a bordo de un yate con DJ en vivo, barra libre y la mejor rumba sobre las aguas del Caribe.",
+        included: ["Acceso al yate", "DJ en vivo", "Barra libre (licor nacional)", "Parada de bano en mar abierto", "Chaleco salvavidas"],
+        notIncluded: ["Licor premium", "Snacks adicionales", "Transporte terrestre al muelle", "Propinas"]
     },
     {
-        id: 3,
-        name: "Acuario Directo",
-        price: 45000,
-        schedule: "9:00 AM - 3:00 PM",
-        includes: "Traslado directo al cayo para snorkel",
-        category: "maritimo",
-        emoji: "\u{1F420}"
+        id: 3, name: "Acuario Directo", price: 45000,
+        schedule: "9:00 AM - 3:00 PM", checkIn: "8:45 AM",
+        meetingPoint: "Muelle Toninos, San Andres",
+        category: "maritimo", emoji: "\u{1F420}",
+        description: "Traslado directo al cayo del Acuario para disfrutar de snorkel entre peces de colores, mantarrayas y aguas cristalinas.",
+        included: ["Transporte maritimo ida y vuelta", "Acceso al Acuario", "Guia turistico", "Chaleco salvavidas"],
+        notIncluded: ["Alquiler equipo de snorkel ($10.000)", "Alimentacion y bebidas", "Impuesto de ingreso", "Propinas"]
     },
     {
-        id: 4,
-        name: "Johnny Cay Directo",
-        price: 55000,
-        schedule: "9:00 AM - 3:30 PM",
-        includes: "Dia completo de playa en el cayo principal",
-        category: "maritimo",
-        emoji: "\u{1F3DD}"
+        id: 4, name: "Johnny Cay Directo", price: 55000,
+        schedule: "9:00 AM - 3:30 PM", checkIn: "8:45 AM",
+        meetingPoint: "Muelle Toninos, San Andres",
+        category: "maritimo", emoji: "\u{1F3DD}",
+        description: "Dia completo de playa en el cayo principal de San Andres. Arena blanca, cocteleria local y reggae en vivo.",
+        included: ["Transporte maritimo ida y vuelta", "Guia turistico", "Chaleco salvavidas"],
+        notIncluded: ["Impuesto de ingreso a Johnny Cay ($15.000 p/p)", "Alimentacion y bebidas", "Alquiler de sillas/carpas", "Propinas"]
     },
     {
-        id: 5,
-        name: "Johnny Cay + Acuario",
-        price: 65000,
-        schedule: "8:30 AM - 3:30 PM",
-        includes: "Tour clasico: visita ambos cayos",
-        category: "maritimo",
-        emoji: "\u{1F6A4}"
+        id: 5, name: "Johnny Cay + Acuario", price: 65000,
+        schedule: "8:30 AM - 3:30 PM", checkIn: "8:15 AM",
+        meetingPoint: "Muelle Toninos, San Andres",
+        category: "maritimo", emoji: "\u{1F6A4}",
+        description: "El tour clasico de San Andres: visita los dos cayos mas famosos en un solo dia. Playa en Johnny Cay y snorkel en el Acuario.",
+        included: ["Transporte maritimo ida y vuelta", "Parada en Johnny Cay y Acuario", "Guia turistico", "Chaleco salvavidas"],
+        notIncluded: ["Impuesto de ingreso a Johnny Cay ($15.000 p/p)", "Alimentacion y bebidas", "Alquiler equipo snorkel", "Propinas"]
     },
     {
-        id: 6,
-        name: "Semi-Submarino",
-        price: 110000,
-        schedule: "1.5 Horas",
-        includes: "Observacion de arrecifes sin mojarse",
-        category: "aventura",
-        emoji: "\u{1F50D}"
+        id: 6, name: "Semi-Submarino", price: 110000,
+        schedule: "Varias salidas (1.5 Horas)", checkIn: "15 min antes",
+        meetingPoint: "Muelle Toninos, San Andres",
+        category: "aventura", emoji: "\u{1F50D}",
+        description: "Observa los arrecifes de coral y la vida marina sin mojarte a traves de ventanas panoramicas bajo el agua.",
+        included: ["Recorrido de 1.5 horas", "Vista submarina panoramica", "Guia narrador", "Parada de snorkel opcional"],
+        notIncluded: ["Alquiler equipo de snorkel", "Alimentacion y bebidas", "Transporte terrestre", "Propinas"]
     },
     {
-        id: 7,
-        name: "Noche Blanca",
-        price: 245000,
-        schedule: "7:00 PM - 10:00 PM",
-        includes: "Cena buffet, Bar Abierto y fiesta en crucero",
-        category: "fiesta",
-        emoji: "⚪"
+        id: 7, name: "Noche Blanca", price: 245000,
+        schedule: "7:00 PM - 10:00 PM", checkIn: "6:30 PM",
+        meetingPoint: "Marina Portofino, San Andres",
+        category: "fiesta", emoji: "⭕",
+        description: "La experiencia VIP de San Andres: cena buffet con mariscos, bar abierto premium y fiesta en crucero bajo las estrellas. Dress code: todo blanco.",
+        included: ["Cena buffet (mariscos y carnes)", "Bar abierto premium (toda la noche)", "DJ y musica en vivo", "Crucero por la bahia", "Evento exclusivo"],
+        notIncluded: ["Transporte terrestre al punto de encuentro", "Dress code: ropa blanca (obligatorio)", "Propinas"]
     },
     {
-        id: 8,
-        name: "Buceo (Mini-curso)",
-        price: 110000,
-        schedule: "Manana / Tarde",
-        includes: "Equipo completo, teoria y 1 inmersion (12m)",
-        category: "aventura",
-        emoji: "\u{1F93F}"
+        id: 8, name: "Buceo (Mini-curso)", price: 110000,
+        schedule: "Manana / Tarde (3 horas)", checkIn: "30 min antes",
+        meetingPoint: "Centro de Buceo, San Andres",
+        category: "aventura", emoji: "\u{1F93F}",
+        description: "Mini-curso de buceo con instructores certificados PADI. No necesitas experiencia previa. Incluye teoria, practica y 1 inmersion hasta 12 metros.",
+        included: ["Instructor PADI certificado", "Equipo completo de buceo", "Clase teorica", "1 inmersion hasta 12m", "Seguro de buceo", "Certificado de participacion"],
+        notIncluded: ["Fotos y videos submarinos", "Transporte al centro de buceo", "Inmersiones adicionales", "Propinas"]
     },
     {
-        id: 9,
-        name: "Parasail",
-        price: 220000,
-        schedule: "Turnos / Hora",
-        includes: "Vuelo de 15 min a 100m de altura",
-        category: "aventura",
-        emoji: "\u{1FA82}"
+        id: 9, name: "Parasail", price: 220000,
+        schedule: "Turnos cada hora", checkIn: "15 min antes del turno",
+        meetingPoint: "Playa de Spratt Bight, San Andres",
+        category: "aventura", emoji: "\u{1FA82}",
+        description: "Vuela sobre el mar de San Andres en parasail. 15 minutos de vuelo a 100 metros de altura con vista panoramica de toda la isla.",
+        included: ["Vuelo de 15 minutos", "Equipo de seguridad completo", "Lancha de arrastre", "Instructor profesional", "Chaleco salvavidas"],
+        notIncluded: ["Fotos aereas (se pueden tomar con celular)", "Transporte a la playa", "Segundo vuelo", "Propinas"]
     },
     {
-        id: 10,
-        name: "Paddle Nocturno LED",
-        price: 220000,
-        schedule: "4:30 PM en adelante",
-        includes: "Tabla LED transparente y guia profesional",
-        category: "aventura",
-        emoji: "\u{1F4A1}",
-        meetingPoint: "Discoteca Coco Loco"
+        id: 10, name: "Paddle Nocturno LED", price: 220000,
+        schedule: "4:30 PM en adelante", checkIn: "4:15 PM",
+        meetingPoint: "Discoteca Coco Loco, San Andres",
+        category: "aventura", emoji: "\u{1F4A1}",
+        description: "Rema sobre aguas iluminadas con luces de neon. La experiencia nocturna mas magica de San Andres con tablas LED transparentes.",
+        included: ["Tabla de paddle LED transparente", "Remo y chaleco", "Guia profesional", "Sesion de atardecer + nocturna", "Instruccion basica"],
+        notIncluded: ["Transporte al punto de encuentro", "Funda impermeable para celular", "Bebidas", "Propinas"]
     },
     {
-        id: 11,
-        name: "Tour Siete Colores",
-        price: 220000,
-        schedule: "Amanecer - Medio dia",
-        includes: "Catamaran a vela, Acuario, Trampa Tortuga, Mundo Marino, Barco Hundido, snorkel",
-        category: "aventura",
-        emoji: "\u{26F5}",
-        meetingPoint: "Chameys Nautica"
+        id: 11, name: "Tour Siete Colores", price: 220000,
+        schedule: "Amanecer - Medio dia", checkIn: "5:30 AM",
+        meetingPoint: "Chameys Nautica, San Andres",
+        category: "aventura", emoji: "\u{26F5}",
+        description: "Tour completo en catamaran a vela recorriendo los 7 colores del mar. Visita Acuario, Trampa Tortuga, Mundo Marino y Barco Hundido con snorkel.",
+        included: ["Catamaran a vela", "Recorrido completo 7 colores", "Paradas en Acuario, Trampa Tortuga, Mundo Marino", "Snorkel en Barco Hundido", "Guia experto", "Equipo de snorkel"],
+        notIncluded: ["Alimentacion y bebidas", "Impuesto de ingreso a cayos", "Fotos profesionales", "Propinas"]
     },
     {
-        id: 12,
-        name: "Amanecer en Ponton",
-        price: 130000,
-        schedule: "Madrugada ~4:30 AM",
-        includes: "Amanecer en alta mar con musica. Recogida en hotel (centro). Lejano: +$30.000 p/p",
-        category: "fiesta",
-        emoji: "\u{1F305}",
-        meetingPoint: "Recogida en hotel"
+        id: 12, name: "Amanecer en Ponton", price: 130000,
+        schedule: "~4:30 AM - 8:00 AM", checkIn: "4:00 AM",
+        meetingPoint: "Recogida en hotel (zona centro)",
+        category: "fiesta", emoji: "\u{1F305}",
+        description: "Despierta con el amanecer mas hermoso del Caribe flotando en un ponton en alta mar. Musica suave, cafe y brisa del mar.",
+        included: ["Recogida en hotel (zona centro)", "Ponton privado", "Musica ambiental", "Amanecer en alta mar", "Bebida de bienvenida"],
+        notIncluded: ["Recogida hoteles lejanos (+$30.000 p/p)", "Desayuno completo", "Propinas"]
     }
 ];
+
+// ===== CANCELLATION POLICIES =====
+const POLICIES = {
+    title: "POLITICAS DE CANCELACION Y CONDICIONES",
+    items: [
+        "Cancelacion gratuita hasta 24 horas antes del tour.",
+        "Cancelacion con menos de 24 horas: se cobra el 50% del valor total.",
+        "No-show (no presentarse): no hay reembolso.",
+        "En caso de mal clima, el tour se reprograma sin costo adicional.",
+        "Menores de edad deben estar acompanados por un adulto responsable.",
+        "Presentar documento de identidad original el dia del tour.",
+        "Tours sujetos a disponibilidad y condiciones climaticas.",
+        "El operador se reserva el derecho de cancelar por razones de seguridad (reembolso completo).",
+        "Llegar al punto de encuentro minimo 15 minutos antes de la hora de salida.",
+        "Precios por persona en pesos colombianos (COP). No incluyen impuestos de ingreso a cayos."
+    ]
+};
+
+// ===== CART SYSTEM =====
+let cart = [];
 
 // ===== WHATSAPP NUMBER (change this!) =====
 const WA_NUMBER = "573222123751"; // Replace with actual number
@@ -227,8 +244,66 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
-// ===== BOOKING SYSTEM =====
+// ===== BOOKING SYSTEM (MULTI-TOUR CART) =====
 let currentTour = null;
+
+function addToCart(tourId) {
+    const tour = TOURS.find(t => t.id === tourId);
+    if (!tour) return;
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    cart.push({ tourId: tour.id, date: tomorrow.toISOString().split('T')[0], qty: 1 });
+    updateCartBadge(); renderCartItems(); updateSummary();
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartBadge(); renderCartItems(); updateSummary();
+}
+
+function updateCartBadge() {
+    const badge = document.getElementById('cartBadge');
+    if (badge) { badge.textContent = cart.length > 0 ? cart.length : ''; badge.style.display = cart.length > 0 ? 'flex' : 'none'; }
+    const mp = document.getElementById('modalTourPrice');
+    if (mp) mp.textContent = cart.length + ' tour(es) seleccionado(s)';
+}
+
+function renderCartItems() {
+    const container = document.getElementById('cartItemsList');
+    if (!container) return;
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    const minDate = tomorrow.toISOString().split('T')[0];
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:#64748B;padding:12px;font-size:0.85rem;">No hay tours. Usa "Agregar otro tour".</p>';
+        return;
+    }
+    container.innerHTML = cart.map((item, i) => {
+        const tour = TOURS.find(t => t.id === item.tourId);
+        if (!tour) return '';
+        return '<div style="display:flex;gap:8px;align-items:center;padding:10px;background:#F8FAFC;border-radius:8px;margin-bottom:6px;flex-wrap:wrap;">' +
+            '<div style="flex:1;min-width:120px;"><strong style="font-size:0.85rem;color:#1B2A4A;">' + tour.name + '</strong>' +
+            '<div style="font-size:0.72rem;color:#64748B;">' + tour.schedule + ' | ' + tour.meetingPoint + '</div></div>' +
+            '<input type="date" value="' + item.date + '" min="' + minDate + '" onchange="cart[' + i + '].date=this.value" style="padding:5px;border:1px solid #E2E8F0;border-radius:6px;font-size:0.78rem;">' +
+            '<div style="display:flex;align-items:center;gap:3px;">' +
+            '<button type="button" onclick="changeCartQty(' + i + ',-1)" style="width:26px;height:26px;border:1px solid #E2E8F0;border-radius:6px;background:#fff;cursor:pointer;">-</button>' +
+            '<span style="width:22px;text-align:center;font-weight:700;">' + item.qty + '</span>' +
+            '<button type="button" onclick="changeCartQty(' + i + ',1)" style="width:26px;height:26px;border:1px solid #E2E8F0;border-radius:6px;background:#fff;cursor:pointer;">+</button></div>' +
+            '<strong style="color:#2E6FCF;min-width:75px;text-align:right;">' + formatCOP(tour.price * item.qty) + '</strong>' +
+            '<button type="button" onclick="removeFromCart(' + i + ')" style="width:24px;height:24px;border:none;background:#EF4444;color:#fff;border-radius:50%;cursor:pointer;font-size:0.8rem;">&times;</button></div>';
+    }).join('');
+}
+
+function changeCartQty(index, delta) {
+    if (!cart[index]) return;
+    cart[index].qty = Math.max(1, Math.min(20, cart[index].qty + delta));
+    renderCartItems(); updateSummary();
+}
+
+function getCartSubtotal() {
+    return cart.reduce((sum, item) => {
+        const tour = TOURS.find(t => t.id === item.tourId);
+        return sum + (tour ? tour.price * item.qty : 0);
+    }, 0);
+}
 
 function trackEvent(action, category, label, value) {
     if (typeof gtag === 'function') {
@@ -240,27 +315,32 @@ function trackEvent(action, category, label, value) {
     }
 }
 
+function populateAddTourSelect() {
+    const sel = document.getElementById('addTourSelect');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">+ Agregar otro tour...</option>';
+    TOURS.forEach(function(t) {
+        sel.innerHTML += '<option value="' + t.id + '">' + t.emoji + ' ' + t.name + ' - ' + formatCOP(t.price) + '/persona</option>';
+    });
+}
+
 function openBooking(tourId) {
     const tour = TOURS.find(t => t.id === tourId);
     if (!tour) return;
-
     trackEvent('begin_checkout', 'booking', tour.name, tour.price);
     currentTour = tour;
 
-    document.getElementById('modalTourName').textContent = tour.emoji + " " + tour.name;
-    document.getElementById('modalTourPrice').textContent = formatCOP(tour.price) + " por persona | " + tour.schedule;
-    document.getElementById('bookingTourId').value = tour.id;
-    document.getElementById('summaryTour').textContent = tour.name;
-    document.getElementById('summaryUnitPrice').textContent = formatCOP(tour.price);
+    // Reset cart and add this tour
+    cart = [];
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    cart.push({ tourId: tour.id, date: tomorrow.toISOString().split('T')[0], qty: 1 });
 
-    // Set min date to tomorrow
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    document.getElementById('bookDate').min = tomorrow.toISOString().split('T')[0];
+    document.getElementById('modalTourName').textContent = 'Reserva de Tours';
+    document.getElementById('modalTourPrice').textContent = cart.length + ' tour(es) seleccionado(s)';
 
-    // Reset form
-    document.getElementById('bookingForm').reset();
-    document.getElementById('bookQty').value = 1;
+    populateAddTourSelect();
+    renderCartItems();
+    updateCartBadge();
     updateSummary();
 
     document.getElementById('bookingModal').classList.add('active');
@@ -272,35 +352,33 @@ function closeBooking() {
     document.body.style.overflow = '';
 }
 
-function changeQty(delta) {
-    const input = document.getElementById('bookQty');
-    let val = parseInt(input.value) + delta;
-    if (val < 1) val = 1;
-    if (val > 20) val = 20;
-    input.value = val;
-    updateSummary();
-}
-
 function updateSummary() {
-    if (!currentTour) return;
-    const qty = parseInt(document.getElementById('bookQty').value);
-    const subtotal = currentTour.price * qty;
+    if (cart.length === 0) return;
+    const subtotal = getCartSubtotal();
     const payMethod = document.querySelector('input[name="payMethod"]:checked');
     const isCard = payMethod && payMethod.value === 'tarjeta';
-
     const surcharge = isCard ? Math.round(subtotal * CARD_SURCHARGE_PERCENT / 100) : 0;
     const total = subtotal + surcharge;
 
-    document.getElementById('summaryQty').textContent = qty;
-    document.getElementById('summarySubtotal').textContent = formatCOP(subtotal);
-    document.getElementById('summarySurcharge').textContent = '+' + formatCOP(surcharge);
-    document.getElementById('summaryTotal').textContent = formatCOP(total);
+    // Build summary lines from cart
+    const linesEl = document.getElementById('summaryLines');
+    if (linesEl) {
+        linesEl.innerHTML = cart.map(item => {
+            const tour = TOURS.find(t => t.id === item.tourId);
+            if (!tour) return '';
+            return '<div class="summary-line"><span>' + tour.name + ' x' + item.qty + '</span><span>' + formatCOP(tour.price * item.qty) + '</span></div>';
+        }).join('');
+    }
+
+    const surchargeEl = document.getElementById('summarySurcharge');
+    if (surchargeEl) surchargeEl.textContent = '+' + formatCOP(surcharge);
+    const totalEl = document.getElementById('summaryTotal');
+    if (totalEl) totalEl.textContent = formatCOP(total);
 }
 
 function getBookingTotal() {
-    if (!currentTour) return 0;
-    const qty = parseInt(document.getElementById('bookQty').value);
-    const subtotal = currentTour.price * qty;
+    if (cart.length === 0) return 0;
+    const subtotal = getCartSubtotal();
     const payMethod = document.querySelector('input[name="payMethod"]:checked');
     const isCard = payMethod && payMethod.value === 'tarjeta';
     const surcharge = isCard ? Math.round(subtotal * CARD_SURCHARGE_PERCENT / 100) : 0;
@@ -339,30 +417,62 @@ document.querySelectorAll('input[name="payMethod"]').forEach(radio => {
     });
 });
 
-// ===== FORM SUBMIT =====
+// ===== ADD TOUR SELECTOR =====
+document.getElementById('addTourSelect').addEventListener('change', function() {
+    const tourId = parseInt(this.value);
+    if (!tourId) return;
+    addToCart(tourId);
+    this.value = '';
+});
+
+// ===== FORM SUBMIT (MULTI-TOUR) =====
 document.getElementById('bookingForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const tour = currentTour;
-    const qty = parseInt(document.getElementById('bookQty').value);
-    const subtotal = tour.price * qty;
+    if (cart.length === 0) { alert('Agrega al menos un tour antes de reservar.'); return; }
+
+    // Validate all cart items have dates
+    for (let i = 0; i < cart.length; i++) {
+        if (!cart[i].date) { alert('Selecciona la fecha para todos los tours.'); return; }
+    }
+
+    const subtotal = getCartSubtotal();
     const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
     const isCard = payMethod === 'tarjeta';
     const surcharge = isCard ? Math.round(subtotal * CARD_SURCHARGE_PERCENT / 100) : 0;
     const total = subtotal + surcharge;
 
+    // Build tours array for multi-tour
+    const toursArr = cart.map(item => {
+        const tour = TOURS.find(t => t.id === item.tourId);
+        return {
+            tourId: tour.id, tourName: tour.name, schedule: tour.schedule,
+            checkIn: tour.checkIn, meetingPoint: tour.meetingPoint,
+            description: tour.description, included: tour.included,
+            notIncluded: tour.notIncluded,
+            date: item.date, qty: item.qty, unitPrice: tour.price,
+            subtotal: tour.price * item.qty
+        };
+    });
+
+    // Primary tour info (backward-compat for admin and single-tour fields)
+    const firstTour = TOURS.find(t => t.id === cart[0].tourId);
+    const tourNames = toursArr.map(t => t.tourName).join(' + ');
+    const totalQty = cart.reduce((s, c) => s + c.qty, 0);
+
     const reservation = {
         code: generateReservationCode(),
-        tourId: tour.id,
-        tourName: tour.name,
-        tourSchedule: tour.schedule,
+        tourId: firstTour.id,
+        tourName: tourNames,
+        tourSchedule: firstTour.schedule,
+        tours: toursArr,
         clientName: document.getElementById('bookName').value,
         clientDoc: document.getElementById('bookDoc').value,
         clientPhone: document.getElementById('bookPhone').value,
         clientEmail: document.getElementById('bookEmail').value || '',
-        tourDate: document.getElementById('bookDate').value,
-        qty: qty,
-        unitPrice: tour.price,
+        tourDate: cart[0].date,
+        qty: totalQty,
+        unitPrice: firstTour.price,
         subtotal: subtotal,
         surcharge: surcharge,
         surchargePercent: isCard ? CARD_SURCHARGE_PERCENT : 0,
@@ -505,14 +615,18 @@ function showBookingSuccess(reservation, isPaid) {
     lastReservation = reservation; // Save for PDF download
     document.getElementById('reservationCode').textContent = reservation.code;
 
-    // Build WhatsApp message
+    // Build WhatsApp message with all tours
     const paidLabel = isPaid ? 'PAGADO con tarjeta' : reservation.payMethod;
+    let tourLines = '';
+    if (reservation.tours && reservation.tours.length > 0) {
+        tourLines = reservation.tours.map(t => `- ${t.tourName} (${t.date}) x${t.qty}`).join('\n');
+    } else {
+        tourLines = `- ${reservation.tourName} (${reservation.tourDate}) x${reservation.qty}`;
+    }
     const waMsg = encodeURIComponent(
         `Hola! Acabo de reservar:\n\n` +
         `Codigo: ${reservation.code}\n` +
-        `Tour: ${reservation.tourName}\n` +
-        `Fecha: ${reservation.tourDate}\n` +
-        `Personas: ${reservation.qty}\n` +
+        `Tours:\n${tourLines}\n\n` +
         `Total: ${formatCOP(reservation.total)}\n` +
         `Pago: ${paidLabel}\n` +
         `Hotel: ${reservation.hotel}\n\n` +
@@ -557,158 +671,358 @@ function closeSuccess() {
     document.body.style.overflow = '';
 }
 
-// ===== PDF VOUCHER GENERATOR =====
+// ===== PDF ITINERARY GENERATOR =====
 let lastReservation = null; // Store last reservation for PDF download
 
 function downloadVoucherPDF(reservationData) {
     const r = reservationData || lastReservation;
     if (!r) { alert('No hay reserva para generar PDF'); return; }
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-    const W = 210; // A4 width
-    const tour = TOURS.find(t => t.id === r.tourId) || {};
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+        const W = 210;
+        const margin = 18;
+        const contentW = W - margin * 2;
 
-    // Colors
-    const navy = [27, 42, 74];
-    const yellow = [255, 230, 0];
-    const blue = [46, 111, 207];
-    const gray = [100, 116, 139];
-    const white = [255, 255, 255];
+        // Colors
+        const navy = [27, 42, 74];
+        const yellow = [255, 230, 0];
+        const blue = [46, 111, 207];
+        const gray = [100, 116, 139];
+        const white = [255, 255, 255];
+        const green = [34, 197, 94];
+        const red = [239, 68, 68];
 
-    // ===== HEADER BAR =====
-    doc.setFillColor(...navy);
-    doc.rect(0, 0, W, 40, 'F');
-    doc.setFillColor(...yellow);
-    doc.rect(0, 40, W, 3, 'F');
+        // Build tours list (support old single-tour and new multi-tour format)
+        let toursList = [];
+        if (r.tours && r.tours.length > 0) {
+            toursList = r.tours;
+        } else {
+            const t = TOURS.find(x => x.id === r.tourId) || {};
+            toursList = [{
+                tourId: r.tourId, tourName: r.tourName || t.name, schedule: r.tourSchedule || t.schedule,
+                checkIn: t.checkIn || '15 min antes', meetingPoint: t.meetingPoint || 'Consultar',
+                description: t.description || '', included: t.included || [], notIncluded: t.notIncluded || [],
+                date: r.tourDate, qty: r.qty, unitPrice: r.unitPrice || t.price,
+                subtotal: r.subtotal || (t.price * r.qty)
+            }];
+        }
 
-    doc.setTextColor(...white);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(22);
-    doc.text('TOURESBARATOS.COM', W / 2, 18, { align: 'center' });
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    doc.text('NISSI VIP TRAVEL & TOURS', W / 2, 28, { align: 'center' });
-    doc.setFontSize(8);
-    doc.text('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2, 35, { align: 'center' });
+        let y = 0;
 
-    // ===== VOUCHER TITLE =====
-    doc.setTextColor(...navy);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(18);
-    doc.text('VOUCHER DE RESERVA', W / 2, 55, { align: 'center' });
+        function addHeader() {
+            doc.setFillColor(...navy);
+            doc.rect(0, 0, W, 36, 'F');
+            doc.setFillColor(...yellow);
+            doc.rect(0, 36, W, 2.5, 'F');
+            doc.setTextColor(...white);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(20);
+            doc.text('TOURESBARATOS.COM', W / 2, 15, { align: 'center' });
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('NISSI VIP TRAVEL & TOURS', W / 2, 23, { align: 'center' });
+            doc.setFontSize(7.5);
+            doc.text('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751 | touresbaratos.com', W / 2, 31, { align: 'center' });
+            return 45;
+        }
 
-    // ===== RESERVATION CODE =====
-    doc.setFillColor(...navy);
-    doc.roundedRect(65, 60, 80, 14, 4, 4, 'F');
-    doc.setTextColor(...yellow);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(16);
-    doc.text(r.code || 'TB-000000', W / 2, 69.5, { align: 'center' });
+        function addFooter() {
+            doc.setFillColor(...navy);
+            doc.rect(0, 280, W, 17, 'F');
+            doc.setTextColor(...white);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7);
+            doc.text('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratossanandres', W / 2, 287, { align: 'center' });
+            doc.text('Tours Baratos San Andres - Nissi VIP Travel & Tours | San Andres Islas, Colombia', W / 2, 292, { align: 'center' });
+        }
 
-    // ===== TOUR INFO SECTION =====
-    let y = 85;
-    doc.setFillColor(240, 245, 255);
-    doc.roundedRect(20, y - 5, W - 40, 35, 3, 3, 'F');
+        function checkPage(needed) {
+            if (y + needed > 272) {
+                addFooter();
+                doc.addPage();
+                y = addHeader();
+            }
+        }
 
-    doc.setTextColor(...navy);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
-    doc.text(r.tourName || 'Tour', W / 2, y + 5, { align: 'center' });
+        // ===== PAGE 1: HEADER =====
+        y = addHeader();
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(...gray);
-    doc.text(`Fecha: ${r.tourDate || '-'}  |  Horario: ${r.tourSchedule || tour.schedule || '-'}`, W / 2, y + 14, { align: 'center' });
-    doc.text(`Incluye: ${tour.includes || '-'}`, W / 2, y + 22, { align: 'center' });
-
-    // ===== DETAIL TABLE =====
-    y = 125;
-    const leftCol = 25;
-    const rightCol = 115;
-    const lineH = 9;
-
-    function addRow(label, value, bold) {
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        doc.setTextColor(...gray);
-        doc.text(label, leftCol, y);
+        // Title
         doc.setTextColor(...navy);
-        doc.setFont('helvetica', bold ? 'bold' : 'normal');
-        doc.text(String(value || '-'), rightCol, y);
-        doc.setDrawColor(230, 230, 230);
-        doc.line(leftCol, y + 3, W - 25, y + 3);
-        y += lineH;
-    }
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(16);
+        doc.text('ITINERARIO DE RESERVA', W / 2, y, { align: 'center' });
+        y += 8;
 
-    addRow('Cliente:', r.clientName);
-    addRow('Documento:', r.clientDoc);
-    addRow('WhatsApp:', r.clientPhone);
-    if (r.clientEmail) addRow('Email:', r.clientEmail);
-    addRow('Personas:', r.qty);
-    addRow('Hotel:', r.hotel || 'No indicado');
-    addRow('Metodo de pago:', r.payMethod === 'nequi' ? 'Nequi / Daviplata' : r.payMethod === 'tarjeta' ? 'Tarjeta' : 'Efectivo');
+        // Reservation code badge
+        doc.setFillColor(...navy);
+        doc.roundedRect(60, y - 4, 90, 13, 4, 4, 'F');
+        doc.setTextColor(...yellow);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+        doc.text(r.code || 'TB-000000', W / 2, y + 5, { align: 'center' });
+        y += 16;
 
-    if (r.surcharge && r.surcharge > 0) {
-        addRow('Subtotal:', formatCOP(r.subtotal || 0));
-        addRow('Recargo tarjeta (' + (r.surchargePercent || 7) + '%):', '+' + formatCOP(r.surcharge));
-    }
+        // ===== CLIENT INFO BOX =====
+        doc.setFillColor(240, 245, 255);
+        doc.roundedRect(margin, y - 3, contentW, 32, 3, 3, 'F');
+        doc.setTextColor(...navy);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text('DATOS DEL CLIENTE', margin + 6, y + 3);
+        doc.setDrawColor(...blue);
+        doc.setLineWidth(0.3);
+        doc.line(margin + 6, y + 5, margin + 60, y + 5);
 
-    // Total box
-    y += 3;
-    doc.setFillColor(...navy);
-    doc.roundedRect(20, y - 3, W - 40, 14, 3, 3, 'F');
-    doc.setTextColor(...yellow);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
-    doc.text('TOTAL: ' + formatCOP(r.total || 0), W / 2, y + 7, { align: 'center' });
-
-    // ===== QUE TRAER =====
-    y += 25;
-    doc.setTextColor(...navy);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.text('QUE TRAER AL TOUR:', leftCol, y);
-    y += 7;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(...gray);
-    const items = [
-        'Bloqueador solar biodegradable',
-        'Traje de bano y toalla',
-        'Documento de identidad original',
-        'Efectivo para gastos extras (comida, bebidas)',
-        'Gafas de sol y gorra',
-        'Ropa comoda y zapatos para agua'
-    ];
-    items.forEach(item => {
-        doc.text('  •  ' + item, leftCol, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(50, 65, 85);
+        const col1 = margin + 6;
+        const col2 = margin + contentW / 2 + 4;
+        y += 11;
+        doc.text('Nombre: ' + (r.clientName || '-'), col1, y);
+        doc.text('WhatsApp: ' + (r.clientPhone || '-'), col2, y);
         y += 5.5;
-    });
+        doc.text('Documento: ' + (r.clientDoc || '-'), col1, y);
+        doc.text('Email: ' + (r.clientEmail || 'No indicado'), col2, y);
+        y += 5.5;
+        doc.text('Hotel: ' + (r.hotel || 'No indicado'), col1, y);
+        doc.text('Pago: ' + (r.payMethod === 'nequi' ? 'Nequi/Daviplata' : r.payMethod === 'tarjeta' ? 'Tarjeta' : 'Efectivo'), col2, y);
+        y += 10;
 
-    // ===== NOTAS IMPORTANTES =====
-    y += 5;
-    doc.setFillColor(255, 248, 235);
-    doc.roundedRect(20, y - 3, W - 40, 22, 3, 3, 'F');
-    doc.setTextColor(180, 130, 0);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('IMPORTANTE:', leftCol, y + 4);
-    doc.setFont('helvetica', 'normal');
-    doc.text('• Presentar este voucher (digital o impreso) el dia del tour.', leftCol, y + 10);
-    doc.text('• Llegar al punto de encuentro 15 minutos antes de la hora de salida.', leftCol, y + 15);
+        // ===== TOUR ITINERARIES =====
+        toursList.forEach(function(tour, idx) {
+            checkPage(85);
 
-    // ===== FOOTER =====
-    doc.setFillColor(...navy);
-    doc.rect(0, 277, W, 20, 'F');
-    doc.setTextColor(...white);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.text('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratos', W / 2, 285, { align: 'center' });
-    doc.text('Tours Baratos San Andres - Nissi VIP Travel & Tours | San Andres Islas, Colombia', W / 2, 291, { align: 'center' });
+            // Tour section header
+            doc.setFillColor(...blue);
+            doc.roundedRect(margin, y - 3, contentW, 12, 3, 3, 'F');
+            doc.setTextColor(...white);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(11);
+            doc.text('TOUR ' + (idx + 1) + ': ' + (tour.tourName || 'Tour').toUpperCase(), margin + 6, y + 5);
+            doc.setFontSize(9);
+            doc.text(formatCOP(tour.subtotal || 0), W - margin - 6, y + 5, { align: 'right' });
+            y += 14;
 
-    // Download
-    doc.save(`Voucher_${r.code}_${r.tourName.replace(/\s/g, '_')}.pdf`);
+            // Tour details grid
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(margin, y - 3, contentW, 20, 2, 2, 'F');
+
+            doc.setTextColor(...navy);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8);
+            doc.text('CHECK-IN:', col1, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            doc.text(tour.checkIn || '15 min antes', col1 + 22, y + 2);
+
+            doc.setTextColor(...navy);
+            doc.setFont('helvetica', 'bold');
+            doc.text('HORARIO:', col2, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            doc.text(tour.schedule || '-', col2 + 20, y + 2);
+
+            y += 6;
+            doc.setTextColor(...navy);
+            doc.setFont('helvetica', 'bold');
+            doc.text('PUNTO DE ENCUENTRO:', col1, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            doc.text(tour.meetingPoint || 'Consultar', col1 + 44, y + 2);
+
+            y += 6;
+            doc.setTextColor(...navy);
+            doc.setFont('helvetica', 'bold');
+            doc.text('FECHA:', col1, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            doc.text(tour.date || '-', col1 + 16, y + 2);
+
+            doc.setTextColor(...navy);
+            doc.setFont('helvetica', 'bold');
+            doc.text('PERSONAS:', col2, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            doc.text(String(tour.qty || 1), col2 + 22, y + 2);
+            y += 9;
+
+            // Description
+            if (tour.description) {
+                checkPage(16);
+                doc.setTextColor(...gray);
+                doc.setFont('helvetica', 'italic');
+                doc.setFontSize(8);
+                var descLines = doc.splitTextToSize(tour.description, contentW - 12);
+                descLines.forEach(function(line) {
+                    doc.text(line, col1, y);
+                    y += 4;
+                });
+                y += 2;
+            }
+
+            // Included / Not Included columns
+            var incItems = tour.included || [];
+            var notItems = tour.notIncluded || [];
+            var maxRows = Math.max(incItems.length, notItems.length);
+
+            if (maxRows > 0) {
+                checkPage(8 + maxRows * 4.5);
+
+                // Included header
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(...green);
+                doc.text('INCLUYE:', col1, y);
+
+                // Not included header
+                doc.setTextColor(...red);
+                doc.text('NO INCLUYE:', col2, y);
+                y += 5;
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7.5);
+
+                for (var ri = 0; ri < maxRows; ri++) {
+                    if (ri < incItems.length) {
+                        doc.setTextColor(34, 120, 60);
+                        var incLine = doc.splitTextToSize(incItems[ri], contentW / 2 - 14);
+                        doc.text('+ ' + incLine[0], col1, y);
+                    }
+                    if (ri < notItems.length) {
+                        doc.setTextColor(180, 50, 50);
+                        var notLine = doc.splitTextToSize(notItems[ri], contentW / 2 - 14);
+                        doc.text('- ' + notLine[0], col2, y);
+                    }
+                    y += 4.5;
+                }
+            }
+
+            y += 4;
+
+            // Divider between tours
+            if (idx < toursList.length - 1) {
+                doc.setDrawColor(200, 200, 200);
+                doc.setLineWidth(0.2);
+                doc.setLineDashPattern([2, 2], 0);
+                doc.line(margin + 10, y, W - margin - 10, y);
+                doc.setLineDashPattern([], 0);
+                y += 6;
+            }
+        });
+
+        // ===== PAYMENT SUMMARY =====
+        checkPage(30);
+        y += 4;
+        doc.setFillColor(...navy);
+        doc.roundedRect(margin, y - 3, contentW, toursList.length > 1 ? (toursList.length * 6 + 22) : 18, 3, 3, 'F');
+
+        doc.setTextColor(...white);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+
+        if (toursList.length > 1) {
+            toursList.forEach(function(tour) {
+                doc.text(tour.tourName + ' x' + tour.qty, margin + 8, y + 2);
+                doc.text(formatCOP(tour.subtotal), W - margin - 8, y + 2, { align: 'right' });
+                y += 6;
+            });
+        }
+
+        if (r.surcharge && r.surcharge > 0) {
+            doc.text('Subtotal:', margin + 8, y + 2);
+            doc.text(formatCOP(r.subtotal || 0), W - margin - 8, y + 2, { align: 'right' });
+            y += 5;
+            doc.text('Recargo tarjeta (' + (r.surchargePercent || 7) + '%):', margin + 8, y + 2);
+            doc.text('+' + formatCOP(r.surcharge), W - margin - 8, y + 2, { align: 'right' });
+            y += 5;
+        }
+
+        doc.setTextColor(...yellow);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        doc.text('TOTAL: ' + formatCOP(r.total || 0), W / 2, y + 5, { align: 'center' });
+        y += 14;
+
+        // ===== CANCELLATION POLICIES =====
+        checkPage(50);
+        y += 4;
+        doc.setTextColor(...navy);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text('POLITICAS DE CANCELACION Y CONDICIONES', margin, y);
+        y += 2;
+        doc.setDrawColor(...blue);
+        doc.setLineWidth(0.4);
+        doc.line(margin, y, margin + 80, y);
+        y += 5;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...gray);
+        POLICIES.items.forEach(function(item, i) {
+            checkPage(6);
+            var lines = doc.splitTextToSize((i + 1) + '. ' + item, contentW - 4);
+            lines.forEach(function(line) {
+                doc.text(line, margin + 2, y);
+                y += 4;
+            });
+            y += 1;
+        });
+
+        // ===== QUE TRAER =====
+        checkPage(35);
+        y += 4;
+        doc.setTextColor(...navy);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text('QUE TRAER AL TOUR', margin, y);
+        y += 2;
+        doc.setDrawColor(...blue);
+        doc.line(margin, y, margin + 40, y);
+        y += 5;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...gray);
+        var bringItems = [
+            'Bloqueador solar biodegradable', 'Traje de bano y toalla',
+            'Documento de identidad original', 'Efectivo para gastos extras',
+            'Gafas de sol y gorra', 'Ropa comoda y zapatos para agua'
+        ];
+        bringItems.forEach(function(item) {
+            doc.text('  *  ' + item, margin + 2, y);
+            y += 4.5;
+        });
+
+        // ===== IMPORTANT NOTE =====
+        checkPage(18);
+        y += 4;
+        doc.setFillColor(255, 248, 235);
+        doc.roundedRect(margin, y - 3, contentW, 16, 3, 3, 'F');
+        doc.setTextColor(180, 130, 0);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.text('IMPORTANTE:', margin + 4, y + 3);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.text('Presentar este itinerario (digital o impreso) el dia del tour.', margin + 4, y + 8);
+        doc.text('Llegar al punto de encuentro minimo 15 minutos antes de la hora indicada.', margin + 4, y + 12);
+
+        // Footer
+        addFooter();
+
+        // Download
+        var fileName = 'Itinerario_' + (r.code || 'TB') + '.pdf';
+        doc.save(fileName);
+
+    } catch (err) {
+        console.error('Error generando PDF:', err);
+        alert('Error al generar el PDF. Intenta de nuevo.');
+    }
 }
 
 // ===== CONTACT FORM =====
@@ -766,14 +1080,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== SET MIN DATE ON LOAD =====
+// ===== INIT ON LOAD =====
 window.addEventListener('DOMContentLoaded', () => {
-    const dateInput = document.getElementById('bookDate');
-    if (dateInput) {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        dateInput.min = tomorrow.toISOString().split('T')[0];
-    }
+    populateAddTourSelect();
 });
 
 // ===== CHECK BOLD RETURN =====
