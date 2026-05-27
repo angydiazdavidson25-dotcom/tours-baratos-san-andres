@@ -645,10 +645,10 @@
             </div>
             <p class="footer-copy">&copy; 2026 Tours Baratos San Andres - Nissi VIP Travel and Tours. Todos los derechos reservados.</p>
             <div class="footer-social">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://instagram.com/touresbaratos" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://tiktok.com/@touresbaratos" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://facebook.com/NissiVipTravel" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://wa.me/573222123751?text=Hola%20quiero%20info%20sobre%20tours" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
     </div>
@@ -794,17 +794,22 @@
         <p>Tu codigo de reserva es:</p>
         <div class="reservation-code" id="reservationCode">TB-000000</div>
         <p>Te contactaremos por WhatsApp en los proximos minutos para confirmar tu reserva.</p>
-        <div class="success-actions">
-            <button class="btn btn-primary" onclick="closeSuccess()">Entendido</button>
-            <a href="#" class="btn btn-whatsapp" id="successWhatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Escribenos ya
+        <div class="success-actions" style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+            <a href="#" class="btn btn-whatsapp" id="successWhatsapp" target="_blank" rel="noopener" style="width:100%; max-width:320px; text-align:center;">
+                <i class="fab fa-whatsapp"></i> Escribenos por WhatsApp
             </a>
+            <button class="btn btn-primary" id="btnDownloadPDF" onclick="downloadVoucherPDF()" style="width:100%; max-width:320px;">
+                <i class="fas fa-file-pdf"></i> Descargar Voucher PDF
+            </button>
+            <button class="btn btn-outline" onclick="closeSuccess()" style="width:100%; max-width:320px;">Cerrar</button>
         </div>
     </div>
 </div>
 
 <!-- Bold Checkout Widget -->
 <script src="https://checkout.bold.co/library/boldPaymentButton.js" async></script>
+<!-- jsPDF for downloadable PDF vouchers -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <script src="js/app.js"></script>
 
 <!-- Lazy load tour card background images -->

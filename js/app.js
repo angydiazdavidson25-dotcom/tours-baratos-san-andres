@@ -473,6 +473,7 @@ function launchBoldCheckout(reservation) {
 
 // ===== MANUAL PAYMENT INSTRUCTIONS (fallback) =====
 function showPaymentInstructions(reservation) {
+    lastReservation = reservation; // Save for PDF download
     document.getElementById('reservationCode').textContent = reservation.code;
 
     const waMsg = encodeURIComponent(
@@ -501,6 +502,7 @@ function showPaymentInstructions(reservation) {
 
 // ===== SHOW SUCCESS =====
 function showBookingSuccess(reservation, isPaid) {
+    lastReservation = reservation; // Save for PDF download
     document.getElementById('reservationCode').textContent = reservation.code;
 
     // Build WhatsApp message
@@ -555,10 +557,163 @@ function closeSuccess() {
     document.body.style.overflow = '';
 }
 
+// ===== PDF VOUCHER GENERATOR =====
+let lastReservation = null; // Store last reservation for PDF download
+
+function downloadVoucherPDF(reservationData) {
+    const r = reservationData || lastReservation;
+    if (!r) { alert('No hay reserva para generar PDF'); return; }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const W = 210; // A4 width
+    const tour = TOURS.find(t => t.id === r.tourId) || {};
+
+    // Colors
+    const navy = [27, 42, 74];
+    const yellow = [255, 230, 0];
+    const blue = [46, 111, 207];
+    const gray = [100, 116, 139];
+    const white = [255, 255, 255];
+
+    // ===== HEADER BAR =====
+    doc.setFillColor(...navy);
+    doc.rect(0, 0, W, 40, 'F');
+    doc.setFillColor(...yellow);
+    doc.rect(0, 40, W, 3, 'F');
+
+    doc.setTextColor(...white);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.text('TOURESBARATOS.COM', W / 2, 18, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('NISSI VIP TRAVEL & TOURS', W / 2, 28, { align: 'center' });
+    doc.setFontSize(8);
+    doc.text('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2, 35, { align: 'center' });
+
+    // ===== VOUCHER TITLE =====
+    doc.setTextColor(...navy);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.text('VOUCHER DE RESERVA', W / 2, 55, { align: 'center' });
+
+    // ===== RESERVATION CODE =====
+    doc.setFillColor(...navy);
+    doc.roundedRect(65, 60, 80, 14, 4, 4, 'F');
+    doc.setTextColor(...yellow);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text(r.code || 'TB-000000', W / 2, 69.5, { align: 'center' });
+
+    // ===== TOUR INFO SECTION =====
+    let y = 85;
+    doc.setFillColor(240, 245, 255);
+    doc.roundedRect(20, y - 5, W - 40, 35, 3, 3, 'F');
+
+    doc.setTextColor(...navy);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text(r.tourName || 'Tour', W / 2, y + 5, { align: 'center' });
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...gray);
+    doc.text(`Fecha: ${r.tourDate || '-'}  |  Horario: ${r.tourSchedule || tour.schedule || '-'}`, W / 2, y + 14, { align: 'center' });
+    doc.text(`Incluye: ${tour.includes || '-'}`, W / 2, y + 22, { align: 'center' });
+
+    // ===== DETAIL TABLE =====
+    y = 125;
+    const leftCol = 25;
+    const rightCol = 115;
+    const lineH = 9;
+
+    function addRow(label, value, bold) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(...gray);
+        doc.text(label, leftCol, y);
+        doc.setTextColor(...navy);
+        doc.setFont('helvetica', bold ? 'bold' : 'normal');
+        doc.text(String(value || '-'), rightCol, y);
+        doc.setDrawColor(230, 230, 230);
+        doc.line(leftCol, y + 3, W - 25, y + 3);
+        y += lineH;
+    }
+
+    addRow('Cliente:', r.clientName);
+    addRow('Documento:', r.clientDoc);
+    addRow('WhatsApp:', r.clientPhone);
+    if (r.clientEmail) addRow('Email:', r.clientEmail);
+    addRow('Personas:', r.qty);
+    addRow('Hotel:', r.hotel || 'No indicado');
+    addRow('Metodo de pago:', r.payMethod === 'nequi' ? 'Nequi / Daviplata' : r.payMethod === 'tarjeta' ? 'Tarjeta' : 'Efectivo');
+
+    if (r.surcharge && r.surcharge > 0) {
+        addRow('Subtotal:', formatCOP(r.subtotal || 0));
+        addRow('Recargo tarjeta (' + (r.surchargePercent || 7) + '%):', '+' + formatCOP(r.surcharge));
+    }
+
+    // Total box
+    y += 3;
+    doc.setFillColor(...navy);
+    doc.roundedRect(20, y - 3, W - 40, 14, 3, 3, 'F');
+    doc.setTextColor(...yellow);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text('TOTAL: ' + formatCOP(r.total || 0), W / 2, y + 7, { align: 'center' });
+
+    // ===== QUE TRAER =====
+    y += 25;
+    doc.setTextColor(...navy);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('QUE TRAER AL TOUR:', leftCol, y);
+    y += 7;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...gray);
+    const items = [
+        'Bloqueador solar biodegradable',
+        'Traje de bano y toalla',
+        'Documento de identidad original',
+        'Efectivo para gastos extras (comida, bebidas)',
+        'Gafas de sol y gorra',
+        'Ropa comoda y zapatos para agua'
+    ];
+    items.forEach(item => {
+        doc.text('  •  ' + item, leftCol, y);
+        y += 5.5;
+    });
+
+    // ===== NOTAS IMPORTANTES =====
+    y += 5;
+    doc.setFillColor(255, 248, 235);
+    doc.roundedRect(20, y - 3, W - 40, 22, 3, 3, 'F');
+    doc.setTextColor(180, 130, 0);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('IMPORTANTE:', leftCol, y + 4);
+    doc.setFont('helvetica', 'normal');
+    doc.text('• Presentar este voucher (digital o impreso) el dia del tour.', leftCol, y + 10);
+    doc.text('• Llegar al punto de encuentro 15 minutos antes de la hora de salida.', leftCol, y + 15);
+
+    // ===== FOOTER =====
+    doc.setFillColor(...navy);
+    doc.rect(0, 277, W, 20, 'F');
+    doc.setTextColor(...white);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratos', W / 2, 285, { align: 'center' });
+    doc.text('Tours Baratos San Andres - Nissi VIP Travel & Tours | San Andres Islas, Colombia', W / 2, 291, { align: 'center' });
+
+    // Download
+    doc.save(`Voucher_${r.code}_${r.tourName.replace(/\s/g, '_')}.pdf`);
+}
+
 // ===== CONTACT FORM =====
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const formData = new FormData(this);
     const name = this.querySelector('input[type="text"]').value;
     const phone = this.querySelector('input[type="tel"]').value;
     const email = this.querySelector('input[type="email"]').value;
@@ -572,8 +727,15 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         `Consulta: ${message}`
     );
 
-    window.open(`https://wa.me/${WA_NUMBER}?text=${waMsg}`, '_blank');
+    // Use direct link instead of window.open to avoid popup blockers
+    const waLink = document.createElement('a');
+    waLink.href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+    waLink.target = '_blank';
+    waLink.rel = 'noopener';
+    waLink.click();
+
     this.reset();
+    alert('Consulta enviada! Se abrira WhatsApp para completar tu mensaje.');
 });
 
 // ===== CLOSE MODALS ON OVERLAY CLICK =====
