@@ -478,6 +478,185 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
+        /* ===== SUB-TABS (Automation) ===== */
+        .sub-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--gray-100);
+            padding-bottom: 0;
+            flex-wrap: wrap;
+        }
+        .sub-tab {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sub-tab:hover { color: var(--navy); }
+        .sub-tab.active {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+        }
+        .sub-tab i { font-size: 1rem; }
+        .sub-content { display: none; }
+        .sub-content.active { display: block; }
+
+        .auto-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--gray-100);
+            box-shadow: var(--shadow-sm);
+        }
+        .auto-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .auto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .template-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--gray-100);
+            background: var(--white);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-family: 'Open Sans', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+        .template-btn:hover {
+            border-color: var(--blue);
+            background: rgba(46,111,207,0.04);
+        }
+        .template-btn i { color: var(--blue); width: 18px; text-align: center; }
+
+        .hashtag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        .hashtag {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--blue);
+            font-weight: 500;
+        }
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .copy-btn:hover { background: var(--navy); }
+        .copy-btn.copied { background: var(--green); }
+
+        .content-idea {
+            padding: 12px;
+            border-left: 3px solid var(--blue);
+            background: var(--gray-50);
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 8px;
+            font-size: 0.82rem;
+        }
+        .content-idea strong { color: var(--navy); }
+
+        .flow-step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .flow-step:last-child { border-bottom: none; }
+        .flow-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .flow-icon.green { background: var(--green); }
+        .flow-icon.blue { background: var(--blue); }
+        .flow-icon.orange { background: var(--orange); }
+        .flow-icon.yellow { background: #D97706; }
+        .flow-icon.red { background: #8B5CF6; }
+        .flow-info h5 { font-size: 0.88rem; margin-bottom: 4px; }
+        .flow-info p { font-size: 0.78rem; color: var(--gray-500); margin-bottom: 6px; }
+
+        .caption-box {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+        }
+        .schedule-day {
+            padding: 8px 4px;
+            background: var(--gray-50);
+            border-radius: 6px;
+            font-size: 0.72rem;
+        }
+        .schedule-day strong {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .schedule-day.highlight {
+            background: rgba(46,111,207,0.1);
+            border: 1px solid var(--blue);
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -505,7 +684,7 @@
         <li><a href="#" class="active" onclick="showTab('dashboard')"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
         <li><a href="#" onclick="showTab('reservations')"><i class="fas fa-calendar-check"></i> Reservas</a></li>
         <li><a href="#" onclick="showTab('clients')"><i class="fas fa-users"></i> Clientes</a></li>
-        <li><a href="#" onclick="showTab('automation')"><i class="fab fa-whatsapp"></i> Automatizacion</a></li>
+        <li><a href="#" onclick="showTab('automation')"><i class="fas fa-robot"></i> Automatizacion</a></li>
         <li><a href="#" onclick="showTab('notifications')"><i class="fas fa-bell"></i> Notificaciones <span id="notifBadge" style="background:var(--red);color:#fff;border-radius:50%;padding:2px 6px;font-size:0.65rem;margin-left:4px;"></span></a></li>
         <li><a href="#" onclick="showTab('settings')"><i class="fas fa-cog"></i> Configuracion</a></li>
         <li style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;"><a href="index.html"><i class="fas fa-globe"></i> Ver Pagina Web</a></li>
@@ -610,79 +789,316 @@
     <!-- AUTOMATION TAB -->
     <div class="tab-content" id="tab-automation">
         <div class="main-header">
-            <h1><i class="fab fa-whatsapp"></i> Centro de Automatizacion</h1>
+            <h1><i class="fas fa-robot"></i> Centro de Automatizacion</h1>
         </div>
 
-        <!-- Automation Cards -->
-        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="stat-card" style="flex-direction: column; align-items: flex-start; gap: 12px;">
-                <div style="display:flex; align-items:center; gap:12px; width:100%;">
-                    <div class="stat-icon green"><i class="fab fa-whatsapp"></i></div>
-                    <div class="stat-info">
-                        <h3 style="font-size:1rem;">Recordatorios</h3>
-                        <p>Tours de manana</p>
+        <!-- Sub-tabs -->
+        <div class="sub-tabs">
+            <button class="sub-tab active" onclick="showSubTab('wa')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+            <button class="sub-tab" onclick="showSubTab('ig')"><i class="fab fa-instagram"></i> Instagram</button>
+            <button class="sub-tab" onclick="showSubTab('tt')"><i class="fab fa-tiktok"></i> TikTok</button>
+            <button class="sub-tab" onclick="showSubTab('flows')"><i class="fas fa-project-diagram"></i> Flujos</button>
+        </div>
+
+        <!-- ==================== WHATSAPP HUB ==================== -->
+        <div class="sub-content active" id="sub-wa">
+            <div class="auto-grid">
+                <!-- Recordatorios -->
+                <div class="auto-card">
+                    <h4><i class="fas fa-bell" style="color:var(--green);"></i> Recordatorios de Manana</h4>
+                    <div id="remindersList" style="font-size:0.82rem;"></div>
+                    <button class="btn btn-success btn-sm" onclick="sendAllReminders()" style="width:100%; margin-top:10px;">
+                        <i class="fab fa-whatsapp"></i> Enviar Todos los Recordatorios
+                    </button>
+                </div>
+
+                <!-- Catalogo rapido -->
+                <div class="auto-card">
+                    <h4><i class="fas fa-list-alt" style="color:var(--blue);"></i> Enviar Catalogo de Tours</h4>
+                    <p style="font-size:0.8rem; color:var(--gray-500); margin-bottom:10px;">Envia la lista completa de tours con precios a un cliente.</p>
+                    <div style="display:flex; gap:8px;">
+                        <input type="tel" id="catalogPhone" placeholder="Ej: 573001234567" style="flex:1; padding:8px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem;">
+                        <button class="btn btn-success btn-sm" onclick="sendCatalog()"><i class="fab fa-whatsapp"></i> Enviar</button>
                     </div>
                 </div>
-                <div id="remindersList" style="width:100%; font-size:0.82rem;"></div>
-                <button class="btn btn-success btn-sm" onclick="sendAllReminders()" style="width:100%;">
-                    <i class="fab fa-whatsapp"></i> Enviar Recordatorios
-                </button>
+
+                <!-- Pedir resena -->
+                <div class="auto-card">
+                    <h4><i class="fas fa-star" style="color:var(--orange);"></i> Pedir Resena Google</h4>
+                    <p style="font-size:0.8rem; color:var(--gray-500); margin-bottom:10px;">Envia el link directo de resenas a clientes que ya hicieron su tour.</p>
+                    <div id="reviewClientsList" style="font-size:0.82rem; margin-bottom:8px;"></div>
+                    <button class="btn btn-primary btn-sm" onclick="loadReviewClients()" style="width:100%;">
+                        <i class="fas fa-sync"></i> Cargar Clientes Completados
+                    </button>
+                </div>
             </div>
 
-            <div class="stat-card" style="flex-direction: column; align-items: flex-start; gap: 12px;">
-                <div style="display:flex; align-items:center; gap:12px; width:100%;">
-                    <div class="stat-icon blue"><i class="fas fa-paper-plane"></i></div>
-                    <div class="stat-info">
-                        <h3 style="font-size:1rem;">Mensaje Masivo</h3>
-                        <p>Enviar a todos los clientes</p>
-                    </div>
+            <!-- Plantillas WhatsApp -->
+            <div class="auto-card" style="margin-bottom:16px;">
+                <h4><i class="fas fa-robot" style="color:var(--navy);"></i> Plantillas de Mensajes</h4>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-bottom:12px;">
+                    <button class="template-btn" onclick="useTemplate('welcome')"><i class="fas fa-hand-sparkles"></i> Bienvenida</button>
+                    <button class="template-btn" onclick="useTemplate('confirm')"><i class="fas fa-check-circle"></i> Confirmacion</button>
+                    <button class="template-btn" onclick="useTemplate('reminder')"><i class="fas fa-bell"></i> Recordatorio</button>
+                    <button class="template-btn" onclick="useTemplate('thanks')"><i class="fas fa-heart"></i> Agradecimiento</button>
+                    <button class="template-btn" onclick="useTemplate('promo')"><i class="fas fa-tag"></i> Promocion</button>
+                    <button class="template-btn" onclick="useTemplate('review')"><i class="fas fa-star"></i> Pedir Resena</button>
+                    <button class="template-btn" onclick="useTemplate('catalog')"><i class="fas fa-list"></i> Catalogo</button>
+                    <button class="template-btn" onclick="useTemplate('away')"><i class="fas fa-moon"></i> No Disponible</button>
+                    <button class="template-btn" onclick="useTemplate('payment')"><i class="fas fa-credit-card"></i> Cobro Pendiente</button>
+                    <button class="template-btn" onclick="useTemplate('meetpoint')"><i class="fas fa-map-pin"></i> Punto Encuentro</button>
                 </div>
-                <textarea id="massMessage" rows="3" style="width:100%; padding:10px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; font-family:'Open Sans',sans-serif; resize:vertical;" placeholder="Escribe tu mensaje promocional aqui..."></textarea>
-                <select id="massTarget" style="width:100%; padding:8px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem;">
-                    <option value="all">Todos los clientes</option>
-                    <option value="confirmed">Solo confirmados</option>
-                    <option value="pending">Solo pendientes</option>
-                </select>
-                <button class="btn btn-primary btn-sm" onclick="prepareMassMessage()" style="width:100%;">
-                    <i class="fas fa-list"></i> Generar Lista de Envio
-                </button>
+                <textarea id="massMessage" rows="5" style="width:100%; padding:12px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; font-family:'Open Sans',sans-serif; resize:vertical;" placeholder="Selecciona una plantilla o escribe tu mensaje..."></textarea>
+                <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+                    <select id="massTarget" style="padding:8px 12px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem;">
+                        <option value="all">Todos los clientes</option>
+                        <option value="confirmed">Solo confirmados</option>
+                        <option value="pending">Solo pendientes</option>
+                        <option value="completed">Solo completados</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm" onclick="prepareMassMessage()"><i class="fas fa-list"></i> Generar Lista de Envio</button>
+                    <button class="copy-btn" onclick="copyToClipboard(document.getElementById('massMessage').value)"><i class="fas fa-copy"></i> Copiar Mensaje</button>
+                </div>
             </div>
 
-            <div class="stat-card" style="flex-direction: column; align-items: flex-start; gap: 12px;">
-                <div style="display:flex; align-items:center; gap:12px; width:100%;">
-                    <div class="stat-icon yellow"><i class="fas fa-robot"></i></div>
-                    <div class="stat-info">
-                        <h3 style="font-size:1rem;">Plantillas</h3>
-                        <p>Mensajes predefinidos</p>
+            <!-- Mass Send List -->
+            <div class="table-container" id="massSendContainer" style="display:none;">
+                <div class="table-header">
+                    <h3>Lista de Envio</h3>
+                    <button class="btn btn-success btn-sm" onclick="openAllWALinks()"><i class="fab fa-whatsapp"></i> Abrir Todos en WhatsApp</button>
+                </div>
+                <div id="massSendList"></div>
+            </div>
+        </div>
+
+        <!-- ==================== INSTAGRAM HUB ==================== -->
+        <div class="sub-content" id="sub-ig">
+            <div class="auto-grid">
+                <!-- Caption Generator -->
+                <div class="auto-card">
+                    <h4><i class="fas fa-pen-fancy" style="color:#E1306C;"></i> Generador de Captions</h4>
+                    <select id="igTourSelect" onchange="generateCaption('ig')" style="width:100%; padding:8px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; margin-bottom:10px;">
+                        <option value="">Selecciona un tour...</option>
+                    </select>
+                    <div id="igCaptionResult"></div>
+                </div>
+
+                <!-- Hashtags -->
+                <div class="auto-card">
+                    <h4><i class="fas fa-hashtag" style="color:#E1306C;"></i> Sets de Hashtags</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div>
+                            <strong style="font-size:0.78rem; color:var(--gray-500);">GENERALES SAN ANDRES</strong>
+                            <div class="hashtag-group" id="hashGeneral"></div>
+                            <button class="copy-btn" onclick="copyHashtags('general')"><i class="fas fa-copy"></i> Copiar</button>
+                        </div>
+                        <div>
+                            <strong style="font-size:0.78rem; color:var(--gray-500);">TOURS Y ACTIVIDADES</strong>
+                            <div class="hashtag-group" id="hashTours"></div>
+                            <button class="copy-btn" onclick="copyHashtags('tours')"><i class="fas fa-copy"></i> Copiar</button>
+                        </div>
+                        <div>
+                            <strong style="font-size:0.78rem; color:var(--gray-500);">VIAJES COLOMBIA</strong>
+                            <div class="hashtag-group" id="hashColombia"></div>
+                            <button class="copy-btn" onclick="copyHashtags('colombia')"><i class="fas fa-copy"></i> Copiar</button>
+                        </div>
                     </div>
                 </div>
-                <div style="width:100%; display:flex; flex-direction:column; gap:6px;">
-                    <button class="btn btn-outline btn-sm" onclick="useTemplate('welcome')" style="width:100%; justify-content:flex-start;">
-                        <i class="fas fa-hand-wave"></i> Bienvenida
-                    </button>
-                    <button class="btn btn-outline btn-sm" onclick="useTemplate('confirm')" style="width:100%; justify-content:flex-start;">
-                        <i class="fas fa-check"></i> Confirmacion
-                    </button>
-                    <button class="btn btn-outline btn-sm" onclick="useTemplate('reminder')" style="width:100%; justify-content:flex-start;">
-                        <i class="fas fa-bell"></i> Recordatorio
-                    </button>
-                    <button class="btn btn-outline btn-sm" onclick="useTemplate('thanks')" style="width:100%; justify-content:flex-start;">
-                        <i class="fas fa-heart"></i> Agradecimiento
-                    </button>
-                    <button class="btn btn-outline btn-sm" onclick="useTemplate('promo')" style="width:100%; justify-content:flex-start;">
-                        <i class="fas fa-tag"></i> Promocion
-                    </button>
+            </div>
+
+            <!-- Content Calendar -->
+            <div class="auto-card" style="margin-top:16px;">
+                <h4><i class="fas fa-calendar-alt" style="color:#E1306C;"></i> Calendario de Contenido Semanal</h4>
+                <p style="font-size:0.8rem; color:var(--gray-500); margin-bottom:12px;">Recomendacion de publicaciones para mantener tu perfil activo y atractivo.</p>
+                <div class="schedule-grid" id="igCalendar"></div>
+            </div>
+
+            <!-- Post Ideas -->
+            <div class="auto-card" style="margin-top:16px;">
+                <h4><i class="fas fa-lightbulb" style="color:#E1306C;"></i> Ideas de Contenido</h4>
+                <div id="igIdeas"></div>
+            </div>
+
+            <!-- Best Times -->
+            <div class="auto-card" style="margin-top:16px;">
+                <h4><i class="fas fa-clock" style="color:#E1306C;"></i> Mejores Horarios para Publicar</h4>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:10px;">
+                    <div style="text-align:center; padding:12px; background:rgba(225,48,108,0.06); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Reels / Videos</strong>
+                        <span style="font-size:1.2rem; font-weight:700; color:#E1306C;">9:00 AM</span>
+                        <small style="display:block; color:var(--gray-500);">o 7:00 PM</small>
+                    </div>
+                    <div style="text-align:center; padding:12px; background:rgba(225,48,108,0.06); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Fotos / Carrusel</strong>
+                        <span style="font-size:1.2rem; font-weight:700; color:#E1306C;">12:00 PM</span>
+                        <small style="display:block; color:var(--gray-500);">o 6:00 PM</small>
+                    </div>
+                    <div style="text-align:center; padding:12px; background:rgba(225,48,108,0.06); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Stories</strong>
+                        <span style="font-size:1.2rem; font-weight:700; color:#E1306C;">8:00 AM</span>
+                        <small style="display:block; color:var(--gray-500);">y 9:00 PM</small>
+                    </div>
+                    <div style="text-align:center; padding:12px; background:rgba(225,48,108,0.06); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Mejores Dias</strong>
+                        <span style="font-size:1.2rem; font-weight:700; color:#E1306C;">Mar-Jue</span>
+                        <small style="display:block; color:var(--gray-500);">y Sabado</small>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Mass Send List -->
-        <div class="table-container" id="massSendContainer" style="display:none; margin-top:20px;">
-            <div class="table-header">
-                <h3>Lista de Envio</h3>
-                <button class="btn btn-success btn-sm" onclick="openAllWALinks()"><i class="fab fa-whatsapp"></i> Abrir Todos en WhatsApp</button>
+        <!-- ==================== TIKTOK HUB ==================== -->
+        <div class="sub-content" id="sub-tt">
+            <div class="auto-grid">
+                <!-- Script Generator -->
+                <div class="auto-card">
+                    <h4><i class="fas fa-video" style="color:#000;"></i> Generador de Scripts</h4>
+                    <select id="ttTourSelect" onchange="generateCaption('tt')" style="width:100%; padding:8px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.85rem; margin-bottom:10px;">
+                        <option value="">Selecciona un tour...</option>
+                    </select>
+                    <div id="ttScriptResult"></div>
+                </div>
+
+                <!-- TikTok Hashtags -->
+                <div class="auto-card">
+                    <h4><i class="fas fa-hashtag" style="color:#000;"></i> Hashtags TikTok</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div>
+                            <strong style="font-size:0.78rem; color:var(--gray-500);">VIRALES VIAJES</strong>
+                            <div class="hashtag-group" id="hashTTViral"></div>
+                            <button class="copy-btn" onclick="copyHashtags('ttViral')"><i class="fas fa-copy"></i> Copiar</button>
+                        </div>
+                        <div>
+                            <strong style="font-size:0.78rem; color:var(--gray-500);">SAN ANDRES TIKTOK</strong>
+                            <div class="hashtag-group" id="hashTTSanAndres"></div>
+                            <button class="copy-btn" onclick="copyHashtags('ttSanAndres')"><i class="fas fa-copy"></i> Copiar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="massSendList"></div>
+
+            <!-- TikTok Ideas -->
+            <div class="auto-card" style="margin-top:16px;">
+                <h4><i class="fas fa-fire" style="color:#FE2C55;"></i> Ideas de Videos Virales</h4>
+                <div id="ttIdeas"></div>
+            </div>
+
+            <!-- Best Times TikTok -->
+            <div class="auto-card" style="margin-top:16px;">
+                <h4><i class="fas fa-clock" style="color:#000;"></i> Mejores Horarios TikTok</h4>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:10px;">
+                    <div style="text-align:center; padding:12px; background:rgba(0,0,0,0.04); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Videos Cortos</strong>
+                        <span style="font-size:1.2rem; font-weight:700;">7:00 AM</span>
+                        <small style="display:block; color:var(--gray-500);">o 8:00 PM</small>
+                    </div>
+                    <div style="text-align:center; padding:12px; background:rgba(0,0,0,0.04); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Videos Largos</strong>
+                        <span style="font-size:1.2rem; font-weight:700;">12:00 PM</span>
+                        <small style="display:block; color:var(--gray-500);">o 5:00 PM</small>
+                    </div>
+                    <div style="text-align:center; padding:12px; background:rgba(0,0,0,0.04); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Mejores Dias</strong>
+                        <span style="font-size:1.2rem; font-weight:700;">Mar-Vie</span>
+                        <small style="display:block; color:var(--gray-500);">y Domingo</small>
+                    </div>
+                    <div style="text-align:center; padding:12px; background:rgba(254,44,85,0.08); border-radius:8px;">
+                        <strong style="color:var(--navy); display:block;">Duracion Ideal</strong>
+                        <span style="font-size:1.2rem; font-weight:700; color:#FE2C55;">15-30s</span>
+                        <small style="display:block; color:var(--gray-500);">para alcance</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== FLUJOS HUB ==================== -->
+        <div class="sub-content" id="sub-flows">
+            <div class="auto-card">
+                <h4><i class="fas fa-project-diagram" style="color:var(--blue);"></i> Flujo del Cliente - De Reserva a Resena</h4>
+                <p style="font-size:0.8rem; color:var(--gray-500); margin-bottom:16px;">Sigue este flujo con cada cliente para maximizar satisfaccion, resenas y recompra.</p>
+
+                <div class="flow-step">
+                    <div class="flow-icon green"><i class="fab fa-whatsapp"></i></div>
+                    <div class="flow-info">
+                        <h5>1. Reserva Recibida</h5>
+                        <p>Enviar mensaje de bienvenida + confirmacion de datos inmediatamente.</p>
+                        <button class="template-btn" style="max-width:250px;" onclick="useTemplate('welcome')"><i class="fas fa-paper-plane"></i> Usar plantilla Bienvenida</button>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon blue"><i class="fas fa-credit-card"></i></div>
+                    <div class="flow-info">
+                        <h5>2. Cobro / Confirmacion de Pago</h5>
+                        <p>Si no ha pagado, enviar link de pago Bold o datos de Nequi/Daviplata.</p>
+                        <button class="template-btn" style="max-width:250px;" onclick="useTemplate('payment')"><i class="fas fa-paper-plane"></i> Usar plantilla Cobro</button>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon orange"><i class="fas fa-check-circle"></i></div>
+                    <div class="flow-info">
+                        <h5>3. Confirmacion + Punto de Encuentro</h5>
+                        <p>Una vez pagado, confirmar cupo y enviar punto de encuentro con hora exacta.</p>
+                        <button class="template-btn" style="max-width:250px;" onclick="useTemplate('meetpoint')"><i class="fas fa-paper-plane"></i> Usar plantilla Punto Encuentro</button>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon yellow"><i class="fas fa-bell"></i></div>
+                    <div class="flow-info">
+                        <h5>4. Recordatorio (1 dia antes)</h5>
+                        <p>Enviar recordatorio con hora, punto de encuentro y recomendaciones.</p>
+                        <button class="template-btn" style="max-width:250px;" onclick="useTemplate('reminder')"><i class="fas fa-paper-plane"></i> Usar plantilla Recordatorio</button>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon green"><i class="fas fa-heart"></i></div>
+                    <div class="flow-info">
+                        <h5>5. Post-Tour: Agradecimiento (mismo dia)</h5>
+                        <p>Agradecer por elegirte, preguntar como la paso.</p>
+                        <button class="template-btn" style="max-width:250px;" onclick="useTemplate('thanks')"><i class="fas fa-paper-plane"></i> Usar plantilla Agradecimiento</button>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon red"><i class="fas fa-star"></i></div>
+                    <div class="flow-info">
+                        <h5>6. Pedir Resena (1-2 dias despues)</h5>
+                        <p>Enviar link directo de Google para que deje 5 estrellas. CLAVE para posicionamiento.</p>
+                        <button class="template-btn" style="max-width:250px;" onclick="useTemplate('review')"><i class="fas fa-paper-plane"></i> Usar plantilla Resena</button>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon blue"><i class="fas fa-redo"></i></div>
+                    <div class="flow-info">
+                        <h5>7. Recompra (1 semana despues)</h5>
+                        <p>Si sigue en la isla, ofrecerle otro tour con descuento especial de recompra.</p>
+                        <button class="template-btn" style="max-width:250px;" onclick="useTemplate('promo')"><i class="fas fa-paper-plane"></i> Usar plantilla Promocion</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DM Automation Guide -->
+            <div class="auto-card" style="margin-top:16px;">
+                <h4><i class="fab fa-instagram" style="color:#E1306C;"></i> Automatizar DMs de Instagram (ManyChat)</h4>
+                <p style="font-size:0.82rem; color:var(--gray-500); margin-bottom:12px;">Para respuestas automaticas en Instagram DMs, te recomendamos usar <strong>ManyChat</strong> (plan gratis hasta 1,000 contactos).</p>
+                <div class="content-idea">
+                    <strong>Paso 1:</strong> Crea cuenta gratis en manychat.com y conecta tu Instagram Business.
+                </div>
+                <div class="content-idea">
+                    <strong>Paso 2:</strong> Configura palabras clave: cuando alguien escriba "TOURS", "PRECIOS", "INFO" → respuesta automatica con catalogo.
+                </div>
+                <div class="content-idea">
+                    <strong>Paso 3:</strong> Configura respuesta a comentarios: cuando comenten en un post → DM automatico con link de reserva.
+                </div>
+                <div class="content-idea">
+                    <strong>Paso 4:</strong> Agrega boton "Enviar mensaje" en tu bio de Instagram para captar leads automaticamente.
+                </div>
+                <p style="font-size:0.78rem; color:var(--gray-500); margin-top:8px;"><i class="fas fa-info-circle"></i> ManyChat gratis te permite hasta 1,000 contactos. Perfecto para empezar.</p>
+            </div>
         </div>
     </div>
 
@@ -1222,16 +1638,42 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 // ===== AUTOMATION: TEMPLATES =====
+const GOOGLE_REVIEW_LINK = 'https://g.page/r/CfwfQWgudV0UEAE/review';
+
 const TEMPLATES = {
-    welcome: `Hola {nombre}! Bienvenido/a a Tours Baratos San Andres.\n\nGracias por tu reserva *{codigo}*.\nTour: *{tour}*\nFecha: *{fecha}*\n\nTe confirmaremos tu cupo muy pronto. Cualquier duda, escribenos!\n\n- Tours Baratos San Andres`,
+    welcome: `Hola {nombre}! Bienvenido/a a *Tours Baratos San Andres* - Nissi VIP Travel.\n\nGracias por tu reserva *{codigo}*.\nTour: *{tour}*\nFecha: *{fecha}*\nPersonas: {personas}\n\nTe confirmaremos tu cupo muy pronto. Cualquier duda, escribenos!\n\nVe todos nuestros tours en: touresbaratos.com`,
 
-    confirm: `Hola {nombre}! Tu reserva esta *CONFIRMADA*.\n\nCodigo: *{codigo}*\nTour: *{tour}*\nFecha: *{fecha}*\nPersonas: {personas}\nTotal: {total}\n\nRecuerda llegar 15 min antes. Te esperamos!\n\n- Tours Baratos San Andres`,
+    confirm: `Hola {nombre}! Tu reserva esta *CONFIRMADA*!\n\nCodigo: *{codigo}*\nTour: *{tour}*\nFecha: *{fecha}*\nPersonas: {personas}\nTotal: *{total}*\n\nRecuerda llegar 15 min antes al punto de encuentro. Te esperamos!\n\n- Nissi VIP Travel & Tours`,
 
-    reminder: `Hola {nombre}! Te recordamos que *manana* tienes tu tour:\n\n*{tour}*\nFecha: *{fecha}*\nPersonas: {personas}\nHotel: {hotel}\n\nCodigo: *{codigo}*\n\nLlega 15 min antes. Nos vemos!\n\n- Tours Baratos San Andres`,
+    reminder: `Hola {nombre}! Te recordamos que *MANANA* tienes tu tour:\n\n*{tour}*\nFecha: *{fecha}*\nPersonas: {personas}\nHotel: {hotel}\nCodigo: *{codigo}*\n\nRecomendaciones:\n- Llega 15 min antes\n- Trae bloqueador solar\n- Traje de bano y toalla\n- No olvides tu documento de identidad\n\nNos vemos manana!\n- Tours Baratos San Andres`,
 
-    thanks: `Hola {nombre}! Gracias por elegir Tours Baratos San Andres.\n\nEsperamos que hayas disfrutado tu *{tour}*.\n\nSi te gusto, dejanos tu resena en Google y comparte tus fotos etiquetandonos en Instagram @touresbaratossanandres\n\nTe esperamos de vuelta!\n\n- Tours Baratos San Andres`,
+    thanks: `Hola {nombre}! Gracias por elegirnos para tu *{tour}*!\n\nEsperamos que la hayas pasado increible. Tu opinion es muy importante para nosotros.\n\nSiguenos en Instagram: @touresbaratos\nY comparte tus fotos etiquetandonos!\n\nTe esperamos de vuelta en San Andres!\n- Nissi VIP Travel & Tours`,
 
-    promo: `Hola {nombre}! Tenemos una promo especial para ti en San Andres:\n\nReserva cualquier tour esta semana y obtiene precio especial.\n\nVe todos nuestros tours en: touresbaratos.com\n\nReserva ya por este mismo chat!\n\n- Tours Baratos San Andres`
+    review: `Hola {nombre}! Fue un placer tenerte en nuestro *{tour}*.\n\nTe pedimos un favor enorme (toma 30 segundos): dejanos tu resena en Google con 5 estrellitas?\n\nLink directo aqui:\n${GOOGLE_REVIEW_LINK}\n\nTu resena nos ayuda muchisimo a seguir ofreciendo el mejor servicio en San Andres.\n\nMuchas gracias!\n- Tours Baratos San Andres`,
+
+    catalog: `Hola! Estos son nuestros *Tours en San Andres*:\n\n` +
+        `1. *Tour Platino (Ponton)* - $65,000\n` +
+        `2. *Yate Rumba* - $130,000\n` +
+        `3. *Acuario Directo* - $45,000\n` +
+        `4. *Johnny Cay Directo* - $55,000\n` +
+        `5. *Johnny Cay + Acuario* - $65,000\n` +
+        `6. *Semi-Submarino* - $110,000\n` +
+        `7. *Noche Blanca* - $245,000\n` +
+        `8. *Buceo (Mini-curso)* - $110,000\n` +
+        `9. *Parasail* - $220,000\n` +
+        `10. *Paddle Nocturno LED* - $220,000\n` +
+        `11. *Tour Siete Colores* - $220,000\n` +
+        `12. *Amanecer en Ponton* - $130,000\n\n` +
+        `Precios por persona. Aceptamos: Efectivo, Nequi, Daviplata y Tarjeta.\n\n` +
+        `Reserva aqui: touresbaratos.com\nO escribenos por este chat!\n\n- Nissi VIP Travel & Tours`,
+
+    away: `Hola! Gracias por escribirnos a *Tours Baratos San Andres*.\n\nEn este momento no podemos responder, pero te contestaremos lo mas pronto posible.\n\nMientras tanto, puedes ver todos nuestros tours y reservar directamente en:\ntouresbaratos.com\n\nHorario de atencion: 7:00 AM - 9:00 PM\n\n- Nissi VIP Travel & Tours`,
+
+    payment: `Hola {nombre}! Te escribimos de Tours Baratos San Andres.\n\nTu reserva *{codigo}* para *{tour}* el *{fecha}* esta pendiente de pago.\n\nTotal: *{total}*\n\nPuedes pagar por:\n- *Nequi/Daviplata:* 322 212 3751\n- *Efectivo:* el dia del tour\n- *Tarjeta:* te enviamos link de pago seguro\n\nUna vez pagues, tu cupo queda 100% confirmado!\n\nAlguna pregunta? Estamos para servirte.`,
+
+    meetpoint: `Hola {nombre}! Aqui tienes los detalles de tu tour:\n\n*{tour}*\nFecha: *{fecha}*\nCodigo: *{codigo}*\n\n*PUNTO DE ENCUENTRO:*\nMuelle principal de San Andres (preguntar por Nissi VIP Travel)\n\n*HORA:* Llegar 15 minutos antes de la salida\n\n*QUE TRAER:*\n- Bloqueador solar\n- Traje de bano y toalla\n- Documento de identidad\n- Efectivo para gastos extras\n\nTe esperamos!\n- Tours Baratos San Andres`,
+
+    promo: `Hola {nombre}! Tenemos una *PROMO ESPECIAL* para ti en San Andres!\n\nReserva esta semana y obten precio especial en cualquier tour.\n\nVe todos nuestros tours en: touresbaratos.com\n\nEscribenos para reservar!\n- Nissi VIP Travel & Tours`
 };
 
 function useTemplate(type) {
@@ -1330,6 +1772,7 @@ function prepareMassMessage() {
         if (!phone || clientMap[phone]) return;
         if (target === 'confirmed' && r.status !== 'confirmado' && r.status !== 'pagado') return;
         if (target === 'pending' && r.status !== 'pendiente') return;
+        if (target === 'completed' && r.status !== 'completado') return;
         clientMap[phone] = r;
     });
 
@@ -1386,6 +1829,251 @@ function openAllWALinks() {
     window._massWALinks.forEach((url, i) => {
         setTimeout(() => window.open(url, '_blank'), i * 1200);
     });
+}
+
+// ===== SUB-TABS =====
+function showSubTab(tab) {
+    document.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
+    document.getElementById('sub-' + tab).classList.add('active');
+    document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+    event.target.closest('.sub-tab').classList.add('active');
+    if (tab === 'ig') initInstagram();
+    if (tab === 'tt') initTikTok();
+}
+
+// ===== CLIPBOARD =====
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target.closest('.copy-btn');
+        if (btn) {
+            btn.classList.add('copied');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = orig; }, 2000);
+        }
+    });
+}
+
+// ===== SEND CATALOG =====
+function sendCatalog() {
+    const phone = (document.getElementById('catalogPhone').value || '').replace(/\D/g, '');
+    if (!phone) { alert('Ingresa un numero de WhatsApp'); return; }
+    const msg = encodeURIComponent(TEMPLATES.catalog);
+    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+}
+
+// ===== REVIEW CLIENTS =====
+function loadReviewClients() {
+    const data = getReservations();
+    const completed = data.filter(r => r.status === 'completado' && !r.reviewSent);
+    const container = document.getElementById('reviewClientsList');
+
+    if (completed.length === 0) {
+        container.innerHTML = '<p style="color:var(--gray-500); font-size:0.8rem;">No hay clientes completados pendientes de resena.</p>';
+        return;
+    }
+
+    container.innerHTML = completed.slice(0, 10).map(r => {
+        const phone = (r.clientPhone || '').replace(/\D/g, '');
+        let msg = TEMPLATES.review
+            .replace(/{nombre}/g, r.clientName || 'Cliente')
+            .replace(/{tour}/g, r.tourName || '');
+        return `<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--gray-100);">
+            <span style="font-size:0.82rem;">${r.clientName} - ${r.tourName}</span>
+            <a href="https://wa.me/${phone}?text=${encodeURIComponent(msg)}" target="_blank" class="btn btn-success btn-sm" style="padding:4px 10px; font-size:0.72rem;" onclick="markReviewSent('${r.code}')"><i class="fas fa-star"></i> Pedir</a>
+        </div>`;
+    }).join('');
+}
+
+function markReviewSent(code) {
+    const data = getReservations();
+    const idx = data.findIndex(r => r.code === code);
+    if (idx !== -1) {
+        data[idx].reviewSent = true;
+        data[idx].reviewSentAt = new Date().toISOString();
+        saveReservations(data);
+    }
+}
+
+// ===== INSTAGRAM CONTENT =====
+const IG_HASHTAGS = {
+    general: ['#SanAndres', '#SanAndresIslas', '#SanAndresColombia', '#IslasDeColombia', '#MarDe7Colores', '#CaribeColombia', '#PlayasColombia', '#SanAndresIsland', '#ColombiaTravel', '#CaribbeanLife', '#ParaisoColombia', '#IslaDeSanAndres', '#MarCaribe', '#ViajarPorColombia', '#TurismoSanAndres'],
+    tours: ['#ToursBaratos', '#ToursSanAndres', '#ToursEnSanAndres', '#AcuarioSanAndres', '#JohnnyCay', '#BuceoSanAndres', '#YateRumba', '#NissiVIP', '#SnorkelSanAndres', '#PaseoEnLancha', '#ActividadesAcuaticas', '#TourMaritimo', '#ExperienciaCaribe', '#AventuraSanAndres'],
+    colombia: ['#Colombia', '#ColombiaEsRealismo', '#ColombiaTierraQuerida', '#ViajarPorColombia', '#DestinosColombia', '#TurismoColombia', '#MiColombia', '#RecorreColombiaEntera', '#VacacionesEnColombia', '#ColombiaHermosa', '#ConoceColombia']
+};
+
+const IG_CAPTIONS = {
+    1: { emoji: '🚤🎶', hook: 'El Ponton mas barato de San Andres', body: 'Musica, sol y mar de 7 colores desde nuestro ponton VIP. La mejor experiencia por solo $65,000 por persona.', cta: 'Reserva en el link de nuestra bio o escribenos por DM!' },
+    2: { emoji: '🛥️🎉', hook: 'Fiesta en yate privado en el Caribe', body: 'Yate + musica + tragos + aguas cristalinas = el mejor dia de tu vida en San Andres.', cta: 'Cupos limitados! Reserva ahora en touresbaratos.com' },
+    3: { emoji: '🐠🌊', hook: 'Acuario de San Andres: un mundo bajo el agua', body: 'Snorkel entre peces de colores, rayas y estrellas de mar. El acuario natural mas hermoso del Caribe colombiano.', cta: 'Solo $45,000. Reserva tu cupo!' },
+    4: { emoji: '🏝️☀️', hook: 'Johnny Cay: la isla que parece un sueno', body: 'Arena blanca, coco loco en la mano y el azul mas increible que vas a ver. Esto es Johnny Cay.', cta: 'Desde $55,000. Link en bio!' },
+    5: { emoji: '🏝️🐠', hook: 'El combo perfecto: Johnny Cay + Acuario', body: 'Dos paraísos en un solo dia. Playa, snorkel y la experiencia completa de San Andres.', cta: '$65,000 todo incluido. Reserva ya!' },
+    6: { emoji: '🔵🐟', hook: 'Ve el fondo del mar SIN mojarte', body: 'El Semi-Submarino te lleva al fondo del mar con ventanas panoramicas. Perfecto para toda la familia.', cta: '$110,000 por persona. Reserva en nuestra bio!' },
+    7: { emoji: '🤍🌙', hook: 'Noche Blanca en crucero por el Caribe', body: 'Cena buffet de mariscos, bar abierto premium y fiesta bajo las estrellas. Dress code: todo blanco.', cta: 'Evento exclusivo. Reserva tu lugar!' },
+    8: { emoji: '🤿🐙', hook: 'Aprende a bucear en el Caribe colombiano', body: 'Mini-curso de buceo con instructores certificados. No necesitas experiencia previa. Ve lo que hay debajo del mar de 7 colores.', cta: '$110,000 incluye todo el equipo. DM para reservar!' },
+    9: { emoji: '🪂🌅', hook: 'Vuela sobre el mar de San Andres', body: 'Parasailing con la mejor vista de la isla. Adrenalina pura a 100 metros de altura sobre aguas cristalinas.', cta: 'Una experiencia unica! Reserva ahora.' },
+    10: { emoji: '🌙✨', hook: 'Paddle Board con luces LED de noche', body: 'Rema sobre aguas iluminadas con luces de neon. La experiencia nocturna mas magica de San Andres.', cta: '$220,000. Cupos limitados!' },
+    11: { emoji: '🌈🚤', hook: 'Conoce los 7 colores del mar', body: 'Tour completo recorriendo los puntos mas iconicos de San Andres. Cada parada un color diferente.', cta: 'Reserva el tour completo en touresbaratos.com' },
+    12: { emoji: '🌅⛵', hook: 'Amanecer en un ponton en medio del Caribe', body: 'Despierta con el amanecer mas hermoso del mundo flotando en aguas cristalinas. Cafe, musica suave y la brisa del mar.', cta: 'Experiencia unica. $130,000 por persona.' }
+};
+
+const IG_IDEAS = [
+    { type: 'Reel', title: 'POV: Tu primer dia en San Andres', desc: 'Graba desde que llegas al aeropuerto hasta el primer tour. Transiciones rapidas con musica trending.' },
+    { type: 'Carrusel', title: 'Top 5 tours que debes hacer', desc: '5 slides con foto de cada tour + precio. Ultima slide: "Reserva en el link de la bio".' },
+    { type: 'Reel', title: 'Expectativa vs Realidad', desc: 'Lo que esperas del mar vs lo que encuentras en San Andres (spoiler: es MEJOR). Usa audio viral.' },
+    { type: 'Story', title: 'Encuesta: Mar o Piscina?', desc: 'Sticker de encuesta. Despues muestra el mar de 7 colores como respuesta ganadora.' },
+    { type: 'Reel', title: 'Un dia conmigo en San Andres', desc: 'Vlog de 30 segundos mostrando desayuno, tour, almuerzo, atardecer. Formato vertical.' },
+    { type: 'Foto', title: 'Foto de drone del mar', desc: 'Toma aerea del mar de 7 colores. Caption corto con emoji + precio del tour.' },
+    { type: 'Reel', title: 'Cliente dice WOW', desc: 'Graba la reaccion real de un turista al ver el mar por primera vez. Contenido autentico = viral.' },
+    { type: 'Story', title: 'Cuenta regresiva para Noche Blanca', desc: 'Sticker countdown para el proximo evento. Genera urgencia y FOMO.' },
+    { type: 'Carrusel', title: 'Lo que incluye vs No incluye', desc: 'Educativo: que trae cada tour, que debe traer el turista. Genera confianza.' },
+    { type: 'Reel', title: 'Transicion: ropa normal a traje de bano', desc: 'Tendencia de TikTok adaptada. En la oficina → en el ponton. Audio trending.' }
+];
+
+function initInstagram() {
+    // Populate tour select
+    const sel = document.getElementById('igTourSelect');
+    if (sel.options.length <= 1) {
+        TOURS.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t.id;
+            opt.textContent = `${t.name} - ${formatCOP(t.price)}`;
+            sel.appendChild(opt);
+        });
+    }
+
+    // Render hashtags
+    Object.keys(IG_HASHTAGS).forEach(group => {
+        const container = document.getElementById('hash' + group.charAt(0).toUpperCase() + group.slice(1));
+        if (container && !container.hasChildNodes()) {
+            container.innerHTML = IG_HASHTAGS[group].map(h => `<span class="hashtag">${h}</span>`).join('');
+        }
+    });
+
+    // Calendar
+    const cal = document.getElementById('igCalendar');
+    if (cal && !cal.hasChildNodes()) {
+        const days = [
+            { day: 'LUN', content: 'Reel tour', hl: false },
+            { day: 'MAR', content: 'Foto cliente', hl: true },
+            { day: 'MIE', content: 'Carrusel educativo', hl: true },
+            { day: 'JUE', content: 'Reel trending', hl: true },
+            { day: 'VIE', content: 'Story encuesta', hl: false },
+            { day: 'SAB', content: 'Foto paisaje', hl: true },
+            { day: 'DOM', content: 'Descanso o Story', hl: false }
+        ];
+        cal.innerHTML = days.map(d =>
+            `<div class="schedule-day${d.hl?' highlight':''}"><strong>${d.day}</strong>${d.content}</div>`
+        ).join('');
+    }
+
+    // Ideas
+    const ideas = document.getElementById('igIdeas');
+    if (ideas && !ideas.hasChildNodes()) {
+        ideas.innerHTML = IG_IDEAS.map(i =>
+            `<div class="content-idea"><strong>[${i.type}]</strong> ${i.title} — ${i.desc}</div>`
+        ).join('');
+    }
+}
+
+function generateCaption(platform) {
+    const selId = platform === 'ig' ? 'igTourSelect' : 'ttTourSelect';
+    const tourId = parseInt(document.getElementById(selId).value);
+    if (!tourId) return;
+
+    const tour = TOURS.find(t => t.id === tourId);
+    if (!tour) return;
+
+    if (platform === 'ig') {
+        const cap = IG_CAPTIONS[tourId];
+        if (!cap) return;
+        const caption = `${cap.emoji} ${cap.hook}\n\n${cap.body}\n\n${cap.cta}\n\n#ToursBaratos #SanAndres #ToursSanAndres #NissiVIP #MarDe7Colores`;
+        const container = document.getElementById('igCaptionResult');
+        container.innerHTML = `
+            <div class="caption-box">${caption}</div>
+            <button class="copy-btn" style="margin-top:8px;" onclick="copyToClipboard(\`${caption.replace(/`/g, "'")}\`)"><i class="fas fa-copy"></i> Copiar Caption</button>`;
+    } else {
+        const script = TT_SCRIPTS[tourId];
+        if (!script) return;
+        const text = `${script.hook}\n\n${script.script}\n\nAudio sugerido: ${script.audio}\n\n${script.hashtags}`;
+        const container = document.getElementById('ttScriptResult');
+        container.innerHTML = `
+            <div class="caption-box">${text}</div>
+            <button class="copy-btn" style="margin-top:8px;" onclick="copyToClipboard(\`${text.replace(/`/g, "'")}\`)"><i class="fas fa-copy"></i> Copiar Script</button>`;
+    }
+}
+
+function copyHashtags(group) {
+    const map = {
+        general: IG_HASHTAGS.general,
+        tours: IG_HASHTAGS.tours,
+        colombia: IG_HASHTAGS.colombia,
+        ttViral: TT_HASHTAGS.viral,
+        ttSanAndres: TT_HASHTAGS.sanandres
+    };
+    const tags = map[group];
+    if (tags) copyToClipboard(tags.join(' '));
+}
+
+// ===== TIKTOK CONTENT =====
+const TT_HASHTAGS = {
+    viral: ['#fyp', '#parati', '#foryou', '#viral', '#travel', '#travellife', '#vacation', '#beachlife', '#caribbean', '#paradisefound', '#bucketlist', '#travelgoals', '#wanderlust'],
+    sanandres: ['#SanAndres', '#SanAndresIslas', '#Colombia', '#CaribeColombia', '#MarDe7Colores', '#ToursSanAndres', '#TouresBaratos', '#IslasDeColombia', '#PlayasColombia', '#ViajarPorColombia']
+};
+
+const TT_SCRIPTS = {
+    1: { hook: 'POV: Encontraste el ponton mas barato de San Andres', script: 'ESCENA 1: Cara de sorpresa mirando el precio ($65,000)\nESCENA 2: Llegando al ponton\nESCENA 3: Bailando con musica en el ponton\nESCENA 4: Vista del mar de 7 colores\nESCENA 5: Texto: "Y tu todavia en casa..."', audio: 'Musica tropical trending', hashtags: '#fyp #parati #SanAndres #ToursBaratos #PontonSanAndres' },
+    2: { hook: 'No me crean que alquile un yate en San Andres por $130,000', script: 'ESCENA 1: Texto en pantalla con cara incredula\nESCENA 2: Subiendo al yate\nESCENA 3: Rumba en el yate con tragos\nESCENA 4: Saltando al mar cristalino\nESCENA 5: Atardecer desde el yate', audio: 'Reggaeton o audio viral del momento', hashtags: '#fyp #yate #SanAndres #ToursBaratos #FiestaEnYate' },
+    3: { hook: 'Encontre a Nemo en San Andres Colombia', script: 'ESCENA 1: Entrando al agua con snorkel\nESCENA 2: Video subacuatico de peces de colores\nESCENA 3: Estrella de mar en la mano\nESCENA 4: Vista panoramica del acuario\nESCENA 5: Texto: "Solo $45,000"', audio: 'Under the Sea remix o audio trending', hashtags: '#fyp #snorkel #AcuarioSanAndres #Nemo #MarCaribe' },
+    7: { hook: 'La fiesta mas exclusiva del Caribe colombiano', script: 'ESCENA 1: Preparandose con outfit blanco\nESCENA 2: Llegando al crucero\nESCENA 3: Buffet de mariscos\nESCENA 4: Bailando en cubierta\nESCENA 5: Brindis bajo las estrellas', audio: 'Audio elegante o house music', hashtags: '#fyp #NocheBlanca #CruceroSanAndres #FiestaVIP' },
+    9: { hook: 'Vole sobre el mar de San Andres y GRITE', script: 'ESCENA 1: Cara de nervios antes de subir\nESCENA 2: Despegando del parasail\nESCENA 3: Vista aerea INCREIBLE\nESCENA 4: Grito de emocion (audio real)\nESCENA 5: Aterrizaje + cara de felicidad', audio: 'Audio de adrenalina o grito viral', hashtags: '#fyp #parasail #SanAndres #Adrenalina #VolarSobreElMar' },
+    10: { hook: 'El plan nocturno mas magico de Colombia', script: 'ESCENA 1: Atardecer en San Andres\nESCENA 2: Se prenden las luces LED en los paddles\nESCENA 3: Remando con luces de neon en el agua\nESCENA 4: Vista cenital de los paddles iluminados\nESCENA 5: Texto: "Paddle Nocturno LED $220,000"', audio: 'Musica chill electronica', hashtags: '#fyp #PaddleNocturno #LED #SanAndres #PlanNocturno' },
+    12: { hook: 'Me desperte a las 4AM en San Andres y valio CADA segundo', script: 'ESCENA 1: Alarma sonando a las 4AM\nESCENA 2: Caminando dormido al muelle\nESCENA 3: Subiendo al ponton de noche\nESCENA 4: TIMELAPSE del amanecer\nESCENA 5: Cara de felicidad con el sol saliendo', audio: 'Audio inspiracional trending', hashtags: '#fyp #amanecer #SanAndres #sunrise #MarDe7Colores' }
+};
+
+const TT_IDEAS = [
+    { type: 'Trending', title: 'Nadie: ... Yo en San Andres:', desc: 'Formato meme. Primero cara normal, luego transicion al mar cristalino. 15 segundos max.' },
+    { type: 'POV', title: 'POV: Tu amiga te convence de ir a San Andres', desc: 'Actua la conversacion y luego muestra clips del tour. Audio de conversacion viral.' },
+    { type: 'Storytime', title: 'Como empece vendiendo tours en San Andres', desc: 'Cuenta tu historia personal. El storytelling humano es lo que mas viraliza en TikTok.' },
+    { type: 'Comparacion', title: 'Tour de $45,000 vs Tour de $245,000', desc: 'Compara el Acuario Directo con la Noche Blanca. Muestra ambas experiencias.' },
+    { type: 'Tutorial', title: '5 cosas que NO sabias de San Andres', desc: 'Datos curiosos de la isla con imagenes bonitas. Formato educativo = alto engagement.' },
+    { type: 'Reaccion', title: 'Graba la cara de tus turistas', desc: 'Reaccion real al ver el mar de 7 colores por primera vez. Contenido autentico = viral.' },
+    { type: 'Trending', title: 'En San Andres es ilegal estar triste', desc: 'Trend de "es ilegal" + montaje de clips del paraiso. Musica alegre.' },
+    { type: 'Antes/Despues', title: 'Estres en la oficina vs Tu en San Andres', desc: 'Split screen o transicion: cara estresada en oficina -> bailando en el ponton.' }
+];
+
+function initTikTok() {
+    // Populate tour select
+    const sel = document.getElementById('ttTourSelect');
+    if (sel.options.length <= 1) {
+        Object.keys(TT_SCRIPTS).forEach(id => {
+            const tour = TOURS.find(t => t.id === parseInt(id));
+            if (tour) {
+                const opt = document.createElement('option');
+                opt.value = tour.id;
+                opt.textContent = `${tour.name} - ${formatCOP(tour.price)}`;
+                sel.appendChild(opt);
+            }
+        });
+    }
+
+    // Render hashtags
+    const hashViral = document.getElementById('hashTTViral');
+    if (hashViral && !hashViral.hasChildNodes()) {
+        hashViral.innerHTML = TT_HASHTAGS.viral.map(h => `<span class="hashtag">${h}</span>`).join('');
+    }
+    const hashSA = document.getElementById('hashTTSanAndres');
+    if (hashSA && !hashSA.hasChildNodes()) {
+        hashSA.innerHTML = TT_HASHTAGS.sanandres.map(h => `<span class="hashtag">${h}</span>`).join('');
+    }
+
+    // Ideas
+    const ideas = document.getElementById('ttIdeas');
+    if (ideas && !ideas.hasChildNodes()) {
+        ideas.innerHTML = TT_IDEAS.map(i =>
+            `<div class="content-idea"><strong>[${i.type}]</strong> ${i.title} — ${i.desc}</div>`
+        ).join('');
+    }
 }
 
 // ===== NOTIFICATIONS =====
