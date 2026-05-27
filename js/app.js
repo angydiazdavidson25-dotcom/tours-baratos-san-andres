@@ -676,7 +676,12 @@ let lastReservation = null; // Store last reservation for PDF download
 
 function downloadVoucherPDF(reservationData) {
     const r = reservationData || lastReservation;
-    if (!r) { alert('No hay reserva para generar PDF'); return; }
+    if (!r) { alert('No hay reserva para generar PDF. Intenta hacer la reserva de nuevo.'); return; }
+
+    if (!window.jspdf) {
+        alert('La libreria PDF aun no ha cargado. Espera unos segundos e intenta de nuevo.');
+        return;
+    }
 
     try {
         const { jsPDF } = window.jspdf;
@@ -906,10 +911,8 @@ function downloadVoucherPDF(reservationData) {
             // Divider between tours
             if (idx < toursList.length - 1) {
                 doc.setDrawColor(200, 200, 200);
-                doc.setLineWidth(0.2);
-                doc.setLineDashPattern([2, 2], 0);
+                doc.setLineWidth(0.3);
                 doc.line(margin + 10, y, W - margin - 10, y);
-                doc.setLineDashPattern([], 0);
                 y += 6;
             }
         });
@@ -1071,9 +1074,14 @@ document.addEventListener('keydown', function(e) {
 
 // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // Skip links inside modals (WhatsApp, PDF, etc.)
+    if (anchor.closest('.modal-overlay') || anchor.closest('.modal')) return;
     anchor.addEventListener('click', function(e) {
+        // Only prevent default for internal hash links, not external URLs
+        const href = this.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
