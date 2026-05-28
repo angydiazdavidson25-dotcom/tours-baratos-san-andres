@@ -1291,6 +1291,17 @@
                     <button class="btn btn-warning btn-sm" onclick="loadDemoData()"><i class="fas fa-database"></i> Datos Demo</button>
                     <button class="btn btn-danger btn-sm" onclick="clearAllData()"><i class="fas fa-trash"></i> Borrar Todo</button>
                 </div>
+                <p style="font-size:0.78rem; color:var(--gray-500); margin-top:8px;">Borrar por modulo:</p>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_reservations','Reservas')"><i class="fas fa-times"></i> Reservas</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_ventas','Ventas')"><i class="fas fa-times"></i> Ventas</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_finance','Finanzas')"><i class="fas fa-times"></i> Finanzas</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_agencias,tb_agencia_ventas','Agencias')"><i class="fas fa-times"></i> Agencias</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_providers','Proveedores')"><i class="fas fa-times"></i> Proveedores</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_commissions','Comisiones')"><i class="fas fa-times"></i> Comisiones</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_accounts','Cuentas')"><i class="fas fa-times"></i> Cuentas</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearModule('tb_invoices','Cobros')"><i class="fas fa-times"></i> Cobros</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2673,13 +2684,30 @@ function sendBoldLink(code) {
     }
 }
 
+function clearModule(keys, label) {
+    if (!confirm('¿Borrar todos los datos de ' + label + '?')) return;
+    keys.split(',').forEach(function(k) { localStorage.removeItem(k.trim()); });
+    refreshDashboard();
+    alert(label + ' borrado exitosamente.');
+}
+
 function clearAllData() {
-    if (!confirm('ATENCION: Esto borrara TODAS las reservas y datos. Esta seguro?')) return;
+    if (!confirm('ATENCION: Esto borrara TODAS las reservas y datos de TODOS los modulos. Esta seguro?')) return;
     if (!confirm('ULTIMA OPORTUNIDAD: Todos los datos se perderan. Continuar?')) return;
     localStorage.removeItem('tb_reservations');
     localStorage.removeItem('tb_notifications');
+    localStorage.removeItem('tb_services');
+    localStorage.removeItem('tb_ventas');
+    localStorage.removeItem('tb_agencias');
+    localStorage.removeItem('tb_agencia_ventas');
+    localStorage.removeItem('tb_finance');
+    localStorage.removeItem('tb_providers');
+    localStorage.removeItem('tb_commissions');
+    localStorage.removeItem('tb_accounts');
+    localStorage.removeItem('tb_invoices');
+    TOURS = loadTours();
     refreshDashboard();
-    alert('Todos los datos han sido borrados.');
+    alert('Todos los datos han sido borrados. El tablero esta en cero.');
 }
 
 // ===== PDF VOUCHER GENERATOR (ADMIN) =====
