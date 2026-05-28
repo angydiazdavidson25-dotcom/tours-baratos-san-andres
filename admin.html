@@ -3676,11 +3676,23 @@ function openAgVentaModal(editData) {
             gField('Agencia', 'agenciaId', 'select', '', {options: agOpts}) +
             gField('Tipo de Servicio', 'tipo', 'select', '', {options: tipoOpts})
         ) +
-        gField('Descripcion', 'description', 'text', d.description || '') +
+        gField('Descripcion del Servicio', 'description', 'text', d.description || '') +
         gRow(
             gField('Pasajero(s)', 'passenger', 'text', d.passenger || '') +
-            gField('Fecha', 'date', 'date', d.date || today())
+            gField('Fecha del Servicio', 'date', 'date', d.date || today())
         ) +
+        '<div style="background:rgba(46,111,207,0.06);border:1px solid rgba(46,111,207,0.15);border-radius:8px;padding:10px;margin:10px 0;">' +
+        '<p style="font-size:0.78rem;font-weight:700;color:var(--navy);margin-bottom:6px;"><i class="fas fa-info-circle"></i> Info para el Voucher del Pasajero</p>' +
+        gRow(
+            gField('Hora de Llegada', 'arrivalTime', 'text', d.arrivalTime || '', {noReq:true}) +
+            gField('Muelle / Punto de Encuentro', 'meetingPoint', 'text', d.meetingPoint || '', {noReq:true})
+        ) +
+        gRow(
+            gField('Nombre del Guia', 'guideName', 'text', d.guideName || '', {noReq:true}) +
+            gField('Telefono del Guia', 'guidePhone', 'text', d.guidePhone || '', {noReq:true})
+        ) +
+        gField('Horario del Tour', 'schedule', 'text', d.schedule || '', {noReq:true}) +
+        '</div>' +
         gRow(
             gField('Monto Total ($)', 'amount', 'number', d.amount || '') +
             gField('Comision Agencia ($)', 'comisionAmount', 'number', d.comisionAmount || 0, {noReq:true})
@@ -3699,6 +3711,9 @@ function saveAgVenta() {
         agenciaId: fd.agenciaId, agenciaName: agencia ? agencia.name : 'Desconocida',
         tipo: fd.tipo || 'otro', description: fd.description || '',
         passenger: fd.passenger || '', date: fd.date || today(),
+        arrivalTime: fd.arrivalTime || '', meetingPoint: fd.meetingPoint || '',
+        guideName: fd.guideName || '', guidePhone: fd.guidePhone || '',
+        schedule: fd.schedule || '',
         amount: parseInt(fd.amount) || 0, comisionAmount: parseInt(fd.comisionAmount) || 0,
         status: fd.status || 'pendiente', notes: fd.notes || ''
     };
@@ -3854,70 +3869,107 @@ function downloadAgVoucher(id) {
         for (var di = 0; di < descLines.length; di++) { txt(descLines[di], M + 4, y); y += 5; }
         y += 6;
 
-        // If it's a receptivo, try to find matching tour and add itinerary details
-        if (v.tipo === 'receptivo') {
-            var matchedTour = null;
-            for (var ti = 0; ti < TOURS.length; ti++) {
-                if (v.description && v.description.toLowerCase().indexOf(TOURS[ti].name.toLowerCase()) >= 0) {
-                    matchedTour = TOURS[ti]; break;
-                }
+        // Try to match tour for extra data (included/notIncluded)
+        var matchedTour = null;
+        for (var ti = 0; ti < TOURS.length; ti++) {
+            if (v.description && v.description.toLowerCase().indexOf(TOURS[ti].name.toLowerCase()) >= 0) {
+                matchedTour = TOURS[ti]; break;
             }
-            if (matchedTour) {
-                doc.setFillColor(248, 250, 252);
-                doc.rect(M, y - 3, CW, 24, 'F');
-                var col1 = M + 6;
-                var col2 = M + CW / 2 + 4;
-                doc.setTextColor(27, 42, 74);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(8);
-                txt('HORARIO:', col1, y + 2);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(50, 65, 85);
-                txt(matchedTour.schedule || '-', col1 + 20, y + 2);
-                doc.setTextColor(27, 42, 74);
-                doc.setFont('helvetica', 'bold');
-                txt('CHECK-IN:', col2, y + 2);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(50, 65, 85);
-                txt(matchedTour.checkIn || '-', col2 + 22, y + 2);
-                y += 7;
-                doc.setTextColor(27, 42, 74);
-                doc.setFont('helvetica', 'bold');
-                txt('PUNTO DE ENCUENTRO:', col1, y + 2);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(50, 65, 85);
-                txt(matchedTour.meetingPoint || '-', col1 + 42, y + 2);
-                y += 7;
-                doc.setTextColor(27, 42, 74);
-                doc.setFont('helvetica', 'bold');
-                txt('FECHA:', col1, y + 2);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(50, 65, 85);
-                txt(v.date || '-', col1 + 16, y + 2);
-                y += 12;
+        }
 
-                // Included / Not included
-                var inc = matchedTour.included || [];
-                var notInc = matchedTour.notIncluded || [];
-                var maxR = Math.max(inc.length, notInc.length);
-                if (maxR > 0) {
-                    doc.setFont('helvetica', 'bold');
-                    doc.setFontSize(8);
-                    doc.setTextColor(34, 197, 94);
-                    txt('INCLUYE:', col1, y);
-                    doc.setTextColor(239, 68, 68);
-                    txt('NO INCLUYE:', col2, y);
-                    y += 5;
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(7.5);
-                    for (var ri = 0; ri < maxR; ri++) {
-                        if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], col1, y); }
-                        if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], col2, y); }
-                        y += 4.5;
-                    }
-                    y += 6;
-                }
+        // === INFORMACION OPERATIVA (SIEMPRE se muestra) ===
+        var vSchedule = v.schedule || (matchedTour ? matchedTour.schedule : '') || '';
+        var vArrival = v.arrivalTime || (matchedTour ? matchedTour.checkIn : '') || '';
+        var vMeetPoint = v.meetingPoint || (matchedTour ? matchedTour.meetingPoint : '') || '';
+        var vGuideName = v.guideName || '';
+        var vGuidePhone = v.guidePhone || '';
+
+        // Big info box
+        doc.setFillColor(240, 245, 255);
+        doc.rect(M, y - 3, CW, 46, 'F');
+        doc.setDrawColor(46, 111, 207);
+        doc.setLineWidth(0.5);
+        doc.rect(M, y - 3, CW, 46);
+        var col1 = M + 6;
+        var col2 = M + CW / 2 + 4;
+
+        doc.setFillColor(46, 111, 207);
+        doc.rect(M, y - 3, CW, 9, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('INFORMACION IMPORTANTE PARA EL PASAJERO', M + 6, y + 3);
+        y += 12;
+
+        doc.setFontSize(9);
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        txt('HORA DE LLEGADA:', col1, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 65, 85);
+        doc.setFontSize(10);
+        txt(vArrival || 'Consultar', col1 + 38, y);
+
+        doc.setFontSize(9);
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        txt('HORARIO:', col2, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 65, 85);
+        txt(vSchedule || '-', col2 + 20, y);
+        y += 7;
+
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('MUELLE / PUNTO DE ENCUENTRO:', col1, y);
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 65, 85);
+        doc.setFontSize(10);
+        txt(vMeetPoint || 'Consultar con el guia', col1, y);
+        y += 7;
+
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('CONTACTO DEL GUIA:', col1, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 65, 85);
+        var guiaInfo = vGuideName ? vGuideName : 'Por confirmar';
+        if (vGuidePhone) guiaInfo += '  |  Tel: ' + vGuidePhone;
+        txt(guiaInfo, col1 + 38, y);
+        y += 7;
+
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('FECHA:', col1, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 65, 85);
+        txt(v.date || '-', col1 + 16, y);
+        y += 10;
+
+        // Included / Not included (from matched tour or manual)
+        var inc = matchedTour ? (matchedTour.included || []) : [];
+        var notInc = matchedTour ? (matchedTour.notIncluded || []) : [];
+        var maxR = Math.max(inc.length, notInc.length);
+        if (maxR > 0) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8);
+            doc.setTextColor(34, 197, 94);
+            txt('INCLUYE:', col1, y);
+            doc.setTextColor(239, 68, 68);
+            txt('NO INCLUYE:', col2, y);
+            y += 5;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7.5);
+            for (var ri = 0; ri < maxR; ri++) {
+                if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], col1, y); }
+                if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], col2, y); }
+                y += 4.5;
             }
+            y += 6;
         }
 
         // Notes
