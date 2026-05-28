@@ -799,6 +799,7 @@
         <li style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
             <small style="padding:4px 24px;color:rgba(255,255,255,0.35);font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;">Gestion</small>
         </li>
+        <li><a href="#" onclick="showTab('servicios')"><i class="fas fa-map-marked-alt"></i> Servicios / Tours</a></li>
         <li><a href="#" onclick="showTab('finanzas')"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
         <li><a href="#" onclick="showTab('proveedores')"><i class="fas fa-handshake"></i> Proveedores</a></li>
         <li><a href="#" onclick="showTab('comisiones')"><i class="fas fa-percent"></i> Comisiones</a></li>
@@ -1292,6 +1293,29 @@
         </div>
     </div>
 
+    <!-- ========== SERVICIOS / TOURS TAB ========== -->
+    <div class="tab-content" id="tab-servicios">
+        <div class="main-header">
+            <h1><i class="fas fa-map-marked-alt"></i> Servicios / Tours</h1>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="openServicioModal()"><i class="fas fa-plus"></i> Nuevo Servicio</button>
+                <button class="btn btn-outline" onclick="exportServiciosCSV()"><i class="fas fa-download"></i> CSV</button>
+            </div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(46,111,207,0.12);color:#2E6FCF;"><i class="fas fa-list"></i></div><div class="stat-info"><h3 id="svcTotal">0</h3><p>Total Servicios</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3 id="svcActivos">0</h3><p>Activos</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B;"><i class="fas fa-tag"></i></div><div class="stat-info"><h3 id="svcPrecioMin">$0</h3><p>Precio Minimo</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(27,42,74,0.12);color:#1B2A4A;"><i class="fas fa-gem"></i></div><div class="stat-info"><h3 id="svcPrecioMax">$0</h3><p>Precio Maximo</p></div></div>
+        </div>
+        <div style="overflow-x:auto;margin-top:16px;">
+            <table class="data-table" id="serviciosTable">
+                <thead><tr><th>#</th><th>Nombre</th><th>Precio</th><th>Horario</th><th>Check-in</th><th>Punto de Encuentro</th><th>Estado</th><th>Acciones</th></tr></thead>
+                <tbody id="serviciosBody"></tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- ========== FINANZAS TAB ========== -->
     <div class="tab-content" id="tab-finanzas">
         <div class="main-header">
@@ -1475,21 +1499,39 @@
 </div>
 
 <script>
-// ===== TOURS DATA =====
-const TOURS = [
-    { id:1, name:"Tour Platino (Ponton)", price:65000, schedule:"8:30 AM - 4:00 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Recorrido completo en ponton colectivo por los mejores puntos de San Andres.", included:["Transporte maritimo ida y vuelta","Paradas en Manglares, Acuario, Rocky Cay y El Palito","Musica en vivo","Guia turistico","Chaleco salvavidas"], notIncluded:["Alimentacion y bebidas","Impuesto ingreso a cayos ($15.000)","Alquiler equipo snorkel","Propinas"] },
-    { id:2, name:"Yate Rumba", price:130000, schedule:"Tarde / Noche", checkIn:"30 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Fiesta en alta mar con DJ en vivo, barra libre y rumba sobre las aguas del Caribe.", included:["Acceso al yate","DJ en vivo","Barra libre (licor nacional)","Parada de bano","Chaleco salvavidas"], notIncluded:["Licor premium","Snacks adicionales","Transporte terrestre","Propinas"] },
-    { id:3, name:"Acuario Directo", price:45000, schedule:"9:00 AM - 3:00 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Traslado directo al Acuario para snorkel entre peces de colores y mantarrayas.", included:["Transporte maritimo ida y vuelta","Acceso al Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Alquiler equipo snorkel ($10.000)","Alimentacion","Impuesto de ingreso","Propinas"] },
-    { id:4, name:"Johnny Cay Directo", price:55000, schedule:"9:00 AM - 3:30 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Dia completo de playa en el cayo principal de San Andres.", included:["Transporte maritimo ida y vuelta","Guia turistico","Chaleco salvavidas"], notIncluded:["Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler sillas/carpas","Propinas"] },
-    { id:5, name:"Johnny Cay + Acuario", price:65000, schedule:"8:30 AM - 3:30 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"El tour clasico: visita los dos cayos mas famosos en un solo dia.", included:["Transporte maritimo ida y vuelta","Parada en Johnny Cay y Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler equipo snorkel","Propinas"] },
-    { id:6, name:"Semi-Submarino", price:110000, schedule:"Varias salidas (1.5 Horas)", checkIn:"15 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Observa arrecifes de coral y vida marina a traves de ventanas panoramicas bajo el agua.", included:["Recorrido de 1.5 horas","Vista submarina panoramica","Guia narrador","Parada snorkel opcional"], notIncluded:["Alquiler equipo snorkel","Alimentacion","Transporte terrestre","Propinas"] },
-    { id:7, name:"Noche Blanca", price:245000, schedule:"7:00 PM - 10:00 PM", checkIn:"6:30 PM", meetingPoint:"Marina Portofino, San Andres", description:"Experiencia VIP: cena buffet mariscos, bar abierto premium y fiesta en crucero. Dress code: todo blanco.", included:["Cena buffet (mariscos y carnes)","Bar abierto premium","DJ y musica en vivo","Crucero por la bahia","Evento exclusivo"], notIncluded:["Transporte terrestre","Dress code: ropa blanca (obligatorio)","Propinas"] },
-    { id:8, name:"Buceo (Mini-curso)", price:110000, schedule:"Manana / Tarde (3 horas)", checkIn:"30 min antes", meetingPoint:"Centro de Buceo, San Andres", description:"Mini-curso con instructores PADI. Incluye teoria, practica y 1 inmersion hasta 12m.", included:["Instructor PADI certificado","Equipo completo de buceo","Clase teorica","1 inmersion hasta 12m","Seguro de buceo","Certificado participacion"], notIncluded:["Fotos/videos submarinos","Transporte al centro","Inmersiones adicionales","Propinas"] },
-    { id:9, name:"Parasail", price:220000, schedule:"Turnos cada hora", checkIn:"15 min antes del turno", meetingPoint:"Playa de Spratt Bight, San Andres", description:"Vuela sobre el mar a 100 metros de altura con vista panoramica de toda la isla.", included:["Vuelo de 15 minutos","Equipo de seguridad completo","Lancha de arrastre","Instructor profesional","Chaleco salvavidas"], notIncluded:["Fotos aereas","Transporte a la playa","Segundo vuelo","Propinas"] },
-    { id:10, name:"Paddle Nocturno LED", price:220000, schedule:"4:30 PM en adelante", checkIn:"4:15 PM", meetingPoint:"Discoteca Coco Loco, San Andres", description:"Rema sobre aguas iluminadas con luces de neon. Experiencia nocturna con tablas LED transparentes.", included:["Tabla de paddle LED transparente","Remo y chaleco","Guia profesional","Sesion atardecer + nocturna","Instruccion basica"], notIncluded:["Transporte al punto","Funda impermeable celular","Bebidas","Propinas"] },
-    { id:11, name:"Tour Siete Colores", price:220000, schedule:"Amanecer - Medio dia", checkIn:"5:30 AM", meetingPoint:"Chameys Nautica, San Andres", description:"Tour en catamaran a vela recorriendo los 7 colores del mar con snorkel.", included:["Catamaran a vela","Recorrido completo 7 colores","Paradas en Acuario, Trampa Tortuga, Mundo Marino","Snorkel Barco Hundido","Guia experto","Equipo de snorkel"], notIncluded:["Alimentacion","Impuesto ingreso a cayos","Fotos profesionales","Propinas"] },
-    { id:12, name:"Amanecer en Ponton", price:130000, schedule:"~4:30 AM - 8:00 AM", checkIn:"4:00 AM", meetingPoint:"Recogida en hotel (zona centro)", description:"Amanecer en alta mar flotando en un ponton con musica suave y cafe.", included:["Recogida en hotel (zona centro)","Ponton privado","Musica ambiental","Amanecer en alta mar","Bebida de bienvenida"], notIncluded:["Recogida hoteles lejanos (+$30.000 p/p)","Desayuno completo","Propinas"] }
+// ===== TOURS DATA (dynamic from localStorage) =====
+var DEFAULT_TOURS = [
+    { id:1, name:"Tour Platino (Ponton)", price:65000, schedule:"8:30 AM - 4:00 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Recorrido completo en ponton colectivo por los mejores puntos de San Andres.", included:["Transporte maritimo ida y vuelta","Paradas en Manglares, Acuario, Rocky Cay y El Palito","Musica en vivo","Guia turistico","Chaleco salvavidas"], notIncluded:["Alimentacion y bebidas","Impuesto ingreso a cayos ($15.000)","Alquiler equipo snorkel","Propinas"], status:"activo" },
+    { id:2, name:"Yate Rumba", price:130000, schedule:"Tarde / Noche", checkIn:"30 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Fiesta en alta mar con DJ en vivo, barra libre y rumba sobre las aguas del Caribe.", included:["Acceso al yate","DJ en vivo","Barra libre (licor nacional)","Parada de bano","Chaleco salvavidas"], notIncluded:["Licor premium","Snacks adicionales","Transporte terrestre","Propinas"], status:"activo" },
+    { id:3, name:"Acuario Directo", price:45000, schedule:"9:00 AM - 3:00 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Traslado directo al Acuario para snorkel entre peces de colores y mantarrayas.", included:["Transporte maritimo ida y vuelta","Acceso al Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Alquiler equipo snorkel ($10.000)","Alimentacion","Impuesto de ingreso","Propinas"], status:"activo" },
+    { id:4, name:"Johnny Cay Directo", price:55000, schedule:"9:00 AM - 3:30 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Dia completo de playa en el cayo principal de San Andres.", included:["Transporte maritimo ida y vuelta","Guia turistico","Chaleco salvavidas"], notIncluded:["Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler sillas/carpas","Propinas"], status:"activo" },
+    { id:5, name:"Johnny Cay + Acuario", price:65000, schedule:"8:30 AM - 3:30 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"El tour clasico: visita los dos cayos mas famosos en un solo dia.", included:["Transporte maritimo ida y vuelta","Parada en Johnny Cay y Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler equipo snorkel","Propinas"], status:"activo" },
+    { id:6, name:"Semi-Submarino", price:110000, schedule:"Varias salidas (1.5 Horas)", checkIn:"15 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Observa arrecifes de coral y vida marina a traves de ventanas panoramicas bajo el agua.", included:["Recorrido de 1.5 horas","Vista submarina panoramica","Guia narrador","Parada snorkel opcional"], notIncluded:["Alquiler equipo snorkel","Alimentacion","Transporte terrestre","Propinas"], status:"activo" },
+    { id:7, name:"Noche Blanca", price:245000, schedule:"7:00 PM - 10:00 PM", checkIn:"6:30 PM", meetingPoint:"Marina Portofino, San Andres", description:"Experiencia VIP: cena buffet mariscos, bar abierto premium y fiesta en crucero. Dress code: todo blanco.", included:["Cena buffet (mariscos y carnes)","Bar abierto premium","DJ y musica en vivo","Crucero por la bahia","Evento exclusivo"], notIncluded:["Transporte terrestre","Dress code: ropa blanca (obligatorio)","Propinas"], status:"activo" },
+    { id:8, name:"Buceo (Mini-curso)", price:110000, schedule:"Manana / Tarde (3 horas)", checkIn:"30 min antes", meetingPoint:"Centro de Buceo, San Andres", description:"Mini-curso con instructores PADI. Incluye teoria, practica y 1 inmersion hasta 12m.", included:["Instructor PADI certificado","Equipo completo de buceo","Clase teorica","1 inmersion hasta 12m","Seguro de buceo","Certificado participacion"], notIncluded:["Fotos/videos submarinos","Transporte al centro","Inmersiones adicionales","Propinas"], status:"activo" },
+    { id:9, name:"Parasail", price:220000, schedule:"Turnos cada hora", checkIn:"15 min antes del turno", meetingPoint:"Playa de Spratt Bight, San Andres", description:"Vuela sobre el mar a 100 metros de altura con vista panoramica de toda la isla.", included:["Vuelo de 15 minutos","Equipo de seguridad completo","Lancha de arrastre","Instructor profesional","Chaleco salvavidas"], notIncluded:["Fotos aereas","Transporte a la playa","Segundo vuelo","Propinas"], status:"activo" },
+    { id:10, name:"Paddle Nocturno LED", price:220000, schedule:"4:30 PM en adelante", checkIn:"4:15 PM", meetingPoint:"Discoteca Coco Loco, San Andres", description:"Rema sobre aguas iluminadas con luces de neon. Experiencia nocturna con tablas LED transparentes.", included:["Tabla de paddle LED transparente","Remo y chaleco","Guia profesional","Sesion atardecer + nocturna","Instruccion basica"], notIncluded:["Transporte al punto","Funda impermeable celular","Bebidas","Propinas"], status:"activo" },
+    { id:11, name:"Tour Siete Colores", price:220000, schedule:"Amanecer - Medio dia", checkIn:"5:30 AM", meetingPoint:"Chameys Nautica, San Andres", description:"Tour en catamaran a vela recorriendo los 7 colores del mar con snorkel.", included:["Catamaran a vela","Recorrido completo 7 colores","Paradas en Acuario, Trampa Tortuga, Mundo Marino","Snorkel Barco Hundido","Guia experto","Equipo de snorkel"], notIncluded:["Alimentacion","Impuesto ingreso a cayos","Fotos profesionales","Propinas"], status:"activo" },
+    { id:12, name:"Amanecer en Ponton", price:130000, schedule:"~4:30 AM - 8:00 AM", checkIn:"4:00 AM", meetingPoint:"Recogida en hotel (zona centro)", description:"Amanecer en alta mar flotando en un ponton con musica suave y cafe.", included:["Recogida en hotel (zona centro)","Ponton privado","Musica ambiental","Amanecer en alta mar","Bebida de bienvenida"], notIncluded:["Recogida hoteles lejanos (+$30.000 p/p)","Desayuno completo","Propinas"], status:"activo" }
 ];
+
+var SVC_KEY = 'tb_services';
+
+function loadTours() {
+    var stored = localStorage.getItem(SVC_KEY);
+    if (!stored) {
+        localStorage.setItem(SVC_KEY, JSON.stringify(DEFAULT_TOURS));
+        return DEFAULT_TOURS.slice();
+    }
+    return JSON.parse(stored);
+}
+
+var TOURS = loadTours();
+
+function saveTours(data) {
+    localStorage.setItem(SVC_KEY, JSON.stringify(data));
+    TOURS = data;
+}
 
 const WA_NUMBER = "573222123751";
 
@@ -1516,6 +1558,7 @@ function showTab(tab) {
     if (tab === 'clients') renderClients();
     if (tab === 'automation') loadReminders();
     if (tab === 'notifications') renderNotifications();
+    if (tab === 'servicios') renderServicios();
     if (tab === 'finanzas') refreshFinanzas();
     if (tab === 'proveedores') renderProveedores();
     if (tab === 'comisiones') renderComisiones();
@@ -2750,7 +2793,8 @@ function closeGestionModal() {
 
 function submitGestionForm(e) {
     e.preventDefault();
-    if (gestionMode === 'ingreso' || gestionMode === 'gasto') saveFinRecord();
+    if (gestionMode === 'servicio') saveServicio();
+    else if (gestionMode === 'ingreso' || gestionMode === 'gasto') saveFinRecord();
     else if (gestionMode === 'proveedor') saveProveedor();
     else if (gestionMode === 'comision') saveComision();
     else if (gestionMode === 'cuenta') saveCuenta();
@@ -2785,6 +2829,159 @@ function getFormData() {
         if (el.name) data[el.name] = el.type === 'number' ? (parseFloat(el.value) || 0) : el.value;
     });
     return data;
+}
+
+// ============================================================
+// ===== 0. SERVICIOS / TOURS =====
+// ============================================================
+
+function renderServicios() {
+    var data = loadTours();
+    var activos = data.filter(function(s) { return s.status !== 'inactivo'; });
+    var precios = activos.map(function(s) { return s.price || 0; });
+    document.getElementById('svcTotal').textContent = data.length;
+    document.getElementById('svcActivos').textContent = activos.length;
+    document.getElementById('svcPrecioMin').textContent = precios.length ? formatCOP(Math.min.apply(null, precios)) : '$0';
+    document.getElementById('svcPrecioMax').textContent = precios.length ? formatCOP(Math.max.apply(null, precios)) : '$0';
+
+    var body = document.getElementById('serviciosBody');
+    if (!data.length) {
+        body.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray-500);">No hay servicios registrados</td></tr>';
+        return;
+    }
+    var html = '';
+    data.forEach(function(s) {
+        var badge = s.status === 'inactivo' ? '<span class="badge-inactivo">Inactivo</span>' : '<span class="badge-activo">Activo</span>';
+        html += '<tr>' +
+            '<td><strong>' + s.id + '</strong></td>' +
+            '<td><strong>' + (s.name || '-') + '</strong></td>' +
+            '<td>' + formatCOP(s.price || 0) + '</td>' +
+            '<td>' + (s.schedule || '-') + '</td>' +
+            '<td>' + (s.checkIn || '-') + '</td>' +
+            '<td>' + (s.meetingPoint || '-') + '</td>' +
+            '<td>' + badge + '</td>' +
+            '<td class="actions-cell">' +
+                '<button class="action-btn view" title="Ver detalle" onclick="viewServicio(' + s.id + ')"><i class="fas fa-eye"></i></button>' +
+                '<button class="action-btn voucher" title="Editar" onclick="editServicio(' + s.id + ')"><i class="fas fa-edit"></i></button>' +
+                '<button class="action-btn delete" title="Eliminar" onclick="deleteServicio(' + s.id + ')"><i class="fas fa-trash"></i></button>' +
+            '</td></tr>';
+    });
+    body.innerHTML = html;
+}
+
+function openServicioModal(editData) {
+    var d = editData || {};
+    gestionMode = 'servicio';
+    gestionEditId = d.id || null;
+
+    var stOpts = '<option value="activo"' + (d.status === 'activo' || !d.status ? ' selected' : '') + '>Activo</option><option value="inactivo"' + (d.status === 'inactivo' ? ' selected' : '') + '>Inactivo</option>';
+
+    var fields =
+        gRow(
+            gField('Nombre del Servicio', 'name', 'text', d.name || '') +
+            gField('Precio (COP)', 'price', 'number', d.price || '')
+        ) +
+        gRow(
+            gField('Horario', 'schedule', 'text', d.schedule || '', {noReq:true}) +
+            gField('Check-in', 'checkIn', 'text', d.checkIn || '', {noReq:true})
+        ) +
+        gField('Punto de Encuentro', 'meetingPoint', 'text', d.meetingPoint || '', {noReq:true}) +
+        gField('Descripcion', 'description', 'textarea', d.description || '', {noReq:true}) +
+        gField('Incluye (separar con coma)', 'included', 'textarea', (d.included || []).join(', '), {noReq:true}) +
+        gField('No Incluye (separar con coma)', 'notIncluded', 'textarea', (d.notIncluded || []).join(', '), {noReq:true}) +
+        gField('Estado', 'status', 'select', '', {options: stOpts});
+
+    showGestionModal((gestionEditId ? 'Editar' : 'Nuevo') + ' Servicio / Tour', fields);
+}
+
+function saveServicio() {
+    var fd = getFormData();
+    var data = loadTours();
+
+    var record = {
+        name: fd.name || '',
+        price: parseInt(fd.price) || 0,
+        schedule: fd.schedule || '',
+        checkIn: fd.checkIn || '',
+        meetingPoint: fd.meetingPoint || '',
+        description: fd.description || '',
+        included: fd.included ? fd.included.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }) : [],
+        notIncluded: fd.notIncluded ? fd.notIncluded.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }) : [],
+        status: fd.status || 'activo'
+    };
+
+    if (gestionEditId) {
+        data = data.map(function(s) {
+            if (s.id == gestionEditId) {
+                record.id = s.id;
+                return record;
+            }
+            return s;
+        });
+    } else {
+        var maxId = 0;
+        data.forEach(function(s) { if (s.id > maxId) maxId = s.id; });
+        record.id = maxId + 1;
+        data.push(record);
+    }
+
+    saveTours(data);
+    renderServicios();
+}
+
+function editServicio(id) {
+    var s = TOURS.find(function(t) { return t.id == id; });
+    if (s) openServicioModal(s);
+}
+
+function viewServicio(id) {
+    var s = TOURS.find(function(t) { return t.id == id; });
+    if (!s) return;
+    var inc = (s.included || []).map(function(i) { return '<li style="color:#16A34A;">+ ' + i + '</li>'; }).join('');
+    var notInc = (s.notIncluded || []).map(function(i) { return '<li style="color:#EF4444;">- ' + i + '</li>'; }).join('');
+    var html = '<div style="padding:8px 0;">' +
+        '<p><strong>Precio:</strong> ' + formatCOP(s.price || 0) + '</p>' +
+        '<p><strong>Horario:</strong> ' + (s.schedule || '-') + '</p>' +
+        '<p><strong>Check-in:</strong> ' + (s.checkIn || '-') + '</p>' +
+        '<p><strong>Punto de Encuentro:</strong> ' + (s.meetingPoint || '-') + '</p>' +
+        '<p style="margin-top:8px;"><strong>Descripcion:</strong></p>' +
+        '<p style="color:var(--gray-500);font-size:0.85rem;">' + (s.description || 'Sin descripcion') + '</p>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">' +
+            '<div><strong style="color:#16A34A;">Incluye:</strong><ul style="list-style:none;padding:0;font-size:0.82rem;margin-top:4px;">' + (inc || '<li>-</li>') + '</ul></div>' +
+            '<div><strong style="color:#EF4444;">No Incluye:</strong><ul style="list-style:none;padding:0;font-size:0.82rem;margin-top:4px;">' + (notInc || '<li>-</li>') + '</ul></div>' +
+        '</div></div>';
+    document.getElementById('detailTitle').textContent = s.name || 'Servicio';
+    document.getElementById('detailContent').innerHTML = html;
+    document.getElementById('detailModal').classList.add('active');
+}
+
+function deleteServicio(id) {
+    if (!confirm('¿Eliminar este servicio?')) return;
+    var data = loadTours().filter(function(s) { return s.id != id; });
+    saveTours(data);
+    renderServicios();
+}
+
+function exportServiciosCSV() {
+    var data = loadTours();
+    if (!data.length) { alert('No hay servicios para exportar'); return; }
+    var csv = 'ID,Nombre,Precio,Horario,Check-in,Punto de Encuentro,Estado,Incluye,No Incluye\n';
+    data.forEach(function(s) {
+        csv += s.id + ',' +
+            '"' + (s.name || '') + '",' +
+            (s.price || 0) + ',' +
+            '"' + (s.schedule || '') + '",' +
+            '"' + (s.checkIn || '') + '",' +
+            '"' + (s.meetingPoint || '') + '",' +
+            (s.status || 'activo') + ',' +
+            '"' + (s.included || []).join('; ') + '",' +
+            '"' + (s.notIncluded || []).join('; ') + '"\n';
+    });
+    var blob = new Blob([csv], {type: 'text/csv'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'servicios_tours.csv';
+    a.click();
 }
 
 // ============================================================
