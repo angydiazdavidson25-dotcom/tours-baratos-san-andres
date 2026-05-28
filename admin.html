@@ -801,6 +801,7 @@
         </li>
         <li><a href="#" onclick="showTab('servicios')"><i class="fas fa-map-marked-alt"></i> Servicios / Tours</a></li>
         <li><a href="#" onclick="showTab('ventas')"><i class="fas fa-cash-register"></i> Ventas Diarias</a></li>
+        <li><a href="#" onclick="showTab('agencias')"><i class="fas fa-building"></i> Agencias</a></li>
         <li><a href="#" onclick="showTab('finanzas')"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
         <li><a href="#" onclick="showTab('proveedores')"><i class="fas fa-handshake"></i> Proveedores</a></li>
         <li><a href="#" onclick="showTab('comisiones')"><i class="fas fa-percent"></i> Comisiones</a></li>
@@ -1421,6 +1422,77 @@
         </div>
     </div>
 
+    <!-- ========== AGENCIAS TAB ========== -->
+    <div class="tab-content" id="tab-agencias">
+        <div class="main-header">
+            <h1><i class="fas fa-building"></i> Agencias</h1>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="openAgenciaModal()"><i class="fas fa-plus"></i> Nueva Agencia</button>
+                <button class="btn btn-primary" onclick="openAgVentaModal()"><i class="fas fa-plane"></i> Registrar Venta</button>
+                <button class="btn btn-outline" onclick="exportAgenciasCSV()"><i class="fas fa-download"></i> CSV</button>
+            </div>
+        </div>
+
+        <!-- Sub-tabs -->
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <button class="btn btn-primary btn-sm" onclick="showAgTab('directorio')" id="agTabDirBtn">Directorio</button>
+            <button class="btn btn-outline btn-sm" onclick="showAgTab('agventas')" id="agTabVtaBtn">Ventas</button>
+            <button class="btn btn-outline btn-sm" onclick="showAgTab('resumen')" id="agTabResBtn">Resumen por Agencia</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(46,111,207,0.12);color:#2E6FCF;"><i class="fas fa-building"></i></div><div class="stat-info"><h3 id="agTotal">0</h3><p>Agencias</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-receipt"></i></div><div class="stat-info"><h3 id="agVentas">0</h3><p>Ventas (mes)</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B;"><i class="fas fa-dollar-sign"></i></div><div class="stat-info"><h3 id="agIngresos">$0</h3><p>Ingresos (mes)</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.12);color:#EF4444;"><i class="fas fa-exclamation-triangle"></i></div><div class="stat-info"><h3 id="agPendiente">$0</h3><p>Pendiente de Cobro</p></div></div>
+        </div>
+
+        <!-- Directorio -->
+        <div id="agTabDirectorio">
+            <div style="overflow-x:auto;margin-top:16px;">
+                <table class="data-table">
+                    <thead><tr><th>Agencia</th><th>Contacto</th><th>Telefono</th><th>Ciudad</th><th>Comision %</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody id="agDirBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Ventas a agencias -->
+        <div id="agTabAgventas" style="display:none;">
+            <div style="display:flex;gap:8px;margin:12px 0;">
+                <input type="month" id="agVentaFilter" onchange="renderAgVentas()" style="padding:6px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.8rem;">
+                <select id="agVentaAgFilter" onchange="renderAgVentas()" style="padding:6px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.8rem;">
+                    <option value="">Todas las agencias</option>
+                </select>
+                <select id="agVentaTipoFilter" onchange="renderAgVentas()" style="padding:6px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.8rem;">
+                    <option value="">Todos los tipos</option>
+                    <option value="aereo">Aereo</option>
+                    <option value="receptivo">Receptivo</option>
+                    <option value="hospedaje">Hospedaje</option>
+                    <option value="traslado">Traslado</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead><tr><th>Fecha</th><th>Agencia</th><th>Tipo</th><th>Descripcion</th><th>Pasajero(s)</th><th>Monto</th><th>Comision</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody id="agVentasBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Resumen por agencia -->
+        <div id="agTabResumen" style="display:none;">
+            <div style="overflow-x:auto;margin-top:12px;">
+                <table class="data-table">
+                    <thead><tr><th>Agencia</th><th>Total Ventas</th><th>Monto Total</th><th>Comision Total</th><th>Pagado</th><th>Pendiente</th><th>Ultima Venta</th></tr></thead>
+                    <tbody id="agResumenBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <!-- ========== FINANZAS TAB ========== -->
     <div class="tab-content" id="tab-finanzas">
         <div class="main-header">
@@ -1665,6 +1737,7 @@ function showTab(tab) {
     if (tab === 'notifications') renderNotifications();
     if (tab === 'servicios') renderServicios();
     if (tab === 'ventas') renderVentas();
+    if (tab === 'agencias') renderAgencias();
     if (tab === 'finanzas') refreshFinanzas();
     if (tab === 'proveedores') renderProveedores();
     if (tab === 'comisiones') renderComisiones();
@@ -2901,6 +2974,8 @@ function submitGestionForm(e) {
     e.preventDefault();
     if (gestionMode === 'servicio') saveServicio();
     else if (gestionMode === 'venta') saveVenta();
+    else if (gestionMode === 'agencia') saveAgencia();
+    else if (gestionMode === 'agventa') saveAgVenta();
     else if (gestionMode === 'ingreso' || gestionMode === 'gasto') saveFinRecord();
     else if (gestionMode === 'proveedor') saveProveedor();
     else if (gestionMode === 'comision') saveComision();
@@ -3374,6 +3449,505 @@ document.addEventListener('input', function(e) {
         }
     }
 });
+
+// ============================================================
+// ===== AGENCIAS B2B =====
+// ============================================================
+
+var AG_KEY = 'tb_agencias';
+var AGV_KEY = 'tb_agencia_ventas';
+
+function getAgencias() { return JSON.parse(localStorage.getItem(AG_KEY) || '[]'); }
+function saveAgencias(d) { localStorage.setItem(AG_KEY, JSON.stringify(d)); }
+function getAgVentas() { return JSON.parse(localStorage.getItem(AGV_KEY) || '[]'); }
+function saveAgVentas(d) { localStorage.setItem(AGV_KEY, JSON.stringify(d)); }
+
+var agCurrentTab = 'directorio';
+
+function showAgTab(tab) {
+    agCurrentTab = tab;
+    document.getElementById('agTabDirectorio').style.display = tab === 'directorio' ? '' : 'none';
+    document.getElementById('agTabAgventas').style.display = tab === 'agventas' ? '' : 'none';
+    document.getElementById('agTabResumen').style.display = tab === 'resumen' ? '' : 'none';
+    document.getElementById('agTabDirBtn').className = 'btn btn-' + (tab === 'directorio' ? 'primary' : 'outline') + ' btn-sm';
+    document.getElementById('agTabVtaBtn').className = 'btn btn-' + (tab === 'agventas' ? 'primary' : 'outline') + ' btn-sm';
+    document.getElementById('agTabResBtn').className = 'btn btn-' + (tab === 'resumen' ? 'primary' : 'outline') + ' btn-sm';
+    if (tab === 'agventas') renderAgVentas();
+    if (tab === 'resumen') renderAgResumen();
+}
+
+function renderAgencias() {
+    var agencias = getAgencias();
+    var ventas = getAgVentas();
+    var mes = thisMonth();
+    var ventasMes = ventas.filter(function(v) { return (v.date || '').substring(0, 7) === mes; });
+    var ingresosMes = 0; var pendiente = 0;
+    ventasMes.forEach(function(v) { ingresosMes += (v.amount || 0); });
+    ventas.forEach(function(v) { if (v.status !== 'pagado') pendiente += (v.amount || 0); });
+
+    document.getElementById('agTotal').textContent = agencias.length;
+    document.getElementById('agVentas').textContent = ventasMes.length;
+    document.getElementById('agIngresos').textContent = formatCOP(ingresosMes);
+    document.getElementById('agPendiente').textContent = formatCOP(pendiente);
+
+    // Populate filter dropdown
+    var agFilter = document.getElementById('agVentaAgFilter');
+    if (agFilter) {
+        var fHtml = '<option value="">Todas las agencias</option>';
+        agencias.forEach(function(a) { fHtml += '<option value="' + a.id + '">' + a.name + '</option>'; });
+        agFilter.innerHTML = fHtml;
+    }
+
+    // Render directorio
+    var body = document.getElementById('agDirBody');
+    if (!agencias.length) {
+        body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray-500);">No hay agencias registradas. Haz clic en "Nueva Agencia".</td></tr>';
+        return;
+    }
+    var html = '';
+    agencias.forEach(function(a) {
+        var badge = a.status === 'inactivo' ? '<span class="badge-inactivo">Inactivo</span>' : '<span class="badge-activo">Activo</span>';
+        html += '<tr>' +
+            '<td><strong>' + (a.name || '-') + '</strong></td>' +
+            '<td>' + (a.contact || '-') + '</td>' +
+            '<td>' + (a.phone || '-') + '</td>' +
+            '<td>' + (a.city || '-') + '</td>' +
+            '<td>' + (a.commission || 0) + '%</td>' +
+            '<td>' + badge + '</td>' +
+            '<td class="actions-cell">' +
+                '<button class="action-btn voucher" title="Editar" onclick="editAgencia(\'' + a.id + '\')"><i class="fas fa-edit"></i></button>' +
+                '<button class="action-btn delete" title="Eliminar" onclick="deleteAgencia(\'' + a.id + '\')"><i class="fas fa-trash"></i></button>' +
+            '</td></tr>';
+    });
+    body.innerHTML = html;
+}
+
+function openAgenciaModal(editData) {
+    var d = editData || {};
+    gestionMode = 'agencia';
+    gestionEditId = d.id || null;
+    var stOpts = '<option value="activo"' + (d.status !== 'inactivo' ? ' selected' : '') + '>Activo</option><option value="inactivo"' + (d.status === 'inactivo' ? ' selected' : '') + '>Inactivo</option>';
+
+    var fields =
+        gField('Nombre de la Agencia', 'name', 'text', d.name || '') +
+        gRow(
+            gField('Persona de Contacto', 'contact', 'text', d.contact || '', {noReq:true}) +
+            gField('Telefono / WhatsApp', 'phone', 'text', d.phone || '', {noReq:true})
+        ) +
+        gRow(
+            gField('Email', 'email', 'text', d.email || '', {noReq:true}) +
+            gField('Ciudad', 'city', 'text', d.city || '', {noReq:true})
+        ) +
+        gRow(
+            gField('Comision % (que le das)', 'commission', 'number', d.commission || 0, {noReq:true}) +
+            gField('Estado', 'status', 'select', '', {options: stOpts})
+        ) +
+        gField('Datos Bancarios / Pago', 'bank', 'text', d.bank || '', {noReq:true}) +
+        gField('Notas', 'notes', 'textarea', d.notes || '', {noReq:true});
+
+    showGestionModal((gestionEditId ? 'Editar' : 'Nueva') + ' Agencia', fields);
+}
+
+function saveAgencia() {
+    var fd = getFormData();
+    var data = getAgencias();
+    var record = {
+        name: fd.name || '', contact: fd.contact || '', phone: fd.phone || '',
+        email: fd.email || '', city: fd.city || '', commission: parseFloat(fd.commission) || 0,
+        status: fd.status || 'activo', bank: fd.bank || '', notes: fd.notes || ''
+    };
+    if (gestionEditId) {
+        data = data.map(function(a) { if (a.id === gestionEditId) { record.id = a.id; return record; } return a; });
+    } else {
+        record.id = genId();
+        data.push(record);
+    }
+    saveAgencias(data);
+    renderAgencias();
+}
+
+function editAgencia(id) {
+    var a = getAgencias().find(function(x) { return x.id === id; });
+    if (a) openAgenciaModal(a);
+}
+
+function deleteAgencia(id) {
+    if (!confirm('¿Eliminar esta agencia?')) return;
+    saveAgencias(getAgencias().filter(function(a) { return a.id !== id; }));
+    renderAgencias();
+}
+
+// --- Ventas a Agencias ---
+
+function renderAgVentas() {
+    var ventas = getAgVentas();
+    var mesFilter = document.getElementById('agVentaFilter').value;
+    var agFilter = document.getElementById('agVentaAgFilter').value;
+    var tipoFilter = document.getElementById('agVentaTipoFilter').value;
+
+    if (mesFilter) ventas = ventas.filter(function(v) { return (v.date || '').substring(0, 7) === mesFilter; });
+    if (agFilter) ventas = ventas.filter(function(v) { return v.agenciaId === agFilter; });
+    if (tipoFilter) ventas = ventas.filter(function(v) { return v.tipo === tipoFilter; });
+
+    ventas.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
+
+    var body = document.getElementById('agVentasBody');
+    if (!ventas.length) {
+        body.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray-500);">No hay ventas registradas</td></tr>';
+        return;
+    }
+    var tipoLabels = {aereo:'Aereo',receptivo:'Receptivo',hospedaje:'Hospedaje',traslado:'Traslado',otro:'Otro'};
+    var html = '';
+    ventas.forEach(function(v) {
+        var stBadge = v.status === 'pagado' ? '<span class="badge-pagado">Pagado</span>' : '<span class="badge-pendiente">Pendiente</span>';
+        var tipoIcon = v.tipo === 'aereo' ? 'fa-plane' : v.tipo === 'receptivo' ? 'fa-umbrella-beach' : v.tipo === 'hospedaje' ? 'fa-hotel' : v.tipo === 'traslado' ? 'fa-shuttle-van' : 'fa-box';
+        html += '<tr>' +
+            '<td>' + (v.date || '-') + '</td>' +
+            '<td><strong>' + (v.agenciaName || '-') + '</strong></td>' +
+            '<td><i class="fas ' + tipoIcon + '" style="margin-right:4px;"></i>' + (tipoLabels[v.tipo] || v.tipo || '-') + '</td>' +
+            '<td>' + (v.description || '-') + '</td>' +
+            '<td>' + (v.passenger || '-') + '</td>' +
+            '<td><strong>' + formatCOP(v.amount || 0) + '</strong></td>' +
+            '<td>' + formatCOP(v.comisionAmount || 0) + '</td>' +
+            '<td>' + stBadge + '</td>' +
+            '<td class="actions-cell">' +
+                '<button class="action-btn view" title="Voucher PDF" onclick="downloadAgVoucher(\'' + v.id + '\')"><i class="fas fa-file-pdf"></i></button>' +
+                '<button class="action-btn whatsapp" title="Pagar/Pendiente" onclick="toggleAgVentaStatus(\'' + v.id + '\')"><i class="fas fa-check"></i></button>' +
+                '<button class="action-btn voucher" title="Editar" onclick="editAgVenta(\'' + v.id + '\')"><i class="fas fa-edit"></i></button>' +
+                '<button class="action-btn delete" title="Eliminar" onclick="deleteAgVenta(\'' + v.id + '\')"><i class="fas fa-trash"></i></button>' +
+            '</td></tr>';
+    });
+    body.innerHTML = html;
+}
+
+function openAgVentaModal(editData) {
+    var d = editData || {};
+    gestionMode = 'agventa';
+    gestionEditId = d.id || null;
+
+    var agencias = getAgencias().filter(function(a) { return a.status !== 'inactivo'; });
+    var agOpts = '';
+    agencias.forEach(function(a) { agOpts += '<option value="' + a.id + '"' + (d.agenciaId === a.id ? ' selected' : '') + '>' + a.name + '</option>'; });
+
+    var tipoOpts = '<option value="aereo"' + (d.tipo === 'aereo' ? ' selected' : '') + '>Aereo (tiquete)</option>' +
+        '<option value="receptivo"' + (d.tipo === 'receptivo' ? ' selected' : '') + '>Receptivo (tour/paquete)</option>' +
+        '<option value="hospedaje"' + (d.tipo === 'hospedaje' ? ' selected' : '') + '>Hospedaje</option>' +
+        '<option value="traslado"' + (d.tipo === 'traslado' ? ' selected' : '') + '>Traslado</option>' +
+        '<option value="otro"' + (d.tipo === 'otro' ? ' selected' : '') + '>Otro</option>';
+
+    var stOpts = '<option value="pendiente"' + (d.status !== 'pagado' ? ' selected' : '') + '>Pendiente</option>' +
+        '<option value="pagado"' + (d.status === 'pagado' ? ' selected' : '') + '>Pagado</option>';
+
+    var fields =
+        gRow(
+            gField('Agencia', 'agenciaId', 'select', '', {options: agOpts}) +
+            gField('Tipo de Servicio', 'tipo', 'select', '', {options: tipoOpts})
+        ) +
+        gField('Descripcion', 'description', 'text', d.description || '') +
+        gRow(
+            gField('Pasajero(s)', 'passenger', 'text', d.passenger || '') +
+            gField('Fecha', 'date', 'date', d.date || today())
+        ) +
+        gRow(
+            gField('Monto Total ($)', 'amount', 'number', d.amount || '') +
+            gField('Comision Agencia ($)', 'comisionAmount', 'number', d.comisionAmount || 0, {noReq:true})
+        ) +
+        gField('Estado de Pago', 'status', 'select', '', {options: stOpts}) +
+        gField('Notas', 'notes', 'textarea', d.notes || '', {noReq:true});
+
+    showGestionModal((gestionEditId ? 'Editar' : 'Registrar') + ' Venta a Agencia', fields);
+}
+
+function saveAgVenta() {
+    var fd = getFormData();
+    var agencia = getAgencias().find(function(a) { return a.id === fd.agenciaId; });
+    var data = getAgVentas();
+    var record = {
+        agenciaId: fd.agenciaId, agenciaName: agencia ? agencia.name : 'Desconocida',
+        tipo: fd.tipo || 'otro', description: fd.description || '',
+        passenger: fd.passenger || '', date: fd.date || today(),
+        amount: parseInt(fd.amount) || 0, comisionAmount: parseInt(fd.comisionAmount) || 0,
+        status: fd.status || 'pendiente', notes: fd.notes || ''
+    };
+    if (gestionEditId) {
+        data = data.map(function(v) { if (v.id === gestionEditId) { record.id = v.id; return record; } return v; });
+    } else {
+        record.id = genId();
+        data.push(record);
+    }
+    saveAgVentas(data);
+    renderAgencias();
+    if (agCurrentTab === 'agventas') renderAgVentas();
+}
+
+function editAgVenta(id) {
+    var v = getAgVentas().find(function(x) { return x.id === id; });
+    if (v) openAgVentaModal(v);
+}
+
+function toggleAgVentaStatus(id) {
+    var data = getAgVentas();
+    data = data.map(function(v) { if (v.id === id) v.status = v.status === 'pagado' ? 'pendiente' : 'pagado'; return v; });
+    saveAgVentas(data);
+    renderAgVentas();
+    renderAgencias();
+}
+
+function deleteAgVenta(id) {
+    if (!confirm('¿Eliminar esta venta?')) return;
+    saveAgVentas(getAgVentas().filter(function(v) { return v.id !== id; }));
+    renderAgVentas();
+    renderAgencias();
+}
+
+// --- Resumen por Agencia ---
+
+function renderAgResumen() {
+    var agencias = getAgencias();
+    var ventas = getAgVentas();
+    var body = document.getElementById('agResumenBody');
+    if (!agencias.length) {
+        body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--gray-500);">No hay agencias</td></tr>';
+        return;
+    }
+    var html = '';
+    agencias.forEach(function(ag) {
+        var agVtas = ventas.filter(function(v) { return v.agenciaId === ag.id; });
+        var total = 0; var comTotal = 0; var pagado = 0; var lastDate = '-';
+        agVtas.forEach(function(v) {
+            total += (v.amount || 0);
+            comTotal += (v.comisionAmount || 0);
+            if (v.status === 'pagado') pagado += (v.amount || 0);
+            if (v.date && v.date > lastDate) lastDate = v.date;
+        });
+        var pendiente = total - pagado;
+        var pendBadge = pendiente > 0 ? '<span class="badge-pendiente">' + formatCOP(pendiente) + '</span>' : '<span class="badge-pagado">$0</span>';
+        html += '<tr>' +
+            '<td><strong>' + ag.name + '</strong></td>' +
+            '<td>' + agVtas.length + '</td>' +
+            '<td><strong>' + formatCOP(total) + '</strong></td>' +
+            '<td>' + formatCOP(comTotal) + '</td>' +
+            '<td>' + formatCOP(pagado) + '</td>' +
+            '<td>' + pendBadge + '</td>' +
+            '<td>' + (lastDate !== '-' ? lastDate : '-') + '</td></tr>';
+    });
+    body.innerHTML = html;
+}
+
+// --- Voucher PDF SIN PRECIOS (para pasajeros de agencias) ---
+
+function downloadAgVoucher(id) {
+    var v = getAgVentas().find(function(x) { return x.id === id; });
+    if (!v) return;
+    if (!window.jspdf || !window.jspdf.jsPDF) { alert('PDF no disponible'); return; }
+
+    try {
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+        var W = 210, M = 18, CW = W - M * 2, y = 0;
+
+        function txt(t, x, yy, o) { doc.text(String(t || ''), x, yy, o || {}); }
+
+        // Header
+        doc.setFillColor(27, 42, 74);
+        doc.rect(0, 0, W, 36, 'F');
+        doc.setFillColor(255, 230, 0);
+        doc.rect(0, 36, W, 2.5, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(20);
+        txt('TOURESBARATOS.COM', W / 2, 15, {align: 'center'});
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        txt('NISSI VIP TRAVEL & TOURS', W / 2, 23, {align: 'center'});
+        doc.setFontSize(7.5);
+        txt('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2, 31, {align: 'center'});
+        y = 48;
+
+        // Title
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(16);
+        txt('VOUCHER DE SERVICIO', W / 2, y, {align: 'center'});
+        y += 10;
+
+        // Confirmed badge
+        doc.setFillColor(34, 197, 94);
+        doc.rect(W / 2 - 22, y - 4, 44, 10, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(9);
+        txt('CONFIRMADO', W / 2, y + 3, {align: 'center'});
+        y += 16;
+
+        // Passenger info
+        doc.setFillColor(240, 245, 255);
+        doc.rect(M, y - 3, CW, 20, 'F');
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('DATOS DEL PASAJERO', M + 6, y + 3);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(50, 65, 85);
+        y += 9;
+        txt('Nombre: ' + (v.passenger || '-'), M + 6, y);
+        txt('Fecha: ' + (v.date || '-'), M + CW / 2, y);
+        y += 16;
+
+        // Service type banner
+        var tipoLabels = {aereo:'TIQUETE AEREO',receptivo:'RECEPTIVO / TOUR',hospedaje:'HOSPEDAJE',traslado:'TRASLADO',otro:'SERVICIO'};
+        doc.setFillColor(46, 111, 207);
+        doc.rect(M, y - 3, CW, 12, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        txt(tipoLabels[v.tipo] || 'SERVICIO', M + 6, y + 5);
+        y += 16;
+
+        // Description
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        txt('Servicio:', M, y);
+        y += 6;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(50, 65, 85);
+        var descLines = doc.splitTextToSize(v.description || 'Sin descripcion', CW - 10);
+        for (var di = 0; di < descLines.length; di++) { txt(descLines[di], M + 4, y); y += 5; }
+        y += 6;
+
+        // If it's a receptivo, try to find matching tour and add itinerary details
+        if (v.tipo === 'receptivo') {
+            var matchedTour = null;
+            for (var ti = 0; ti < TOURS.length; ti++) {
+                if (v.description && v.description.toLowerCase().indexOf(TOURS[ti].name.toLowerCase()) >= 0) {
+                    matchedTour = TOURS[ti]; break;
+                }
+            }
+            if (matchedTour) {
+                doc.setFillColor(248, 250, 252);
+                doc.rect(M, y - 3, CW, 24, 'F');
+                var col1 = M + 6;
+                var col2 = M + CW / 2 + 4;
+                doc.setTextColor(27, 42, 74);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                txt('HORARIO:', col1, y + 2);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(50, 65, 85);
+                txt(matchedTour.schedule || '-', col1 + 20, y + 2);
+                doc.setTextColor(27, 42, 74);
+                doc.setFont('helvetica', 'bold');
+                txt('CHECK-IN:', col2, y + 2);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(50, 65, 85);
+                txt(matchedTour.checkIn || '-', col2 + 22, y + 2);
+                y += 7;
+                doc.setTextColor(27, 42, 74);
+                doc.setFont('helvetica', 'bold');
+                txt('PUNTO DE ENCUENTRO:', col1, y + 2);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(50, 65, 85);
+                txt(matchedTour.meetingPoint || '-', col1 + 42, y + 2);
+                y += 7;
+                doc.setTextColor(27, 42, 74);
+                doc.setFont('helvetica', 'bold');
+                txt('FECHA:', col1, y + 2);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(50, 65, 85);
+                txt(v.date || '-', col1 + 16, y + 2);
+                y += 12;
+
+                // Included / Not included
+                var inc = matchedTour.included || [];
+                var notInc = matchedTour.notIncluded || [];
+                var maxR = Math.max(inc.length, notInc.length);
+                if (maxR > 0) {
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(8);
+                    doc.setTextColor(34, 197, 94);
+                    txt('INCLUYE:', col1, y);
+                    doc.setTextColor(239, 68, 68);
+                    txt('NO INCLUYE:', col2, y);
+                    y += 5;
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(7.5);
+                    for (var ri = 0; ri < maxR; ri++) {
+                        if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], col1, y); }
+                        if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], col2, y); }
+                        y += 4.5;
+                    }
+                    y += 6;
+                }
+            }
+        }
+
+        // Notes
+        if (v.notes) {
+            y += 4;
+            doc.setTextColor(100, 100, 100);
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(8);
+            txt('Notas: ' + v.notes, M, y);
+            y += 8;
+        }
+
+        // Policies
+        y += 4;
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        txt('CONDICIONES GENERALES:', M, y);
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(100, 116, 139);
+        var policies = [
+            'Presentar este voucher impreso o digital al momento del servicio.',
+            'Presentar documento de identidad original.',
+            'Llegar al punto de encuentro minimo 15 minutos antes.',
+            'Sujeto a condiciones climaticas.',
+            'Menores de edad deben estar acompanados por un adulto.'
+        ];
+        for (var pi = 0; pi < policies.length; pi++) {
+            txt((pi + 1) + '. ' + policies[pi], M + 2, y); y += 4.5;
+        }
+
+        // Footer
+        doc.setFillColor(27, 42, 74);
+        doc.rect(0, 280, W, 17, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        txt('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratossanandres', W / 2, 287, {align: 'center'});
+        txt('Nissi VIP Travel & Tours | San Andres Islas, Colombia', W / 2, 292, {align: 'center'});
+
+        doc.save('Voucher_' + (v.passenger || 'Pasajero').replace(/\s+/g, '_') + '_' + (v.date || '') + '.pdf');
+    } catch (err) {
+        alert('Error PDF: ' + (err.message || err));
+    }
+}
+
+function exportAgenciasCSV() {
+    var agencias = getAgencias();
+    var ventas = getAgVentas();
+    if (!agencias.length && !ventas.length) { alert('No hay datos para exportar'); return; }
+
+    var csv = 'DIRECTORIO DE AGENCIAS\nNombre,Contacto,Telefono,Email,Ciudad,Comision %,Estado\n';
+    agencias.forEach(function(a) {
+        csv += '"' + (a.name || '') + '","' + (a.contact || '') + '","' + (a.phone || '') + '","' + (a.email || '') + '","' + (a.city || '') + '",' + (a.commission || 0) + ',' + (a.status || 'activo') + '\n';
+    });
+    csv += '\nVENTAS A AGENCIAS\nFecha,Agencia,Tipo,Descripcion,Pasajero,Monto,Comision,Estado\n';
+    ventas.forEach(function(v) {
+        csv += (v.date || '') + ',"' + (v.agenciaName || '') + '",' + (v.tipo || '') + ',"' + (v.description || '') + '","' + (v.passenger || '') + '",' + (v.amount || 0) + ',' + (v.comisionAmount || 0) + ',' + (v.status || '') + '\n';
+    });
+    var blob = new Blob([csv], {type: 'text/csv'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'agencias_ventas.csv';
+    a.click();
+}
 
 // ============================================================
 // ===== 1. FINANZAS =====
