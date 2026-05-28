@@ -658,6 +658,115 @@
             border: 1px solid var(--blue);
         }
 
+        /* ===== GESTION DATA TABLES ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--gray-100);
+        }
+        .data-table thead th {
+            text-align: left;
+            padding: 12px 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--gray-50);
+            border-bottom: 2px solid var(--gray-200);
+            white-space: nowrap;
+        }
+        .data-table tbody tr {
+            border-bottom: 1px solid var(--gray-100);
+            transition: var(--transition);
+        }
+        .data-table tbody tr:hover { background: var(--gray-50); }
+        .data-table tbody td {
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            vertical-align: middle;
+        }
+        .data-table .actions-cell { white-space: nowrap; }
+
+        /* Gestion badges */
+        .badge-pagada, .badge-pagado {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(34,197,94,0.12);
+            color: #16A34A;
+        }
+        .badge-pendiente {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(245,158,11,0.12);
+            color: #B45309;
+        }
+        .badge-activo {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(34,197,94,0.12);
+            color: #16A34A;
+        }
+        .badge-inactivo {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(239,68,68,0.12);
+            color: var(--red);
+        }
+        .badge-vencida {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(239,68,68,0.12);
+            color: var(--red);
+        }
+
+        /* Gestion form fields inside modal */
+        #gestionFields label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 4px;
+            margin-top: 12px;
+        }
+        #gestionFields input,
+        #gestionFields select,
+        #gestionFields textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'Open Sans', sans-serif;
+            transition: var(--transition);
+        }
+        #gestionFields input:focus,
+        #gestionFields select:focus,
+        #gestionFields textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+        #gestionFields textarea { resize: vertical; min-height: 60px; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -687,8 +796,19 @@
         <li><a href="#" onclick="showTab('clients')"><i class="fas fa-users"></i> Clientes</a></li>
         <li><a href="#" onclick="showTab('automation')"><i class="fas fa-robot"></i> Automatizacion</a></li>
         <li><a href="#" onclick="showTab('notifications')"><i class="fas fa-bell"></i> Notificaciones <span id="notifBadge" style="background:var(--red);color:#fff;border-radius:50%;padding:2px 6px;font-size:0.65rem;margin-left:4px;"></span></a></li>
+        <li style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
+            <small style="padding:4px 24px;color:rgba(255,255,255,0.35);font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;">Gestion</small>
+        </li>
+        <li><a href="#" onclick="showTab('finanzas')"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
+        <li><a href="#" onclick="showTab('proveedores')"><i class="fas fa-handshake"></i> Proveedores</a></li>
+        <li><a href="#" onclick="showTab('comisiones')"><i class="fas fa-percent"></i> Comisiones</a></li>
+        <li><a href="#" onclick="showTab('cuentas')"><i class="fas fa-file-invoice-dollar"></i> Cuentas</a></li>
+        <li><a href="#" onclick="showTab('cobros')"><i class="fas fa-file-pdf"></i> Cuentas de Cobro</a></li>
+        <li style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
+            <small style="padding:4px 24px;color:rgba(255,255,255,0.35);font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;">Sistema</small>
+        </li>
         <li><a href="#" onclick="showTab('settings')"><i class="fas fa-cog"></i> Configuracion</a></li>
-        <li style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;"><a href="index.html"><i class="fas fa-globe"></i> Ver Pagina Web</a></li>
+        <li><a href="index.html"><i class="fas fa-globe"></i> Ver Pagina Web</a></li>
         <li><a href="links.html"><i class="fas fa-link"></i> Link-in-Bio</a></li>
     </ul>
 </aside>
@@ -1172,6 +1292,165 @@
         </div>
     </div>
 
+    <!-- ========== FINANZAS TAB ========== -->
+    <div class="tab-content" id="tab-finanzas">
+        <div class="main-header">
+            <h1><i class="fas fa-dollar-sign"></i> Finanzas</h1>
+            <div class="header-actions">
+                <button class="btn btn-outline" onclick="exportFinanzasCSV()"><i class="fas fa-download"></i> Exportar CSV</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-arrow-up"></i></div><div class="stat-info"><h3 id="finIngresos">$0</h3><p>Total Ingresos</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.12);color:#EF4444;"><i class="fas fa-arrow-down"></i></div><div class="stat-info"><h3 id="finGastos">$0</h3><p>Total Gastos</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(46,111,207,0.12);color:#2E6FCF;"><i class="fas fa-chart-line"></i></div><div class="stat-info"><h3 id="finGanancia">$0</h3><p>Ganancia Neta</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B;"><i class="fas fa-percent"></i></div><div class="stat-info"><h3 id="finComisiones">$0</h3><p>Comisiones Pagadas</p></div></div>
+        </div>
+
+        <!-- Sub-tabs -->
+        <div style="display:flex;gap:8px;margin:20px 0 16px;">
+            <button class="btn btn-primary btn-sm" onclick="showFinTab('ingresos')" id="finTabIngBtn">Ingresos</button>
+            <button class="btn btn-outline btn-sm" onclick="showFinTab('gastos')" id="finTabGasBtn">Gastos</button>
+        </div>
+
+        <!-- Ingresos -->
+        <div id="finTabIngresos">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h3 style="font-size:1rem;">Registro de Ingresos</h3>
+                <button class="btn btn-success btn-sm" onclick="openFinModal('ingreso')"><i class="fas fa-plus"></i> Nuevo Ingreso</button>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <input type="month" id="finIngFilter" onchange="renderIngresos()" style="padding:6px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.8rem;">
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table" id="ingresosTable">
+                    <thead><tr><th>Fecha</th><th>Concepto</th><th>Cliente</th><th>Monto</th><th>Metodo</th><th>Acciones</th></tr></thead>
+                    <tbody id="ingresosBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Gastos -->
+        <div id="finTabGastos" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h3 style="font-size:1rem;">Registro de Gastos</h3>
+                <button class="btn btn-danger btn-sm" onclick="openFinModal('gasto')"><i class="fas fa-plus"></i> Nuevo Gasto</button>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <input type="month" id="finGasFilter" onchange="renderGastos()" style="padding:6px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.8rem;">
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table" id="gastosTable">
+                    <thead><tr><th>Fecha</th><th>Concepto</th><th>Proveedor</th><th>Categoria</th><th>Monto</th><th>Acciones</th></tr></thead>
+                    <tbody id="gastosBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== PROVEEDORES TAB ========== -->
+    <div class="tab-content" id="tab-proveedores">
+        <div class="main-header">
+            <h1><i class="fas fa-handshake"></i> Proveedores</h1>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="openProvModal()"><i class="fas fa-plus"></i> Nuevo Proveedor</button>
+                <button class="btn btn-outline" onclick="exportProvCSV()"><i class="fas fa-download"></i> CSV</button>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="data-table">
+                <thead><tr><th>Nombre / Empresa</th><th>Contacto</th><th>Servicio</th><th>Banco</th><th>Cuenta</th><th>Estado</th><th>Acciones</th></tr></thead>
+                <tbody id="provBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ========== COMISIONES TAB ========== -->
+    <div class="tab-content" id="tab-comisiones">
+        <div class="main-header">
+            <h1><i class="fas fa-percent"></i> Comisiones</h1>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="openComModal()"><i class="fas fa-plus"></i> Registrar Comision</button>
+            </div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B;"><i class="fas fa-coins"></i></div><div class="stat-info"><h3 id="comTotal">$0</h3><p>Total Comisiones (mes)</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3 id="comPagadas">$0</h3><p>Pagadas</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.12);color:#EF4444;"><i class="fas fa-clock"></i></div><div class="stat-info"><h3 id="comPendientes">$0</h3><p>Pendientes</p></div></div>
+        </div>
+        <div style="overflow-x:auto;margin-top:16px;">
+            <table class="data-table">
+                <thead><tr><th>Fecha</th><th>Tour</th><th>Proveedor</th><th>Reserva</th><th>Monto</th><th>Estado</th><th>Acciones</th></tr></thead>
+                <tbody id="comBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ========== CUENTAS TAB ========== -->
+    <div class="tab-content" id="tab-cuentas">
+        <div class="main-header">
+            <h1><i class="fas fa-file-invoice-dollar"></i> Cuentas por Cobrar / Pagar</h1>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="openCuentaModal()"><i class="fas fa-plus"></i> Nueva Cuenta</button>
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <button class="btn btn-primary btn-sm" onclick="showCuentaTab('cobrar')" id="ctaCobrarBtn">Me Deben</button>
+            <button class="btn btn-outline btn-sm" onclick="showCuentaTab('pagar')" id="ctaPagarBtn">Debo</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-hand-holding-usd"></i></div><div class="stat-info"><h3 id="ctaMeDeben">$0</h3><p>Total Me Deben</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.12);color:#EF4444;"><i class="fas fa-money-check-alt"></i></div><div class="stat-info"><h3 id="ctaDebo">$0</h3><p>Total Debo</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(46,111,207,0.12);color:#2E6FCF;"><i class="fas fa-balance-scale"></i></div><div class="stat-info"><h3 id="ctaBalance">$0</h3><p>Balance</p></div></div>
+        </div>
+
+        <div style="overflow-x:auto;margin-top:16px;">
+            <table class="data-table">
+                <thead><tr><th>Fecha</th><th>Tipo</th><th>Persona/Empresa</th><th>Concepto</th><th>Monto</th><th>Vence</th><th>Estado</th><th>Acciones</th></tr></thead>
+                <tbody id="cuentasBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ========== CUENTAS DE COBRO TAB ========== -->
+    <div class="tab-content" id="tab-cobros">
+        <div class="main-header">
+            <h1><i class="fas fa-file-pdf"></i> Cuentas de Cobro</h1>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="openCobroModal()"><i class="fas fa-plus"></i> Nueva Cuenta de Cobro</button>
+            </div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(46,111,207,0.12);color:#2E6FCF;"><i class="fas fa-file-alt"></i></div><div class="stat-info"><h3 id="cobroTotal">0</h3><p>Cuentas Emitidas</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-check-double"></i></div><div class="stat-info"><h3 id="cobroPagadas">0</h3><p>Pagadas</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.12);color:#EF4444;"><i class="fas fa-exclamation-circle"></i></div><div class="stat-info"><h3 id="cobroPend">0</h3><p>Pendientes</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B;"><i class="fas fa-dollar-sign"></i></div><div class="stat-info"><h3 id="cobroMonto">$0</h3><p>Total Pendiente</p></div></div>
+        </div>
+        <div style="overflow-x:auto;margin-top:16px;">
+            <table class="data-table">
+                <thead><tr><th>No.</th><th>Fecha</th><th>Cliente/Empresa</th><th>Concepto</th><th>Monto</th><th>Estado</th><th>Acciones</th></tr></thead>
+                <tbody id="cobrosBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- GESTION MODAL (shared for all CRUD) -->
+<div class="modal-overlay" id="gestionModal">
+    <div class="modal" style="max-width:560px;">
+        <button class="modal-close" onclick="closeGestionModal()">&times;</button>
+        <h2 id="gestionModalTitle">Nuevo Registro</h2>
+        <form id="gestionForm" onsubmit="submitGestionForm(event)">
+            <div id="gestionFields"></div>
+            <div style="display:flex;gap:8px;margin-top:16px;">
+                <button type="submit" class="btn btn-primary" style="flex:1;">Guardar</button>
+                <button type="button" class="btn btn-outline" onclick="closeGestionModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- DETAIL MODAL -->
@@ -1237,6 +1516,11 @@ function showTab(tab) {
     if (tab === 'clients') renderClients();
     if (tab === 'automation') loadReminders();
     if (tab === 'notifications') renderNotifications();
+    if (tab === 'finanzas') refreshFinanzas();
+    if (tab === 'proveedores') renderProveedores();
+    if (tab === 'comisiones') renderComisiones();
+    if (tab === 'cuentas') renderCuentas();
+    if (tab === 'cobros') renderCobros();
 }
 
 // ===== DASHBOARD =====
@@ -2177,31 +2461,26 @@ function clearAllData() {
 
 // ===== PDF VOUCHER GENERATOR (ADMIN) =====
 function downloadAdminPDF(code) {
-    const data = getReservations();
-    const r = data.find(x => x.code === code);
+    var data = getReservations();
+    var r = data.find(function(x) { return x.code === code; });
     if (!r) return;
+    if (!window.jspdf || !window.jspdf.jsPDF) { alert('La libreria PDF aun no ha cargado. Recarga la pagina.'); return; }
 
     try {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-        const W = 210;
-        const margin = 18;
-        const contentW = W - margin * 2;
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+        var W = 210;
+        var margin = 18;
+        var contentW = W - margin * 2;
 
-        const navy = [27, 42, 74];
-        const yellow = [255, 230, 0];
-        const blue = [46, 111, 207];
-        const gray = [100, 116, 139];
-        const white = [255, 255, 255];
-        const green = [34, 197, 94];
-        const red = [239, 68, 68];
+        function txt(t, x, yy, o) { doc.text(String(t || ''), x, yy, o || {}); }
 
         // Build tours list
         var toursList = [];
         if (r.tours && r.tours.length > 0) {
             toursList = r.tours;
         } else {
-            var t = TOURS.find(x => x.id === r.tourId) || {};
+            var t = TOURS.find(function(x) { return x.id === r.tourId; }) || {};
             toursList = [{
                 tourId: r.tourId, tourName: r.tourName || t.name, schedule: r.tourSchedule || t.schedule,
                 checkIn: t.checkIn || '15 min antes', meetingPoint: t.meetingPoint || 'Consultar',
@@ -2216,30 +2495,30 @@ function downloadAdminPDF(code) {
         var col2 = margin + contentW / 2 + 4;
 
         function addHeader() {
-            doc.setFillColor(...navy);
+            doc.setFillColor(27, 42, 74);
             doc.rect(0, 0, W, 36, 'F');
-            doc.setFillColor(...yellow);
+            doc.setFillColor(255, 230, 0);
             doc.rect(0, 36, W, 2.5, 'F');
-            doc.setTextColor(...white);
+            doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(20);
-            doc.text('TOURESBARATOS.COM', W / 2, 15, { align: 'center' });
+            txt('TOURESBARATOS.COM', W / 2, 15, { align: 'center' });
             doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
-            doc.text('NISSI VIP TRAVEL & TOURS', W / 2, 23, { align: 'center' });
+            txt('NISSI VIP TRAVEL & TOURS', W / 2, 23, { align: 'center' });
             doc.setFontSize(7.5);
-            doc.text('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2, 31, { align: 'center' });
+            txt('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2, 31, { align: 'center' });
             return 45;
         }
 
         function addFooter() {
-            doc.setFillColor(...navy);
+            doc.setFillColor(27, 42, 74);
             doc.rect(0, 280, W, 17, 'F');
-            doc.setTextColor(...white);
+            doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(7);
-            doc.text('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratossanandres', W / 2, 287, { align: 'center' });
-            doc.text('Tours Baratos San Andres - Nissi VIP Travel & Tours', W / 2, 292, { align: 'center' });
+            txt('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratossanandres', W / 2, 287, { align: 'center' });
+            txt('Tours Baratos San Andres - Nissi VIP Travel & Tours', W / 2, 292, { align: 'center' });
         }
 
         function checkPage(needed) {
@@ -2249,105 +2528,110 @@ function downloadAdminPDF(code) {
         y = addHeader();
 
         // Title + Code
-        doc.setTextColor(...navy);
+        doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(16);
-        doc.text('ITINERARIO DE RESERVA', W / 2, y, { align: 'center' });
+        txt('ITINERARIO DE RESERVA', W / 2, y, { align: 'center' });
         y += 8;
-        doc.setFillColor(...navy);
-        doc.roundedRect(60, y - 4, 90, 13, 4, 4, 'F');
-        doc.setTextColor(...yellow);
+        doc.setFillColor(27, 42, 74);
+        doc.rect(60, y - 4, 90, 13, 'F');
+        doc.setTextColor(255, 230, 0);
         doc.setFontSize(14);
-        doc.text(r.code, W / 2, y + 5, { align: 'center' });
+        txt(r.code, W / 2, y + 5, { align: 'center' });
         y += 16;
 
         // Status badge
-        var statusColor = r.status === 'confirmado' || r.status === 'pagado' ? green : r.status === 'cancelado' ? red : [245, 158, 11];
-        doc.setFillColor(...statusColor);
-        doc.roundedRect(W / 2 - 25, y - 4, 50, 10, 3, 3, 'F');
-        doc.setTextColor(...white);
+        if (r.status === 'confirmado' || r.status === 'pagado') {
+            doc.setFillColor(34, 197, 94);
+        } else if (r.status === 'cancelado') {
+            doc.setFillColor(239, 68, 68);
+        } else {
+            doc.setFillColor(245, 158, 11);
+        }
+        doc.rect(W / 2 - 25, y - 4, 50, 10, 'F');
+        doc.setTextColor(255, 255, 255);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(8);
-        doc.text((r.status || 'pendiente').toUpperCase(), W / 2, y + 3, { align: 'center' });
+        txt((r.status || 'pendiente').toUpperCase(), W / 2, y + 3, { align: 'center' });
         y += 12;
 
         // Client info
         doc.setFillColor(240, 245, 255);
-        doc.roundedRect(margin, y - 3, contentW, 32, 3, 3, 'F');
-        doc.setTextColor(...navy);
+        doc.rect(margin, y - 3, contentW, 32, 'F');
+        doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(9);
-        doc.text('DATOS DEL CLIENTE', col1, y + 3);
+        txt('DATOS DEL CLIENTE', col1, y + 3);
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8.5);
         doc.setTextColor(50, 65, 85);
         y += 11;
-        doc.text('Nombre: ' + (r.clientName || '-'), col1, y);
-        doc.text('WhatsApp: ' + (r.clientPhone || '-'), col2, y);
+        txt('Nombre: ' + (r.clientName || '-'), col1, y);
+        txt('WhatsApp: ' + (r.clientPhone || '-'), col2, y);
         y += 5.5;
-        doc.text('Documento: ' + (r.clientDoc || '-'), col1, y);
-        doc.text('Email: ' + (r.clientEmail || 'No indicado'), col2, y);
+        txt('Documento: ' + (r.clientDoc || '-'), col1, y);
+        txt('Email: ' + (r.clientEmail || 'No indicado'), col2, y);
         y += 5.5;
-        doc.text('Hotel: ' + (r.hotel || 'No indicado'), col1, y);
-        doc.text('Pago: ' + (r.payMethod === 'nequi' ? 'Nequi/Daviplata' : r.payMethod === 'tarjeta' ? 'Tarjeta' : 'Efectivo'), col2, y);
+        txt('Hotel: ' + (r.hotel || 'No indicado'), col1, y);
+        txt('Pago: ' + (r.payMethod === 'nequi' ? 'Nequi/Daviplata' : r.payMethod === 'tarjeta' ? 'Tarjeta' : 'Efectivo'), col2, y);
         y += 10;
 
         // Tour itineraries
         toursList.forEach(function(tour, idx) {
             checkPage(70);
-            doc.setFillColor(...blue);
-            doc.roundedRect(margin, y - 3, contentW, 12, 3, 3, 'F');
-            doc.setTextColor(...white);
+            doc.setFillColor(46, 111, 207);
+            doc.rect(margin, y - 3, contentW, 12, 'F');
+            doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(11);
-            doc.text('TOUR ' + (idx + 1) + ': ' + (tour.tourName || 'Tour').toUpperCase(), margin + 6, y + 5);
+            txt('TOUR ' + (idx + 1) + ': ' + (tour.tourName || 'Tour').toUpperCase(), margin + 6, y + 5);
             doc.setFontSize(9);
-            doc.text(formatCOP(tour.subtotal || 0), W - margin - 6, y + 5, { align: 'right' });
+            txt(formatCOP(tour.subtotal || 0), W - margin - 6, y + 5, { align: 'right' });
             y += 14;
 
             doc.setFillColor(248, 250, 252);
-            doc.roundedRect(margin, y - 3, contentW, 20, 2, 2, 'F');
-            doc.setTextColor(...navy);
+            doc.rect(margin, y - 3, contentW, 20, 'F');
+            doc.setTextColor(27, 42, 74);
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(8);
-            doc.text('CHECK-IN:', col1, y + 2);
+            txt('CHECK-IN:', col1, y + 2);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 65, 85);
-            doc.text(tour.checkIn || '15 min antes', col1 + 22, y + 2);
-            doc.setTextColor(...navy);
+            txt(tour.checkIn || '15 min antes', col1 + 22, y + 2);
+            doc.setTextColor(27, 42, 74);
             doc.setFont('helvetica', 'bold');
-            doc.text('HORARIO:', col2, y + 2);
+            txt('HORARIO:', col2, y + 2);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 65, 85);
-            doc.text(tour.schedule || '-', col2 + 20, y + 2);
+            txt(tour.schedule || '-', col2 + 20, y + 2);
             y += 6;
-            doc.setTextColor(...navy);
+            doc.setTextColor(27, 42, 74);
             doc.setFont('helvetica', 'bold');
-            doc.text('PUNTO:', col1, y + 2);
+            txt('PUNTO:', col1, y + 2);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 65, 85);
-            doc.text(tour.meetingPoint || 'Consultar', col1 + 16, y + 2);
+            txt(tour.meetingPoint || 'Consultar', col1 + 16, y + 2);
             y += 6;
-            doc.setTextColor(...navy);
+            doc.setTextColor(27, 42, 74);
             doc.setFont('helvetica', 'bold');
-            doc.text('FECHA:', col1, y + 2);
+            txt('FECHA:', col1, y + 2);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 65, 85);
-            doc.text(tour.date || '-', col1 + 16, y + 2);
-            doc.setTextColor(...navy);
+            txt(tour.date || '-', col1 + 16, y + 2);
+            doc.setTextColor(27, 42, 74);
             doc.setFont('helvetica', 'bold');
-            doc.text('PERSONAS:', col2, y + 2);
+            txt('PERSONAS:', col2, y + 2);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 65, 85);
-            doc.text(String(tour.qty || 1), col2 + 22, y + 2);
+            txt(String(tour.qty || 1), col2 + 22, y + 2);
             y += 9;
 
             if (tour.description) {
-                doc.setTextColor(...gray);
+                doc.setTextColor(100, 116, 139);
                 doc.setFont('helvetica', 'italic');
                 doc.setFontSize(8);
                 var dl = doc.splitTextToSize(tour.description, contentW - 12);
-                dl.forEach(function(line) { doc.text(line, col1, y); y += 4; });
+                for (var di = 0; di < dl.length; di++) { txt(dl[di], col1, y); y += 4; }
                 y += 2;
             }
 
@@ -2358,16 +2642,16 @@ function downloadAdminPDF(code) {
                 checkPage(8 + maxR * 4.5);
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(8);
-                doc.setTextColor(...green);
-                doc.text('INCLUYE:', col1, y);
-                doc.setTextColor(...red);
-                doc.text('NO INCLUYE:', col2, y);
+                doc.setTextColor(34, 197, 94);
+                txt('INCLUYE:', col1, y);
+                doc.setTextColor(239, 68, 68);
+                txt('NO INCLUYE:', col2, y);
                 y += 5;
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(7.5);
                 for (var ri = 0; ri < maxR; ri++) {
-                    if (ri < inc.length) { doc.setTextColor(34, 120, 60); doc.text('+ ' + inc[ri], col1, y); }
-                    if (ri < notInc.length) { doc.setTextColor(180, 50, 50); doc.text('- ' + notInc[ri], col2, y); }
+                    if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], col1, y); }
+                    if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], col2, y); }
                     y += 4.5;
                 }
             }
@@ -2376,24 +2660,24 @@ function downloadAdminPDF(code) {
 
         // Total
         checkPage(20);
-        doc.setFillColor(...navy);
-        doc.roundedRect(margin, y - 3, contentW, 14, 3, 3, 'F');
-        doc.setTextColor(...yellow);
+        doc.setFillColor(27, 42, 74);
+        doc.rect(margin, y - 3, contentW, 14, 'F');
+        doc.setTextColor(255, 230, 0);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(13);
-        doc.text('TOTAL: ' + formatCOP(r.total || 0), W / 2, y + 7, { align: 'center' });
+        txt('TOTAL: ' + formatCOP(r.total || 0), W / 2, y + 7, { align: 'center' });
         y += 20;
 
         // Policies
         checkPage(45);
-        doc.setTextColor(...navy);
+        doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(9);
-        doc.text('POLITICAS DE CANCELACION Y CONDICIONES', margin, y);
+        txt('POLITICAS DE CANCELACION Y CONDICIONES', margin, y);
         y += 6;
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(7.5);
-        doc.setTextColor(...gray);
+        doc.setTextColor(100, 116, 139);
         var policyItems = [
             'Cancelacion gratuita hasta 24 horas antes del tour.',
             'Cancelacion con menos de 24 horas: se cobra el 50% del valor total.',
@@ -2405,18 +2689,18 @@ function downloadAdminPDF(code) {
             'Llegar al punto de encuentro minimo 15 minutos antes.',
             'Precios por persona en COP. No incluyen impuestos de ingreso a cayos.'
         ];
-        policyItems.forEach(function(item, i) {
+        for (var pi = 0; pi < policyItems.length; pi++) {
             checkPage(6);
-            var pl = doc.splitTextToSize((i + 1) + '. ' + item, contentW - 4);
-            pl.forEach(function(line) { doc.text(line, margin + 2, y); y += 4; });
+            var pl = doc.splitTextToSize((pi + 1) + '. ' + policyItems[pi], contentW - 4);
+            for (var pli = 0; pli < pl.length; pli++) { txt(pl[pli], margin + 2, y); y += 4; }
             y += 1;
-        });
+        }
 
         addFooter();
         doc.save('Itinerario_' + r.code + '.pdf');
     } catch (err) {
         console.error('Error PDF:', err);
-        alert('Error generando PDF');
+        alert('Error generando PDF: ' + (err.message || err));
     }
 }
 
@@ -2442,6 +2726,650 @@ if (localStorage.getItem('tb_tt')) {
     const ttInput = document.getElementById('ttHandle');
     if (ttInput) ttInput.value = localStorage.getItem('tb_tt');
 }
+
+// ============================================================
+// ===== GESTION ADMINISTRATIVA - MODULOS =====
+// ============================================================
+
+// --- Data Helpers ---
+function getGData(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
+function setGData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
+function today() { return new Date().toISOString().split('T')[0]; }
+function thisMonth() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); }
+
+// --- Gestion Modal ---
+var gestionMode = '';
+var gestionEditId = null;
+
+function closeGestionModal() {
+    document.getElementById('gestionModal').classList.remove('active');
+    gestionMode = '';
+    gestionEditId = null;
+}
+
+function submitGestionForm(e) {
+    e.preventDefault();
+    if (gestionMode === 'ingreso' || gestionMode === 'gasto') saveFinRecord();
+    else if (gestionMode === 'proveedor') saveProveedor();
+    else if (gestionMode === 'comision') saveComision();
+    else if (gestionMode === 'cuenta') saveCuenta();
+    else if (gestionMode === 'cobro') saveCobro();
+    closeGestionModal();
+}
+
+function showGestionModal(title, fieldsHTML) {
+    document.getElementById('gestionModalTitle').textContent = title;
+    document.getElementById('gestionFields').innerHTML = fieldsHTML;
+    document.getElementById('gestionModal').classList.add('active');
+}
+
+function gField(label, name, type, value, opts) {
+    var v = value || '';
+    var req = opts && opts.noReq ? '' : 'required';
+    if (type === 'select') {
+        return '<div style="margin-bottom:10px;"><label style="font-size:0.8rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">' + label + '</label><select name="' + name + '" ' + req + ' style="width:100%;padding:8px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">' + (opts.options || '') + '</select></div>';
+    }
+    if (type === 'textarea') {
+        return '<div style="margin-bottom:10px;"><label style="font-size:0.8rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">' + label + '</label><textarea name="' + name + '" rows="2" style="width:100%;padding:8px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">' + v + '</textarea></div>';
+    }
+    return '<div style="margin-bottom:10px;"><label style="font-size:0.8rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">' + label + '</label><input type="' + type + '" name="' + name + '" value="' + v + '" ' + req + ' style="width:100%;padding:8px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.85rem;"></div>';
+}
+
+function gRow(fields) { return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' + fields + '</div>'; }
+
+function getFormData() {
+    var form = document.getElementById('gestionForm');
+    var data = {};
+    form.querySelectorAll('input,select,textarea').forEach(function(el) {
+        if (el.name) data[el.name] = el.type === 'number' ? (parseFloat(el.value) || 0) : el.value;
+    });
+    return data;
+}
+
+// ============================================================
+// ===== 1. FINANZAS =====
+// ============================================================
+var FIN_KEY = 'tb_finance';
+
+function showFinTab(tab) {
+    document.getElementById('finTabIngresos').style.display = tab === 'ingresos' ? '' : 'none';
+    document.getElementById('finTabGastos').style.display = tab === 'gastos' ? '' : 'none';
+    document.getElementById('finTabIngBtn').className = tab === 'ingresos' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+    document.getElementById('finTabGasBtn').className = tab === 'gastos' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+}
+
+function refreshFinanzas() {
+    var data = getGData(FIN_KEY);
+    var ingresos = 0, gastos = 0, comisiones = 0;
+    data.forEach(function(r) {
+        if (r.type === 'ingreso') ingresos += r.amount || 0;
+        else {
+            gastos += r.amount || 0;
+            if (r.category === 'comision') comisiones += r.amount || 0;
+        }
+    });
+    document.getElementById('finIngresos').textContent = formatCOP(ingresos);
+    document.getElementById('finGastos').textContent = formatCOP(gastos);
+    document.getElementById('finGanancia').textContent = formatCOP(ingresos - gastos);
+    document.getElementById('finComisiones').textContent = formatCOP(comisiones);
+    renderIngresos();
+    renderGastos();
+}
+
+function renderIngresos() {
+    var data = getGData(FIN_KEY).filter(function(r) { return r.type === 'ingreso'; });
+    var filter = document.getElementById('finIngFilter').value;
+    if (filter) data = data.filter(function(r) { return r.date && r.date.startsWith(filter); });
+    data.sort(function(a, b) { return b.date > a.date ? 1 : -1; });
+    var html = '';
+    data.forEach(function(r) {
+        html += '<tr><td>' + (r.date || '-') + '</td><td>' + (r.concept || '-') + '</td><td>' + (r.person || '-') + '</td><td style="color:#22C55E;font-weight:700;">' + formatCOP(r.amount || 0) + '</td><td>' + (r.method || '-') + '</td><td><button class="btn btn-outline btn-sm" onclick="editFinRecord(\'' + r.id + '\')"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteFinRecord(\'' + r.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    });
+    document.getElementById('ingresosBody').innerHTML = html || '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No hay ingresos registrados</td></tr>';
+}
+
+function renderGastos() {
+    var data = getGData(FIN_KEY).filter(function(r) { return r.type === 'gasto'; });
+    var filter = document.getElementById('finGasFilter').value;
+    if (filter) data = data.filter(function(r) { return r.date && r.date.startsWith(filter); });
+    data.sort(function(a, b) { return b.date > a.date ? 1 : -1; });
+    var html = '';
+    data.forEach(function(r) {
+        html += '<tr><td>' + (r.date || '-') + '</td><td>' + (r.concept || '-') + '</td><td>' + (r.person || '-') + '</td><td>' + (r.category || '-') + '</td><td style="color:#EF4444;font-weight:700;">' + formatCOP(r.amount || 0) + '</td><td><button class="btn btn-outline btn-sm" onclick="editFinRecord(\'' + r.id + '\')"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteFinRecord(\'' + r.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    });
+    document.getElementById('gastosBody').innerHTML = html || '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No hay gastos registrados</td></tr>';
+}
+
+function openFinModal(type, editData) {
+    gestionMode = type;
+    gestionEditId = editData ? editData.id : null;
+    var isIng = type === 'ingreso';
+    var d = editData || {};
+    var catOpts = '<option value="">Seleccionar...</option><option value="operativo"' + (d.category === 'operativo' ? ' selected' : '') + '>Operativo</option><option value="comision"' + (d.category === 'comision' ? ' selected' : '') + '>Comision</option><option value="transporte"' + (d.category === 'transporte' ? ' selected' : '') + '>Transporte</option><option value="publicidad"' + (d.category === 'publicidad' ? ' selected' : '') + '>Publicidad</option><option value="impuestos"' + (d.category === 'impuestos' ? ' selected' : '') + '>Impuestos</option><option value="otro"' + (d.category === 'otro' ? ' selected' : '') + '>Otro</option>';
+    var metOpts = '<option value="nequi"' + (d.method === 'nequi' ? ' selected' : '') + '>Nequi/Daviplata</option><option value="efectivo"' + (d.method === 'efectivo' ? ' selected' : '') + '>Efectivo</option><option value="transferencia"' + (d.method === 'transferencia' ? ' selected' : '') + '>Transferencia</option><option value="tarjeta"' + (d.method === 'tarjeta' ? ' selected' : '') + '>Tarjeta</option>';
+    var provOpts = '<option value="">Ninguno</option>';
+    getGData('tb_providers').forEach(function(p) { provOpts += '<option value="' + p.name + '"' + (d.person === p.name ? ' selected' : '') + '>' + p.name + '</option>'; });
+
+    var fields = gRow(gField('Fecha', 'date', 'date', d.date || today()) + gField('Monto ($)', 'amount', 'number', d.amount || ''));
+    fields += gField('Concepto', 'concept', 'text', d.concept || '');
+    if (isIng) {
+        fields += gRow(gField('Cliente', 'person', 'text', d.person || '', {noReq:true}) + gField('Metodo de pago', 'method', 'select', '', {options: metOpts}));
+    } else {
+        fields += gRow(gField('Proveedor', 'person', 'select', '', {options: provOpts, noReq:true}) + gField('Categoria', 'category', 'select', '', {options: catOpts}));
+    }
+    fields += gField('Notas', 'notes', 'textarea', d.notes || '', {noReq:true});
+
+    showGestionModal((gestionEditId ? 'Editar ' : 'Nuevo ') + (isIng ? 'Ingreso' : 'Gasto'), fields);
+}
+
+function saveFinRecord() {
+    var data = getGData(FIN_KEY);
+    var fd = getFormData();
+    if (gestionEditId) {
+        data = data.map(function(r) { return r.id === gestionEditId ? Object.assign(r, fd) : r; });
+    } else {
+        fd.id = genId();
+        fd.type = gestionMode;
+        fd.createdAt = new Date().toISOString();
+        data.push(fd);
+    }
+    setGData(FIN_KEY, data);
+    refreshFinanzas();
+}
+
+function editFinRecord(id) {
+    var r = getGData(FIN_KEY).find(function(x) { return x.id === id; });
+    if (r) openFinModal(r.type, r);
+}
+
+function deleteFinRecord(id) {
+    if (!confirm('Eliminar este registro?')) return;
+    var data = getGData(FIN_KEY).filter(function(r) { return r.id !== id; });
+    setGData(FIN_KEY, data);
+    refreshFinanzas();
+}
+
+function exportFinanzasCSV() {
+    var data = getGData(FIN_KEY);
+    var csv = 'Tipo,Fecha,Concepto,Persona,Categoria,Monto,Metodo,Notas\n';
+    data.forEach(function(r) {
+        csv += [r.type, r.date, '"' + (r.concept || '') + '"', '"' + (r.person || '') + '"', r.category || '', r.amount || 0, r.method || '', '"' + (r.notes || '') + '"'].join(',') + '\n';
+    });
+    var blob = new Blob([csv], {type: 'text/csv'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'finanzas_' + today() + '.csv';
+    a.click();
+}
+
+// ============================================================
+// ===== 2. PROVEEDORES =====
+// ============================================================
+var PROV_KEY = 'tb_providers';
+
+function renderProveedores() {
+    var data = getGData(PROV_KEY);
+    var html = '';
+    data.forEach(function(p) {
+        var statusClass = p.status === 'activo' ? 'color:#22C55E' : 'color:#EF4444';
+        html += '<tr><td><strong>' + (p.name || '-') + '</strong></td><td>' + (p.phone || '') + '<br><small>' + (p.email || '') + '</small></td><td>' + (p.service || '-') + '</td><td>' + (p.bank || '-') + '</td><td style="font-family:monospace;font-size:0.8rem;">' + (p.account || '-') + '<br><small>' + (p.accountType || '') + '</small></td><td style="' + statusClass + ';font-weight:700;text-transform:uppercase;font-size:0.75rem;">' + (p.status || 'activo') + '</td><td><button class="btn btn-outline btn-sm" onclick="editProv(\'' + p.id + '\')"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteProv(\'' + p.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    });
+    document.getElementById('provBody').innerHTML = html || '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);">No hay proveedores registrados</td></tr>';
+}
+
+function openProvModal(editData) {
+    gestionMode = 'proveedor';
+    gestionEditId = editData ? editData.id : null;
+    var d = editData || {};
+    var stOpts = '<option value="activo"' + (d.status === 'activo' || !d.status ? ' selected' : '') + '>Activo</option><option value="inactivo"' + (d.status === 'inactivo' ? ' selected' : '') + '>Inactivo</option>';
+    var bankOpts = '<option value="">Seleccionar...</option><option value="Bancolombia">Bancolombia</option><option value="Davivienda">Davivienda</option><option value="Nequi">Nequi</option><option value="Daviplata">Daviplata</option><option value="BBVA">BBVA</option><option value="Banco de Bogota">Banco de Bogota</option><option value="Otro">Otro</option>';
+    ['Bancolombia','Davivienda','Nequi','Daviplata','BBVA','Banco de Bogota','Otro'].forEach(function(b) {
+        bankOpts = bankOpts.replace('value="' + b + '"', 'value="' + b + '"' + (d.bank === b ? ' selected' : ''));
+    });
+    var acctOpts = '<option value="Ahorros"' + (d.accountType === 'Ahorros' ? ' selected' : '') + '>Ahorros</option><option value="Corriente"' + (d.accountType === 'Corriente' ? ' selected' : '') + '>Corriente</option><option value="Nequi"' + (d.accountType === 'Nequi' ? ' selected' : '') + '>Nequi</option><option value="Daviplata"' + (d.accountType === 'Daviplata' ? ' selected' : '') + '>Daviplata</option>';
+
+    var tourCheckboxes = '';
+    TOURS.forEach(function(t) {
+        var checked = d.tours && d.tours.indexOf(t.id) >= 0 ? ' checked' : '';
+        tourCheckboxes += '<label style="display:inline-flex;align-items:center;gap:4px;margin:2px 8px 2px 0;font-size:0.78rem;"><input type="checkbox" name="tour_' + t.id + '"' + checked + '>' + t.name + '</label>';
+    });
+
+    var fields = gField('Nombre / Empresa', 'name', 'text', d.name || '');
+    fields += gRow(gField('Telefono', 'phone', 'tel', d.phone || '') + gField('Email', 'email', 'email', d.email || '', {noReq:true}));
+    fields += gRow(gField('Servicio', 'service', 'text', d.service || '') + gField('Estado', 'status', 'select', '', {options: stOpts}));
+    fields += gRow(gField('Banco', 'bank', 'select', '', {options: bankOpts, noReq:true}) + gField('Tipo Cuenta', 'accountType', 'select', '', {options: acctOpts, noReq:true}));
+    fields += gField('No. Cuenta', 'account', 'text', d.account || '', {noReq:true});
+    fields += '<div style="margin-bottom:10px;"><label style="font-size:0.8rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Tours asociados</label><div style="max-height:80px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:8px;padding:6px;">' + tourCheckboxes + '</div></div>';
+    fields += gField('Notas', 'notes', 'textarea', d.notes || '', {noReq:true});
+
+    showGestionModal((gestionEditId ? 'Editar' : 'Nuevo') + ' Proveedor', fields);
+}
+
+function saveProveedor() {
+    var data = getGData(PROV_KEY);
+    var fd = getFormData();
+    fd.tours = [];
+    TOURS.forEach(function(t) {
+        var cb = document.querySelector('input[name="tour_' + t.id + '"]');
+        if (cb && cb.checked) fd.tours.push(t.id);
+    });
+    if (gestionEditId) {
+        data = data.map(function(r) { return r.id === gestionEditId ? Object.assign(r, fd) : r; });
+    } else {
+        fd.id = genId();
+        fd.createdAt = new Date().toISOString();
+        data.push(fd);
+    }
+    setGData(PROV_KEY, data);
+    renderProveedores();
+}
+
+function editProv(id) {
+    var r = getGData(PROV_KEY).find(function(x) { return x.id === id; });
+    if (r) openProvModal(r);
+}
+
+function deleteProv(id) {
+    if (!confirm('Eliminar este proveedor?')) return;
+    setGData(PROV_KEY, getGData(PROV_KEY).filter(function(r) { return r.id !== id; }));
+    renderProveedores();
+}
+
+function exportProvCSV() {
+    var data = getGData(PROV_KEY);
+    var csv = 'Nombre,Telefono,Email,Servicio,Banco,TipoCuenta,NoCuenta,Estado\n';
+    data.forEach(function(r) { csv += ['"' + r.name + '"', r.phone, r.email, '"' + r.service + '"', r.bank, r.accountType, r.account, r.status].join(',') + '\n'; });
+    var blob = new Blob([csv], {type: 'text/csv'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'proveedores_' + today() + '.csv'; a.click();
+}
+
+// ============================================================
+// ===== 3. COMISIONES =====
+// ============================================================
+var COM_KEY = 'tb_commissions';
+
+function renderComisiones() {
+    var data = getGData(COM_KEY);
+    var month = thisMonth();
+    var totalMes = 0, pagadas = 0, pendientes = 0;
+    data.forEach(function(r) {
+        if (r.date && r.date.startsWith(month)) {
+            totalMes += r.amount || 0;
+            if (r.status === 'pagada') pagadas += r.amount || 0;
+            else pendientes += r.amount || 0;
+        }
+    });
+    document.getElementById('comTotal').textContent = formatCOP(totalMes);
+    document.getElementById('comPagadas').textContent = formatCOP(pagadas);
+    document.getElementById('comPendientes').textContent = formatCOP(pendientes);
+
+    data.sort(function(a, b) { return b.date > a.date ? 1 : -1; });
+    var html = '';
+    data.forEach(function(r) {
+        var stColor = r.status === 'pagada' ? '#22C55E' : '#F59E0B';
+        html += '<tr><td>' + (r.date || '-') + '</td><td>' + (r.tourName || '-') + '</td><td>' + (r.providerName || '-') + '</td><td>' + (r.reservationCode || '-') + '</td><td style="font-weight:700;">' + formatCOP(r.amount || 0) + '</td><td style="color:' + stColor + ';font-weight:700;text-transform:uppercase;font-size:0.75rem;">' + (r.status || 'pendiente') + '</td><td><button class="btn btn-outline btn-sm" onclick="toggleComStatus(\'' + r.id + '\')" title="Cambiar estado"><i class="fas fa-exchange-alt"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteCom(\'' + r.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    });
+    document.getElementById('comBody').innerHTML = html || '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);">No hay comisiones registradas</td></tr>';
+}
+
+function openComModal(editData) {
+    gestionMode = 'comision';
+    gestionEditId = editData ? editData.id : null;
+    var d = editData || {};
+    var tourOpts = '<option value="">Seleccionar...</option>';
+    TOURS.forEach(function(t) { tourOpts += '<option value="' + t.id + '"' + (d.tourId == t.id ? ' selected' : '') + '>' + t.name + '</option>'; });
+    var provOpts = '<option value="">Seleccionar...</option>';
+    getGData(PROV_KEY).forEach(function(p) { provOpts += '<option value="' + p.id + '" data-name="' + p.name + '"' + (d.providerId === p.id ? ' selected' : '') + '>' + p.name + '</option>'; });
+    var stOpts = '<option value="pendiente"' + (d.status !== 'pagada' ? ' selected' : '') + '>Pendiente</option><option value="pagada"' + (d.status === 'pagada' ? ' selected' : '') + '>Pagada</option>';
+
+    var fields = gRow(gField('Fecha', 'date', 'date', d.date || today()) + gField('Monto ($)', 'amount', 'number', d.amount || ''));
+    fields += gRow(gField('Tour', 'tourId', 'select', '', {options: tourOpts}) + gField('Proveedor', 'providerId', 'select', '', {options: provOpts}));
+    fields += gRow(gField('Codigo Reserva', 'reservationCode', 'text', d.reservationCode || '', {noReq:true}) + gField('Estado', 'status', 'select', '', {options: stOpts}));
+    fields += gField('Notas', 'notes', 'textarea', d.notes || '', {noReq:true});
+
+    showGestionModal((gestionEditId ? 'Editar' : 'Registrar') + ' Comision', fields);
+}
+
+function saveComision() {
+    var data = getGData(COM_KEY);
+    var fd = getFormData();
+    var tour = TOURS.find(function(t) { return t.id == fd.tourId; });
+    fd.tourName = tour ? tour.name : '';
+    var prov = getGData(PROV_KEY).find(function(p) { return p.id === fd.providerId; });
+    fd.providerName = prov ? prov.name : '';
+    if (gestionEditId) {
+        data = data.map(function(r) { return r.id === gestionEditId ? Object.assign(r, fd) : r; });
+    } else {
+        fd.id = genId();
+        fd.createdAt = new Date().toISOString();
+        data.push(fd);
+    }
+    setGData(COM_KEY, data);
+    renderComisiones();
+}
+
+function toggleComStatus(id) {
+    var data = getGData(COM_KEY);
+    data = data.map(function(r) {
+        if (r.id === id) r.status = r.status === 'pagada' ? 'pendiente' : 'pagada';
+        return r;
+    });
+    setGData(COM_KEY, data);
+    renderComisiones();
+}
+
+function deleteCom(id) {
+    if (!confirm('Eliminar esta comision?')) return;
+    setGData(COM_KEY, getGData(COM_KEY).filter(function(r) { return r.id !== id; }));
+    renderComisiones();
+}
+
+// ============================================================
+// ===== 4. CUENTAS POR COBRAR / PAGAR =====
+// ============================================================
+var CTA_KEY = 'tb_accounts';
+var ctaFilter = 'cobrar';
+
+function showCuentaTab(tab) {
+    ctaFilter = tab;
+    document.getElementById('ctaCobrarBtn').className = tab === 'cobrar' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+    document.getElementById('ctaPagarBtn').className = tab === 'pagar' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+    renderCuentas();
+}
+
+function renderCuentas() {
+    var data = getGData(CTA_KEY);
+    var meDeben = 0, debo = 0;
+    data.forEach(function(r) {
+        if (r.status !== 'pagado') {
+            if (r.type === 'cobrar') meDeben += r.amount || 0;
+            else debo += r.amount || 0;
+        }
+    });
+    document.getElementById('ctaMeDeben').textContent = formatCOP(meDeben);
+    document.getElementById('ctaDebo').textContent = formatCOP(debo);
+    document.getElementById('ctaBalance').textContent = formatCOP(meDeben - debo);
+
+    var filtered = data.filter(function(r) { return r.type === ctaFilter; });
+    filtered.sort(function(a, b) { return b.date > a.date ? 1 : -1; });
+
+    var html = '';
+    filtered.forEach(function(r) {
+        var stColor = r.status === 'pagado' ? '#22C55E' : '#EF4444';
+        var typeLabel = r.type === 'cobrar' ? 'Me deben' : 'Debo';
+        var vence = r.dueDate || '-';
+        var isOverdue = r.status !== 'pagado' && r.dueDate && r.dueDate < today();
+        html += '<tr' + (isOverdue ? ' style="background:#FEF2F2;"' : '') + '><td>' + (r.date || '-') + '</td><td>' + typeLabel + '</td><td>' + (r.person || '-') + '</td><td>' + (r.concept || '-') + '</td><td style="font-weight:700;">' + formatCOP(r.amount || 0) + '</td><td>' + vence + (isOverdue ? ' <i class="fas fa-exclamation-triangle" style="color:#EF4444;font-size:0.7rem;"></i>' : '') + '</td><td style="color:' + stColor + ';font-weight:700;text-transform:uppercase;font-size:0.75rem;">' + (r.status || 'pendiente') + '</td><td><button class="btn btn-outline btn-sm" onclick="toggleCuentaStatus(\'' + r.id + '\')" title="Marcar pagado/pendiente"><i class="fas fa-check-circle"></i></button> <button class="btn btn-outline btn-sm" onclick="editCuenta(\'' + r.id + '\')"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteCuenta(\'' + r.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    });
+    document.getElementById('cuentasBody').innerHTML = html || '<tr><td colspan="8" style="text-align:center;color:var(--gray-500);">No hay cuentas registradas</td></tr>';
+}
+
+function openCuentaModal(editData) {
+    gestionMode = 'cuenta';
+    gestionEditId = editData ? editData.id : null;
+    var d = editData || {};
+    var typeOpts = '<option value="cobrar"' + (d.type !== 'pagar' ? ' selected' : '') + '>Me Deben (cobrar)</option><option value="pagar"' + (d.type === 'pagar' ? ' selected' : '') + '>Debo (pagar)</option>';
+    var stOpts = '<option value="pendiente"' + (d.status !== 'pagado' ? ' selected' : '') + '>Pendiente</option><option value="pagado"' + (d.status === 'pagado' ? ' selected' : '') + '>Pagado</option>';
+
+    var fields = gRow(gField('Tipo', 'type', 'select', '', {options: typeOpts}) + gField('Estado', 'status', 'select', '', {options: stOpts}));
+    fields += gRow(gField('Fecha', 'date', 'date', d.date || today()) + gField('Fecha Vencimiento', 'dueDate', 'date', d.dueDate || '', {noReq:true}));
+    fields += gField('Persona / Empresa', 'person', 'text', d.person || '');
+    fields += gRow(gField('Concepto', 'concept', 'text', d.concept || '') + gField('Monto ($)', 'amount', 'number', d.amount || ''));
+    fields += gField('Notas', 'notes', 'textarea', d.notes || '', {noReq:true});
+
+    showGestionModal((gestionEditId ? 'Editar' : 'Nueva') + ' Cuenta', fields);
+}
+
+function saveCuenta() {
+    var data = getGData(CTA_KEY);
+    var fd = getFormData();
+    if (gestionEditId) {
+        data = data.map(function(r) { return r.id === gestionEditId ? Object.assign(r, fd) : r; });
+    } else {
+        fd.id = genId();
+        fd.createdAt = new Date().toISOString();
+        data.push(fd);
+    }
+    setGData(CTA_KEY, data);
+    renderCuentas();
+}
+
+function editCuenta(id) {
+    var r = getGData(CTA_KEY).find(function(x) { return x.id === id; });
+    if (r) openCuentaModal(r);
+}
+
+function toggleCuentaStatus(id) {
+    var data = getGData(CTA_KEY);
+    data = data.map(function(r) {
+        if (r.id === id) r.status = r.status === 'pagado' ? 'pendiente' : 'pagado';
+        return r;
+    });
+    setGData(CTA_KEY, data);
+    renderCuentas();
+}
+
+function deleteCuenta(id) {
+    if (!confirm('Eliminar esta cuenta?')) return;
+    setGData(CTA_KEY, getGData(CTA_KEY).filter(function(r) { return r.id !== id; }));
+    renderCuentas();
+}
+
+// ============================================================
+// ===== 5. CUENTAS DE COBRO (INVOICE PDF) =====
+// ============================================================
+var INV_KEY = 'tb_invoices';
+
+function renderCobros() {
+    var data = getGData(INV_KEY);
+    var total = data.length;
+    var pagadas = data.filter(function(r) { return r.status === 'pagada'; }).length;
+    var pend = total - pagadas;
+    var montoPend = 0;
+    data.forEach(function(r) { if (r.status !== 'pagada') montoPend += r.total || 0; });
+    document.getElementById('cobroTotal').textContent = total;
+    document.getElementById('cobroPagadas').textContent = pagadas;
+    document.getElementById('cobroPend').textContent = pend;
+    document.getElementById('cobroMonto').textContent = formatCOP(montoPend);
+
+    data.sort(function(a, b) { return b.number > a.number ? 1 : -1; });
+    var html = '';
+    data.forEach(function(r) {
+        var stColor = r.status === 'pagada' ? '#22C55E' : '#EF4444';
+        html += '<tr><td><strong>CC-' + (r.number || '000') + '</strong></td><td>' + (r.date || '-') + '</td><td>' + (r.clientName || '-') + '</td><td>' + (r.concept || '-') + '</td><td style="font-weight:700;">' + formatCOP(r.total || 0) + '</td><td style="color:' + stColor + ';font-weight:700;text-transform:uppercase;font-size:0.75rem;">' + (r.status || 'pendiente') + '</td><td><button class="btn btn-primary btn-sm" onclick="downloadCobroPDF(\'' + r.id + '\')" title="Descargar PDF"><i class="fas fa-file-pdf"></i></button> <button class="btn btn-outline btn-sm" onclick="toggleCobroStatus(\'' + r.id + '\')"><i class="fas fa-check-circle"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteCobro(\'' + r.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    });
+    document.getElementById('cobrosBody').innerHTML = html || '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);">No hay cuentas de cobro</td></tr>';
+}
+
+function openCobroModal(editData) {
+    gestionMode = 'cobro';
+    gestionEditId = editData ? editData.id : null;
+    var d = editData || {};
+    var nextNum = (getGData(INV_KEY).length + 1).toString().padStart(3, '0');
+
+    var fields = gRow(gField('No. Cuenta', 'number', 'text', d.number || nextNum) + gField('Fecha', 'date', 'date', d.date || today()));
+    fields += gField('Cliente / Empresa', 'clientName', 'text', d.clientName || '');
+    fields += gRow(gField('NIT / Cedula', 'clientDoc', 'text', d.clientDoc || '', {noReq:true}) + gField('Direccion', 'clientAddress', 'text', d.clientAddress || '', {noReq:true}));
+    fields += gField('Concepto', 'concept', 'text', d.concept || '');
+    fields += '<div style="margin-bottom:10px;"><label style="font-size:0.8rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Items (uno por linea: descripcion | monto)</label><textarea name="itemsRaw" rows="4" style="width:100%;padding:8px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:0.85rem;font-family:monospace;" placeholder="Servicio de tour | 130000&#10;Transporte | 50000">' + (d.itemsRaw || '') + '</textarea></div>';
+    fields += gField('Notas', 'notes', 'textarea', d.notes || '', {noReq:true});
+
+    showGestionModal((gestionEditId ? 'Editar' : 'Nueva') + ' Cuenta de Cobro', fields);
+}
+
+function saveCobro() {
+    var data = getGData(INV_KEY);
+    var fd = getFormData();
+    // Parse items
+    fd.items = [];
+    fd.total = 0;
+    if (fd.itemsRaw) {
+        fd.itemsRaw.split('\n').forEach(function(line) {
+            var parts = line.split('|');
+            if (parts.length >= 2) {
+                var desc = parts[0].trim();
+                var amt = parseFloat(parts[1].trim()) || 0;
+                if (desc) { fd.items.push({desc: desc, amount: amt}); fd.total += amt; }
+            }
+        });
+    }
+    fd.status = fd.status || 'pendiente';
+    if (gestionEditId) {
+        data = data.map(function(r) { return r.id === gestionEditId ? Object.assign(r, fd) : r; });
+    } else {
+        fd.id = genId();
+        fd.createdAt = new Date().toISOString();
+        data.push(fd);
+    }
+    setGData(INV_KEY, data);
+    renderCobros();
+}
+
+function toggleCobroStatus(id) {
+    var data = getGData(INV_KEY);
+    data = data.map(function(r) { if (r.id === id) r.status = r.status === 'pagada' ? 'pendiente' : 'pagada'; return r; });
+    setGData(INV_KEY, data);
+    renderCobros();
+}
+
+function deleteCobro(id) {
+    if (!confirm('Eliminar esta cuenta de cobro?')) return;
+    setGData(INV_KEY, getGData(INV_KEY).filter(function(r) { return r.id !== id; }));
+    renderCobros();
+}
+
+function downloadCobroPDF(id) {
+    var inv = getGData(INV_KEY).find(function(r) { return r.id === id; });
+    if (!inv) return;
+    if (!window.jspdf || !window.jspdf.jsPDF) { alert('PDF no disponible'); return; }
+
+    try {
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+        var W = 210, M = 20, CW = W - M * 2, y = 0;
+
+        function txt(t, x, yy, o) { doc.text(String(t || ''), x, yy, o || {}); }
+
+        // Header
+        doc.setFillColor(27, 42, 74);
+        doc.rect(0, 0, W, 35, 'F');
+        doc.setFillColor(255, 230, 0);
+        doc.rect(0, 35, W, 2, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        txt('NISSI VIP TRAVEL & TOURS', W / 2, 14, {align: 'center'});
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        txt('NIT: 000.000.000-0 | San Andres Islas, Colombia', W / 2, 22, {align: 'center'});
+        txt('WhatsApp: +57 322 212 3751 | touresbaratos.com', W / 2, 28, {align: 'center'});
+
+        // Title
+        y = 48;
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(16);
+        txt('CUENTA DE COBRO', W / 2, y, {align: 'center'});
+        y += 6;
+        doc.setFontSize(12);
+        txt('No. CC-' + (inv.number || '000'), W / 2, y + 4, {align: 'center'});
+        y += 12;
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        txt('Fecha: ' + (inv.date || '-'), W - M, y, {align: 'right'});
+        y += 10;
+
+        // Client info
+        doc.setFillColor(240, 245, 255);
+        doc.rect(M, y - 3, CW, 22, 'F');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(27, 42, 74);
+        txt('COBRAR A:', M + 5, y + 3);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 65, 85);
+        txt(inv.clientName || '-', M + 5, y + 9);
+        txt('NIT/CC: ' + (inv.clientDoc || '-') + '    Direccion: ' + (inv.clientAddress || '-'), M + 5, y + 15);
+        y += 28;
+
+        // Concept
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('CONCEPTO: ', M, y);
+        doc.setFont('helvetica', 'normal');
+        txt(inv.concept || '-', M + 25, y);
+        y += 10;
+
+        // Items table header
+        doc.setFillColor(27, 42, 74);
+        doc.rect(M, y - 3, CW, 10, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('DESCRIPCION', M + 5, y + 3);
+        txt('VALOR', W - M - 5, y + 3, {align: 'right'});
+        y += 12;
+
+        // Items
+        doc.setTextColor(50, 65, 85);
+        doc.setFont('helvetica', 'normal');
+        var items = inv.items || [];
+        items.forEach(function(item) {
+            txt(item.desc || '-', M + 5, y);
+            txt(formatCOP(item.amount || 0), W - M - 5, y, {align: 'right'});
+            doc.setDrawColor(220, 220, 220);
+            doc.line(M, y + 3, W - M, y + 3);
+            y += 8;
+        });
+
+        // Total
+        y += 4;
+        doc.setFillColor(27, 42, 74);
+        doc.rect(W / 2, y - 3, CW / 2, 12, 'F');
+        doc.setTextColor(255, 230, 0);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        txt('TOTAL: ' + formatCOP(inv.total || 0), W - M - 5, y + 5, {align: 'right'});
+        y += 20;
+
+        // Payment info
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('DATOS PARA PAGO:', M, y);
+        y += 6;
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(80, 80, 80);
+        doc.setFontSize(8.5);
+        txt('Nequi / Daviplata: +57 322 212 3751', M + 5, y); y += 5;
+        txt('Titular: Nissi VIP Travel and Tours', M + 5, y); y += 5;
+        txt('Favor enviar comprobante de pago por WhatsApp al +57 322 212 3751', M + 5, y);
+        y += 12;
+
+        // Notes
+        if (inv.notes) {
+            doc.setTextColor(100, 100, 100);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            txt('Notas: ' + inv.notes, M, y);
+        }
+
+        // Footer
+        doc.setFillColor(27, 42, 74);
+        doc.rect(0, 280, W, 17, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        txt('Nissi VIP Travel & Tours | touresbaratos.com | WhatsApp: +57 322 212 3751', W / 2, 288, {align: 'center'});
+
+        doc.save('CuentaDeCobro_CC-' + (inv.number || '000') + '.pdf');
+    } catch (err) {
+        alert('Error PDF: ' + (err.message || err));
+    }
+}
+
 </script>
 </body>
 </html>
