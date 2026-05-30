@@ -3659,69 +3659,128 @@ function downloadVentaPDF(id) {
     try {
         var jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF('p', 'mm', 'a4');
-        var W = 210, M = 18, CW = W - M * 2, y = 0;
-        var col1 = M + 6, col2 = M + CW / 2 + 4;
+        var W = 210, H = 297, M = 14, CW = W - M * 2, y = 0;
+        var col1 = M + 6, col2 = M + CW / 2 + 6;
 
         function txt(t, x, yy, o) { doc.text(String(t || ''), x, yy, o || {}); }
 
-        // Header
+        // ============================
+        // LETTERHEAD - Left navy sidebar accent
+        // ============================
         doc.setFillColor(27, 42, 74);
-        doc.rect(0, 0, W, 40, 'F');
+        doc.rect(0, 0, 6, H, 'F');
+        // Yellow accent line on sidebar
         doc.setFillColor(255, 230, 0);
-        doc.rect(0, 40, W, 2.5, 'F');
-        try { doc.addImage(LOGO_B64, 'JPEG', 8, 2, 20, 20); } catch(e) {}
+        doc.rect(6, 0, 1.5, H, 'F');
+
+        // ============================
+        // HEADER - Full width navy banner with gradient feel
+        // ============================
+        doc.setFillColor(27, 42, 74);
+        doc.rect(7.5, 0, W - 7.5, 48, 'F');
+        // Yellow bottom accent
+        doc.setFillColor(255, 230, 0);
+        doc.rect(7.5, 48, W - 7.5, 3, 'F');
+
+        // Logo - bigger and prominent
+        try { doc.addImage(LOGO_B64, 'JPEG', 14, 4, 28, 28); } catch(e) {}
+
+        // White circle behind logo effect
+        doc.setDrawColor(255, 230, 0);
+        doc.setLineWidth(0.8);
+        doc.circle(28, 18, 16);
+        doc.setLineWidth(0.2);
+
+        // Brand name
         doc.setTextColor(255, 255, 255);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(18);
-        txt('TOURESBARATOS.COM', W / 2 + 5, 14, {align: 'center'});
-        doc.setFontSize(9);
+        doc.setFontSize(22);
+        txt('TOURESBARATOS.COM', 130, 15, {align: 'center'});
+        doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
-        txt('NISSI VIP TRAVEL & TOURS', W / 2 + 5, 22, {align: 'center'});
-        doc.setFontSize(7.5);
-        txt('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2 + 5, 30, {align: 'center'});
         doc.setTextColor(255, 230, 0);
-        doc.setFontSize(6.5);
-        txt('NIT: 1.082.402.387-1', W / 2 + 5, 36, {align: 'center'});
-        y = 50;
+        txt('NISSI VIP TRAVEL & TOURS', 130, 23, {align: 'center'});
+        doc.setFontSize(7.5);
+        doc.setTextColor(200, 210, 230);
+        txt('San Andres Islas, Colombia', 130, 30, {align: 'center'});
+        txt('WhatsApp: +57 322 212 3751  |  NIT: 1.082.402.387-1', 130, 36, {align: 'center'});
 
-        // Title
-        doc.setTextColor(27, 42, 74);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(16);
-        txt('ITINERARIO DE SERVICIO', W / 2, y, {align: 'center'});
-        y += 10;
-
-        // Confirmed badge
-        doc.setFillColor(34, 197, 94);
-        doc.rect(W / 2 - 22, y - 4, 44, 10, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(9);
-        txt('CONFIRMADO', W / 2, y + 3, {align: 'center'});
-        y += 16;
-
-        // Client info
-        doc.setFillColor(240, 245, 255);
-        doc.rect(M, y - 3, CW, 18, 'F');
-        doc.setTextColor(27, 42, 74);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        txt('DATOS DEL CLIENTE', col1, y + 3);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8.5);
-        doc.setTextColor(50, 65, 85);
-        y += 9;
-        txt('Nombre: ' + (v.client || '-'), col1, y);
-        txt('WhatsApp: ' + (v.clientPhone || '-'), col2, y);
-        y += 14;
-
-        // Tour info box
+        // Diagonal decorative stripe (top-right corner)
         doc.setFillColor(46, 111, 207);
-        doc.rect(M, y - 3, CW, 12, 'F');
+        doc.triangle(W - 35, 0, W, 0, W, 22, 'F');
+
+        y = 58;
+
+        // ============================
+        // DOCUMENT TITLE with icon-style design
+        // ============================
+        doc.setFillColor(240, 245, 255);
+        doc.rect(M, y - 4, CW, 14, 'F');
+        doc.setDrawColor(46, 111, 207);
+        doc.setLineWidth(0.4);
+        doc.line(M, y - 4, M, y + 10);
+        doc.line(M, y + 10, M + CW, y + 10);
+        doc.setLineWidth(0.2);
+        // Blue left bar accent
+        doc.setFillColor(46, 111, 207);
+        doc.rect(M, y - 4, 3, 14, 'F');
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+        txt('ITINERARIO DE SERVICIO', M + 8, y + 6);
+        // Confirmed badge on right
+        doc.setFillColor(34, 197, 94);
+        doc.rect(M + CW - 38, y - 1, 36, 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(7.5);
+        txt('CONFIRMADO', M + CW - 20, y + 5, {align: 'center'});
+        y += 18;
+
+        // ============================
+        // CLIENT INFO - Card style with icon
+        // ============================
+        doc.setFillColor(250, 251, 255);
+        doc.rect(M, y - 2, CW, 16, 'F');
+        doc.setDrawColor(200, 210, 230);
+        doc.setLineWidth(0.3);
+        doc.rect(M, y - 2, CW, 16);
+        doc.setLineWidth(0.2);
+        // Icon area
+        doc.setFillColor(27, 42, 74);
+        doc.rect(M, y - 2, 16, 16, 'F');
+        doc.setTextColor(255, 230, 0);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        txt('CLI', M + 3, y + 9);
+
+        doc.setTextColor(27, 42, 74);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        txt('CLIENTE', M + 20, y + 3);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(50, 65, 85);
+        txt(v.client || '-', M + 20, y + 9);
+        txt(v.clientPhone || '-', col2, y + 9);
+        doc.setFontSize(6.5);
+        doc.setTextColor(140, 150, 170);
+        txt('Nombre', M + 20, y + 13);
+        txt('WhatsApp', col2, y + 13);
+        y += 20;
+
+        // ============================
+        // TOUR NAME - Big banner
+        // ============================
+        doc.setFillColor(46, 111, 207);
+        doc.rect(M, y - 2, CW, 14, 'F');
+        // Diagonal accent
+        doc.setFillColor(27, 42, 74);
+        doc.triangle(M + CW - 30, y - 2, M + CW, y - 2, M + CW, y + 12, 'F');
         doc.setTextColor(255, 255, 255);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(11);
-        txt((v.tourName || 'Servicio').toUpperCase(), M + 6, y + 5);
-        y += 16;
+        doc.setFontSize(13);
+        txt((v.tourName || 'Servicio').toUpperCase(), M + 8, y + 8);
+        y += 18;
 
         // Use custom schedule/checkIn if set (Buceo/Parasail), else tour defaults
         var pdfSchedule = (v.customSchedule || (tour ? tour.schedule : '') || '-');
@@ -3729,77 +3788,122 @@ function downloadVentaPDF(id) {
         var isBuceo = tour && tour.name && tour.name.toLowerCase().indexOf('buceo') >= 0;
         var isParasail = tour && tour.name && tour.name.toLowerCase().indexOf('parasail') >= 0;
 
-        // Operational info
+        // ============================
+        // OPERATIONAL INFO - Grid cards
+        // ============================
         if (tour) {
-            doc.setFillColor(248, 250, 252);
-            doc.rect(M, y - 3, CW, 24, 'F');
+            var cardW = (CW - 6) / 2;
+            // Card 1: Hora de llegada
+            doc.setFillColor(248, 250, 255);
+            doc.rect(M, y, cardW, 14, 'F');
+            doc.setFillColor(255, 230, 0);
+            doc.rect(M, y, 2, 14, 'F');
+            doc.setTextColor(140, 150, 170);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(6.5);
+            txt('HORA DE LLEGADA', M + 6, y + 4);
             doc.setTextColor(27, 42, 74);
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5);
-            txt('HORA DE LLEGADA:', col1, y + 2);
+            doc.setFontSize(10);
+            txt(pdfCheckIn, M + 6, y + 11);
+
+            // Card 2: Horario
+            doc.setFillColor(248, 250, 255);
+            doc.rect(M + cardW + 6, y, cardW, 14, 'F');
+            doc.setFillColor(46, 111, 207);
+            doc.rect(M + cardW + 6, y, 2, 14, 'F');
+            doc.setTextColor(140, 150, 170);
             doc.setFont('helvetica', 'normal');
-            doc.setTextColor(50, 65, 85);
+            doc.setFontSize(6.5);
+            txt('HORARIO', M + cardW + 12, y + 4);
+            doc.setTextColor(27, 42, 74);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            txt(pdfSchedule, M + cardW + 12, y + 11);
+            y += 18;
+
+            // Card 3: Punto de encuentro (full width)
+            doc.setFillColor(248, 250, 255);
+            doc.rect(M, y, CW, 14, 'F');
+            doc.setFillColor(34, 197, 94);
+            doc.rect(M, y, 2, 14, 'F');
+            doc.setTextColor(140, 150, 170);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(6.5);
+            txt('PUNTO DE ENCUENTRO', M + 6, y + 4);
+            doc.setTextColor(27, 42, 74);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            txt(tour.meetingPoint || '-', M + 6, y + 11);
+            y += 18;
+
+            // Fecha + Personas (inline)
+            doc.setFillColor(27, 42, 74);
+            doc.rect(M, y, cardW, 10, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7);
+            txt('FECHA', M + 4, y + 4);
+            doc.setFont('helvetica', 'bold');
             doc.setFontSize(9);
-            txt(pdfCheckIn, col1 + 38, y + 2);
+            txt(v.date || '-', M + 22, y + 7);
 
-            doc.setTextColor(27, 42, 74);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5);
-            txt('HORARIO:', col2, y + 2);
+            doc.setFillColor(46, 111, 207);
+            doc.rect(M + cardW + 6, y, cardW, 10, 'F');
+            doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'normal');
-            doc.setTextColor(50, 65, 85);
-            txt(pdfSchedule, col2 + 20, y + 2);
-            y += 7;
-
-            doc.setTextColor(27, 42, 74);
+            doc.setFontSize(7);
+            txt('PERSONAS', M + cardW + 10, y + 4);
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5);
-            txt('PUNTO DE ENCUENTRO:', col1, y + 2);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(50, 65, 85);
-            txt(tour.meetingPoint || '-', col1 + 42, y + 2);
-            y += 7;
-
-            doc.setTextColor(27, 42, 74);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5);
-            txt('FECHA:', col1, y + 2);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(50, 65, 85);
-            txt(v.date || '-', col1 + 16, y + 2);
-            txt('PERSONAS: ' + (v.qty || 1), col2, y + 2);
-            y += 12;
+            doc.setFontSize(9);
+            txt(String(v.qty || 1), M + cardW + 35, y + 7);
+            y += 15;
 
             // Description
             if (tour.description) {
                 doc.setTextColor(100, 116, 139);
                 doc.setFont('helvetica', 'italic');
-                doc.setFontSize(8);
-                var dl = doc.splitTextToSize(tour.description, CW - 12);
-                for (var di = 0; di < dl.length; di++) { txt(dl[di], col1, y); y += 4; }
-                y += 4;
+                doc.setFontSize(7.5);
+                var dl = doc.splitTextToSize(tour.description, CW - 10);
+                for (var di = 0; di < dl.length; di++) { txt(dl[di], M + 4, y); y += 3.8; }
+                y += 3;
             }
 
-            // Included / Not included
+            // ============================
+            // INCLUDED / NOT INCLUDED - Two columns with icons
+            // ============================
             var inc = tour.included || [];
             var notInc = tour.notIncluded || [];
             var maxR = Math.max(inc.length, notInc.length);
             if (maxR > 0) {
+                // Green header left
+                doc.setFillColor(230, 255, 240);
+                doc.rect(M, y - 1, cardW, 7, 'F');
+                doc.setFillColor(34, 197, 94);
+                doc.rect(M, y - 1, 2, 7, 'F');
+                doc.setTextColor(34, 150, 80);
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(8);
-                doc.setTextColor(34, 197, 94);
-                txt('INCLUYE:', col1, y);
-                doc.setTextColor(239, 68, 68);
-                txt('NO INCLUYE:', col2, y);
-                y += 5;
-                doc.setFont('helvetica', 'normal');
                 doc.setFontSize(7.5);
+                txt('INCLUYE', M + 6, y + 4);
+                // Red header right
+                doc.setFillColor(255, 240, 240);
+                doc.rect(M + cardW + 6, y - 1, cardW, 7, 'F');
+                doc.setFillColor(239, 68, 68);
+                doc.rect(M + cardW + 6, y - 1, 2, 7, 'F');
+                doc.setTextColor(200, 50, 50);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                txt('NO INCLUYE', M + cardW + 12, y + 4);
+                y += 9;
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7);
                 for (var ri = 0; ri < maxR; ri++) {
-                    if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], col1, y); }
-                    if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], col2, y); }
-                    y += 4.5;
+                    if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], M + 4, y); }
+                    if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], M + cardW + 10, y); }
+                    y += 4;
                 }
-                y += 6;
+                y += 4;
             }
 
             // ===== DIVING RESTRICTIONS (only for Buceo) =====
@@ -3817,28 +3921,26 @@ function downloadVentaPDF(id) {
                     'Informar al instructor cualquier condicion medica preexistente.',
                     'Menores de edad requieren autorizacion firmada del acudiente.',
                     'Seguir en todo momento las instrucciones del instructor PADI.',
-                    'El operador se reserva el derecho de no permitir la inmersion si el participante no cumple las condiciones de seguridad.'
+                    'El operador se reserva el derecho de no permitir la inmersion si el participante no cumple las condiciones.'
                 ];
                 var buceoH = 12 + buceoRestrictions.length * 4.5 + 4;
                 doc.rect(M, buceoBoxY - 3, CW, buceoH, 'FD');
-
                 doc.setFillColor(220, 50, 50);
                 doc.rect(M, buceoBoxY - 3, CW, 9, 'F');
                 doc.setTextColor(255, 255, 255);
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(8.5);
+                doc.setFontSize(8);
                 txt('RESTRICCIONES DE BUCEO - LEER ANTES DE LA INMERSION', M + 6, buceoBoxY + 3);
                 y = buceoBoxY + 10;
-
                 doc.setFont('helvetica', 'normal');
-                doc.setFontSize(7);
+                doc.setFontSize(6.5);
                 doc.setTextColor(150, 30, 30);
                 for (var bi = 0; bi < buceoRestrictions.length; bi++) {
                     var bLine = doc.splitTextToSize((bi + 1) + '. ' + buceoRestrictions[bi], CW - 14);
-                    for (var bl = 0; bl < bLine.length; bl++) { txt(bLine[bl], M + 4, y); y += 4; }
+                    for (var bl = 0; bl < bLine.length; bl++) { txt(bLine[bl], M + 4, y); y += 3.8; }
                     y += 0.5;
                 }
-                y += 6;
+                y += 4;
                 doc.setDrawColor(0, 0, 0);
                 doc.setLineWidth(0.2);
             }
@@ -3849,33 +3951,56 @@ function downloadVentaPDF(id) {
             y += 10;
         }
 
-        // Payment summary
-        y += 4;
+        // ============================
+        // PAYMENT SUMMARY - Bold card
+        // ============================
+        y += 2;
         doc.setFillColor(27, 42, 74);
-        doc.rect(M, y - 3, CW, 14, 'F');
+        doc.rect(M, y - 3, CW, 16, 'F');
+        // Yellow accent left
+        doc.setFillColor(255, 230, 0);
+        doc.rect(M, y - 3, 3, 16, 'F');
+        // Diagonal
+        doc.setFillColor(46, 111, 207);
+        doc.triangle(M + CW - 25, y - 3, M + CW, y - 3, M + CW, y + 13, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        txt('TOTAL A PAGAR', M + 8, y + 3);
         doc.setTextColor(255, 230, 0);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(13);
-        txt('TOTAL: ' + formatCOP(v.amount || 0), W / 2, y + 7, {align: 'center'});
+        doc.setFontSize(16);
+        txt(formatCOP(v.amount || 0), M + 8, y + 11);
         y += 20;
 
         if (v.payStatus === 'abonado' && v.saldo > 0) {
-            doc.setTextColor(239, 68, 68);
+            doc.setFillColor(255, 245, 245);
+            doc.rect(M, y - 4, CW, 10, 'F');
+            doc.setFillColor(239, 68, 68);
+            doc.rect(M, y - 4, 2, 10, 'F');
+            doc.setTextColor(200, 50, 50);
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9);
-            txt('Abonado: ' + formatCOP(v.abono || 0) + '   |   SALDO PENDIENTE: ' + formatCOP(v.saldo), W / 2, y, {align: 'center'});
-            y += 10;
+            doc.setFontSize(8);
+            txt('Abonado: ' + formatCOP(v.abono || 0), M + 8, y + 2);
+            txt('SALDO PENDIENTE: ' + formatCOP(v.saldo), col2, y + 2);
+            y += 12;
         }
 
-        // Policies
+        // ============================
+        // POLICIES - Compact with left border
+        // ============================
+        doc.setFillColor(250, 251, 253);
+        doc.rect(M, y - 2, CW, 34, 'F');
+        doc.setFillColor(140, 150, 170);
+        doc.rect(M, y - 2, 2, 34, 'F');
         doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(8);
-        txt('POLITICAS Y CONDICIONES:', M, y);
+        doc.setFontSize(7);
+        txt('POLITICAS Y CONDICIONES', M + 6, y + 2);
         y += 5;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        doc.setTextColor(100, 116, 139);
+        doc.setFontSize(6.5);
+        doc.setTextColor(120, 130, 150);
         var policies = [
             'Cancelacion gratuita hasta 24 horas antes del tour.',
             'Cancelacion con menos de 24 horas: se cobra el 50% del valor total.',
@@ -3886,17 +4011,21 @@ function downloadVentaPDF(id) {
             'Llegar al punto de encuentro minimo 15 minutos antes.'
         ];
         for (var pi = 0; pi < policies.length; pi++) {
-            txt((pi + 1) + '. ' + policies[pi], M + 2, y); y += 4.5;
+            txt((pi + 1) + '. ' + policies[pi], M + 6, y); y += 3.8;
         }
 
-        // Footer
+        // ============================
+        // FOOTER - Navy bar with wave feel
+        // ============================
         doc.setFillColor(27, 42, 74);
-        doc.rect(0, 280, W, 17, 'F');
-        doc.setTextColor(255, 255, 255);
+        doc.rect(7.5, H - 18, W - 7.5, 18, 'F');
+        doc.setFillColor(255, 230, 0);
+        doc.rect(7.5, H - 18, W - 7.5, 2, 'F');
+        doc.setTextColor(200, 210, 230);
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        txt('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratossanandres', W / 2, 287, {align: 'center'});
-        txt('Nissi VIP Travel & Tours | San Andres Islas, Colombia', W / 2, 292, {align: 'center'});
+        doc.setFontSize(6.5);
+        txt('touresbaratos.com  |  WhatsApp: +57 322 212 3751  |  Instagram: @touresbaratossanandres', W / 2 + 4, H - 10, {align: 'center'});
+        txt('Nissi VIP Travel & Tours  |  San Andres Islas, Colombia', W / 2 + 4, H - 5, {align: 'center'});
 
         doc.save('Itinerario_' + (v.client || 'Cliente').replace(/\s+/g, '_') + '_' + (v.date || '') + '.pdf');
     } catch (err) {
@@ -4270,84 +4399,120 @@ function downloadAgVoucher(id) {
     try {
         var jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF('p', 'mm', 'a4');
-        var W = 210, M = 18, CW = W - M * 2, y = 0;
+        var W = 210, H = 297, M = 14, CW = W - M * 2, y = 0;
 
         function txt(t, x, yy, o) { doc.text(String(t || ''), x, yy, o || {}); }
 
-        // Header
+        // ============================
+        // LETTERHEAD
+        // ============================
         doc.setFillColor(27, 42, 74);
-        doc.rect(0, 0, W, 40, 'F');
+        doc.rect(0, 0, 6, H, 'F');
         doc.setFillColor(255, 230, 0);
-        doc.rect(0, 40, W, 2.5, 'F');
-        try { doc.addImage(LOGO_B64, 'JPEG', 8, 2, 20, 20); } catch(e) {}
+        doc.rect(6, 0, 1.5, H, 'F');
+
+        // HEADER
+        doc.setFillColor(27, 42, 74);
+        doc.rect(7.5, 0, W - 7.5, 48, 'F');
+        doc.setFillColor(255, 230, 0);
+        doc.rect(7.5, 48, W - 7.5, 3, 'F');
+        try { doc.addImage(LOGO_B64, 'JPEG', 14, 4, 28, 28); } catch(e) {}
+        doc.setDrawColor(255, 230, 0);
+        doc.setLineWidth(0.8);
+        doc.circle(28, 18, 16);
+        doc.setLineWidth(0.2);
         doc.setTextColor(255, 255, 255);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(18);
-        txt('TOURESBARATOS.COM', W / 2 + 5, 14, {align: 'center'});
-        doc.setFontSize(9);
+        doc.setFontSize(22);
+        txt('TOURESBARATOS.COM', 130, 15, {align: 'center'});
+        doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
-        txt('NISSI VIP TRAVEL & TOURS', W / 2 + 5, 22, {align: 'center'});
-        doc.setFontSize(7.5);
-        txt('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2 + 5, 30, {align: 'center'});
         doc.setTextColor(255, 230, 0);
-        doc.setFontSize(6.5);
-        txt('NIT: 1.082.402.387-1', W / 2 + 5, 36, {align: 'center'});
-        y = 50;
+        txt('NISSI VIP TRAVEL & TOURS', 130, 23, {align: 'center'});
+        doc.setFontSize(7.5);
+        doc.setTextColor(200, 210, 230);
+        txt('San Andres Islas, Colombia', 130, 30, {align: 'center'});
+        txt('WhatsApp: +57 322 212 3751  |  NIT: 1.082.402.387-1', 130, 36, {align: 'center'});
+        doc.setFillColor(46, 111, 207);
+        doc.triangle(W - 35, 0, W, 0, W, 22, 'F');
+        y = 58;
 
-        // Title
-        doc.setTextColor(27, 42, 74);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(16);
-        txt('VOUCHER DE SERVICIO', W / 2, y, {align: 'center'});
-        y += 10;
-
-        // Confirmed badge
-        doc.setFillColor(34, 197, 94);
-        doc.rect(W / 2 - 22, y - 4, 44, 10, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(9);
-        txt('CONFIRMADO', W / 2, y + 3, {align: 'center'});
-        y += 16;
-
-        // Passenger info
+        // TITLE
         doc.setFillColor(240, 245, 255);
-        doc.rect(M, y - 3, CW, 20, 'F');
+        doc.rect(M, y - 4, CW, 14, 'F');
+        doc.setFillColor(46, 111, 207);
+        doc.rect(M, y - 4, 3, 14, 'F');
+        doc.setDrawColor(46, 111, 207);
+        doc.setLineWidth(0.4);
+        doc.line(M, y + 10, M + CW, y + 10);
+        doc.setLineWidth(0.2);
         doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        txt('DATOS DEL PASAJERO', M + 6, y + 3);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8.5);
-        doc.setTextColor(50, 65, 85);
-        y += 9;
-        txt('Nombre: ' + (v.passenger || '-'), M + 6, y);
-        txt('Fecha: ' + (v.date || '-'), M + CW / 2, y);
-        y += 16;
+        doc.setFontSize(14);
+        txt('VOUCHER DE SERVICIO', M + 8, y + 6);
+        doc.setFillColor(34, 197, 94);
+        doc.rect(M + CW - 38, y - 1, 36, 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(7.5);
+        txt('CONFIRMADO', M + CW - 20, y + 5, {align: 'center'});
+        y += 18;
 
-        // Service type banner
+        // PASSENGER INFO - Card
+        doc.setFillColor(250, 251, 255);
+        doc.rect(M, y - 2, CW, 16, 'F');
+        doc.setDrawColor(200, 210, 230);
+        doc.setLineWidth(0.3);
+        doc.rect(M, y - 2, CW, 16);
+        doc.setLineWidth(0.2);
+        doc.setFillColor(27, 42, 74);
+        doc.rect(M, y - 2, 16, 16, 'F');
+        doc.setTextColor(255, 230, 0);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        txt('PAX', M + 2.5, y + 9);
+        var col1 = M + 20;
+        var col2 = M + CW / 2 + 6;
+        doc.setTextColor(27, 42, 74);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        txt('PASAJERO', col1, y + 3);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(50, 65, 85);
+        txt(v.passenger || '-', col1, y + 9);
+        txt(v.date || '-', col2, y + 9);
+        doc.setFontSize(6.5);
+        doc.setTextColor(140, 150, 170);
+        txt('Nombre', col1, y + 13);
+        txt('Fecha', col2, y + 13);
+        y += 20;
+
+        // SERVICE BANNER
         var tipoLabels = {aereo:'TIQUETE AEREO',receptivo:'RECEPTIVO / TOUR',hospedaje:'HOSPEDAJE',traslado:'TRASLADO',otro:'SERVICIO'};
         doc.setFillColor(46, 111, 207);
-        doc.rect(M, y - 3, CW, 12, 'F');
+        doc.rect(M, y - 2, CW, 14, 'F');
+        doc.setFillColor(27, 42, 74);
+        doc.triangle(M + CW - 30, y - 2, M + CW, y - 2, M + CW, y + 12, 'F');
         doc.setTextColor(255, 255, 255);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(12);
-        txt(tipoLabels[v.tipo] || 'SERVICIO', M + 6, y + 5);
-        y += 16;
+        doc.setFontSize(13);
+        txt(tipoLabels[v.tipo] || 'SERVICIO', M + 8, y + 8);
+        y += 18;
 
         // Description
         doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10);
-        txt('Servicio:', M, y);
-        y += 6;
-        doc.setFont('helvetica', 'normal');
         doc.setFontSize(9);
+        txt('Servicio:', M + 4, y);
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
         doc.setTextColor(50, 65, 85);
         var descLines = doc.splitTextToSize(v.description || 'Sin descripcion', CW - 10);
-        for (var di = 0; di < descLines.length; di++) { txt(descLines[di], M + 4, y); y += 5; }
-        y += 6;
+        for (var di = 0; di < descLines.length; di++) { txt(descLines[di], M + 4, y); y += 4.5; }
+        y += 5;
 
-        // Try to match tour for extra data (included/notIncluded)
+        // Match tour
         var matchedTour = null;
         for (var ti = 0; ti < TOURS.length; ti++) {
             if (v.description && v.description.toLowerCase().indexOf(TOURS[ti].name.toLowerCase()) >= 0) {
@@ -4355,102 +4520,103 @@ function downloadAgVoucher(id) {
             }
         }
 
-        // === INFORMACION OPERATIVA (SIEMPRE se muestra) ===
         var vSchedule = v.schedule || (matchedTour ? matchedTour.schedule : '') || '';
         var vArrival = v.arrivalTime || (matchedTour ? matchedTour.checkIn : '') || '';
         var vMeetPoint = v.meetingPoint || (matchedTour ? matchedTour.meetingPoint : '') || '';
         var vGuideName = v.guideName || '';
         var vGuidePhone = v.guidePhone || '';
 
-        // Big info box
-        doc.setFillColor(240, 245, 255);
-        doc.rect(M, y - 3, CW, 46, 'F');
-        doc.setDrawColor(46, 111, 207);
-        doc.setLineWidth(0.5);
-        doc.rect(M, y - 3, CW, 46);
-        var col1 = M + 6;
-        var col2 = M + CW / 2 + 4;
-
+        // OPERATIONAL INFO - Grid cards (same style as itinerary)
+        var cardW = (CW - 6) / 2;
+        // Card 1: Hora de llegada
+        doc.setFillColor(248, 250, 255);
+        doc.rect(M, y, cardW, 14, 'F');
+        doc.setFillColor(255, 230, 0);
+        doc.rect(M, y, 2, 14, 'F');
+        doc.setTextColor(140, 150, 170);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        txt('HORA DE LLEGADA', M + 6, y + 4);
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        txt(vArrival || 'Consultar', M + 6, y + 11);
+        // Card 2: Horario
+        doc.setFillColor(248, 250, 255);
+        doc.rect(M + cardW + 6, y, cardW, 14, 'F');
         doc.setFillColor(46, 111, 207);
-        doc.rect(M, y - 3, CW, 9, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        txt('INFORMACION IMPORTANTE PARA EL PASAJERO', M + 6, y + 3);
-        y += 12;
-
-        doc.setFontSize(9);
+        doc.rect(M + cardW + 6, y, 2, 14, 'F');
+        doc.setTextColor(140, 150, 170);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        txt('HORARIO', M + cardW + 12, y + 4);
         doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
-        txt('HORA DE LLEGADA:', col1, y);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(50, 65, 85);
         doc.setFontSize(10);
-        txt(vArrival || 'Consultar', col1 + 38, y);
-
-        doc.setFontSize(9);
+        txt(vSchedule || '-', M + cardW + 12, y + 11);
+        y += 18;
+        // Card 3: Punto de encuentro
+        doc.setFillColor(248, 250, 255);
+        doc.rect(M, y, CW, 14, 'F');
+        doc.setFillColor(34, 197, 94);
+        doc.rect(M, y, 2, 14, 'F');
+        doc.setTextColor(140, 150, 170);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        txt('MUELLE / PUNTO DE ENCUENTRO', M + 6, y + 4);
         doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
-        txt('HORARIO:', col2, y);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(50, 65, 85);
-        txt(vSchedule || '-', col2 + 20, y);
-        y += 7;
-
-        doc.setTextColor(27, 42, 74);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        txt('MUELLE / PUNTO DE ENCUENTRO:', col1, y);
-        y += 5;
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(50, 65, 85);
         doc.setFontSize(10);
-        txt(vMeetPoint || 'Consultar con el guia', col1, y);
-        y += 7;
-
+        txt(vMeetPoint || 'Consultar con el guia', M + 6, y + 11);
+        y += 18;
+        // Card 4: Contacto guia
+        doc.setFillColor(248, 250, 255);
+        doc.rect(M, y, CW, 14, 'F');
+        doc.setFillColor(27, 42, 74);
+        doc.rect(M, y, 2, 14, 'F');
+        doc.setTextColor(140, 150, 170);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        txt('CONTACTO DEL GUIA', M + 6, y + 4);
         doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        txt('CONTACTO DEL GUIA:', col1, y);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(50, 65, 85);
+        doc.setFontSize(10);
         var guiaInfo = vGuideName ? vGuideName : 'Por confirmar';
         if (vGuidePhone) guiaInfo += '  |  Tel: ' + vGuidePhone;
-        txt(guiaInfo, col1 + 38, y);
-        y += 7;
+        txt(guiaInfo, M + 6, y + 11);
+        y += 18;
 
-        doc.setTextColor(27, 42, 74);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        txt('FECHA:', col1, y);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(50, 65, 85);
-        txt(v.date || '-', col1 + 16, y);
-        y += 10;
-
-        // Included / Not included (from matched tour or manual)
+        // Included / Not included
         var inc = matchedTour ? (matchedTour.included || []) : [];
         var notInc = matchedTour ? (matchedTour.notIncluded || []) : [];
         var maxR = Math.max(inc.length, notInc.length);
         if (maxR > 0) {
+            doc.setFillColor(230, 255, 240);
+            doc.rect(M, y - 1, cardW, 7, 'F');
+            doc.setFillColor(34, 197, 94);
+            doc.rect(M, y - 1, 2, 7, 'F');
+            doc.setTextColor(34, 150, 80);
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8);
-            doc.setTextColor(34, 197, 94);
-            txt('INCLUYE:', col1, y);
-            doc.setTextColor(239, 68, 68);
-            txt('NO INCLUYE:', col2, y);
-            y += 5;
-            doc.setFont('helvetica', 'normal');
             doc.setFontSize(7.5);
+            txt('INCLUYE', M + 6, y + 4);
+            doc.setFillColor(255, 240, 240);
+            doc.rect(M + cardW + 6, y - 1, cardW, 7, 'F');
+            doc.setFillColor(239, 68, 68);
+            doc.rect(M + cardW + 6, y - 1, 2, 7, 'F');
+            doc.setTextColor(200, 50, 50);
+            txt('NO INCLUYE', M + cardW + 12, y + 4);
+            y += 9;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7);
             for (var ri = 0; ri < maxR; ri++) {
-                if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], col1, y); }
-                if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], col2, y); }
-                y += 4.5;
+                if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], M + 4, y); }
+                if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], M + cardW + 10, y); }
+                y += 4;
             }
-            y += 6;
+            y += 4;
         }
 
-        // ===== DIVING RESTRICTIONS (if matched tour is Buceo) =====
+        // DIVING RESTRICTIONS
         var agIsBuceo = matchedTour && matchedTour.name && matchedTour.name.toLowerCase().indexOf('buceo') >= 0;
         if (agIsBuceo) {
             doc.setFillColor(255, 240, 240);
@@ -4466,7 +4632,7 @@ function downloadAgVoucher(id) {
                 'Informar al instructor cualquier condicion medica preexistente.',
                 'Menores de edad requieren autorizacion firmada del acudiente.',
                 'Seguir en todo momento las instrucciones del instructor PADI.',
-                'El operador se reserva el derecho de no permitir la inmersion si el participante no cumple las condiciones de seguridad.'
+                'El operador se reserva el derecho de no permitir la inmersion si no cumple las condiciones.'
             ];
             var bH = 12 + bRestrictions.length * 4.5 + 4;
             doc.rect(M, bBoxY - 3, CW, bH, 'FD');
@@ -4474,42 +4640,44 @@ function downloadAgVoucher(id) {
             doc.rect(M, bBoxY - 3, CW, 9, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5);
+            doc.setFontSize(8);
             txt('RESTRICCIONES DE BUCEO - LEER ANTES DE LA INMERSION', M + 6, bBoxY + 3);
             y = bBoxY + 10;
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(7);
+            doc.setFontSize(6.5);
             doc.setTextColor(150, 30, 30);
             for (var bi = 0; bi < bRestrictions.length; bi++) {
                 var bLine = doc.splitTextToSize((bi + 1) + '. ' + bRestrictions[bi], CW - 14);
-                for (var bl = 0; bl < bLine.length; bl++) { txt(bLine[bl], M + 4, y); y += 4; }
+                for (var bl = 0; bl < bLine.length; bl++) { txt(bLine[bl], M + 4, y); y += 3.8; }
                 y += 0.5;
             }
-            y += 6;
+            y += 4;
             doc.setDrawColor(0, 0, 0);
             doc.setLineWidth(0.2);
         }
 
         // Notes
         if (v.notes) {
-            y += 4;
             doc.setTextColor(100, 100, 100);
             doc.setFont('helvetica', 'italic');
-            doc.setFontSize(8);
-            txt('Notas: ' + v.notes, M, y);
-            y += 8;
+            doc.setFontSize(7.5);
+            txt('Notas: ' + v.notes, M + 4, y);
+            y += 6;
         }
 
-        // Policies
-        y += 4;
+        // POLICIES
+        doc.setFillColor(250, 251, 253);
+        doc.rect(M, y - 2, CW, 30, 'F');
+        doc.setFillColor(140, 150, 170);
+        doc.rect(M, y - 2, 2, 30, 'F');
         doc.setTextColor(27, 42, 74);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(8);
-        txt('CONDICIONES GENERALES:', M, y);
+        doc.setFontSize(7);
+        txt('CONDICIONES GENERALES', M + 6, y + 2);
         y += 5;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        doc.setTextColor(100, 116, 139);
+        doc.setFontSize(6.5);
+        doc.setTextColor(120, 130, 150);
         var policies = [
             'Presentar este voucher impreso o digital al momento del servicio.',
             'Presentar documento de identidad original.',
@@ -4519,17 +4687,19 @@ function downloadAgVoucher(id) {
             'Menores de edad deben estar acompanados por un adulto.'
         ];
         for (var pi = 0; pi < policies.length; pi++) {
-            txt((pi + 1) + '. ' + policies[pi], M + 2, y); y += 4.5;
+            txt((pi + 1) + '. ' + policies[pi], M + 6, y); y += 3.8;
         }
 
-        // Footer
+        // FOOTER
         doc.setFillColor(27, 42, 74);
-        doc.rect(0, 280, W, 17, 'F');
-        doc.setTextColor(255, 255, 255);
+        doc.rect(7.5, H - 18, W - 7.5, 18, 'F');
+        doc.setFillColor(255, 230, 0);
+        doc.rect(7.5, H - 18, W - 7.5, 2, 'F');
+        doc.setTextColor(200, 210, 230);
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        txt('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratossanandres', W / 2, 287, {align: 'center'});
-        txt('Nissi VIP Travel & Tours | San Andres Islas, Colombia', W / 2, 292, {align: 'center'});
+        doc.setFontSize(6.5);
+        txt('touresbaratos.com  |  WhatsApp: +57 322 212 3751  |  Instagram: @touresbaratossanandres', W / 2 + 4, H - 10, {align: 'center'});
+        txt('Nissi VIP Travel & Tours  |  San Andres Islas, Colombia', W / 2 + 4, H - 5, {align: 'center'});
 
         doc.save('Voucher_' + (v.passenger || 'Pasajero').replace(/\s+/g, '_') + '_' + (v.date || '') + '.pdf');
     } catch (err) {
