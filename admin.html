@@ -1343,7 +1343,7 @@
         <div style="background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-100);padding:20px;margin-bottom:20px;">
             <h3 style="font-size:1rem;margin-bottom:12px;"><i class="fas fa-bolt" style="color:var(--orange);"></i> Registro Rapido de Venta</h3>
             <form id="quickSaleForm" onsubmit="saveQuickSale(event)">
-                <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:end;">
+                <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;align-items:end;">
                     <div>
                         <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Tour / Servicio</label>
                         <select name="tourId" id="ventaTour" required style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
@@ -1355,8 +1355,22 @@
                         <input type="text" name="client" placeholder="Nombre" style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
                     </div>
                     <div>
+                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">WhatsApp / Tel</label>
+                        <input type="text" name="clientPhone" placeholder="+57 3xx..." style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px;margin-top:10px;align-items:end;">
+                    <div>
                         <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Personas</label>
                         <input type="number" name="qty" value="1" min="1" required style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Total ($)</label>
+                        <input type="number" name="amount" id="ventaMonto" min="0" required style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Abono ($)</label>
+                        <input type="number" name="abono" min="0" value="0" style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;" placeholder="0 = pagado total">
                     </div>
                     <div>
                         <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Pago</label>
@@ -1367,17 +1381,21 @@
                             <option value="tarjeta">Tarjeta</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-success" style="height:40px;white-space:nowrap;"><i class="fas fa-plus"></i> Registrar</button>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
                     <div>
-                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Monto Total ($)</label>
-                        <input type="number" name="amount" id="ventaMonto" min="0" required style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Canal</label>
+                        <select name="channel" required style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                            <option value="punto">Punto Fisico</option>
+                            <option value="whatsapp">WhatsApp</option>
+                            <option value="web">Pagina Web</option>
+                        </select>
                     </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px;align-items:end;">
                     <div>
                         <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Nota (opcional)</label>
-                        <input type="text" name="note" placeholder="Ej: Pago parcial, grupo de 5..." style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                        <input type="text" name="note" placeholder="Ej: Grupo de 5, hotel Decameron..." style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
                     </div>
+                    <button type="submit" class="btn btn-success" style="height:40px;white-space:nowrap;"><i class="fas fa-plus"></i> Registrar Venta</button>
                 </div>
             </form>
         </div>
@@ -1423,10 +1441,10 @@
 
         <!-- Ventas manuales del dia -->
         <div>
-            <h3 style="font-size:0.95rem;margin-bottom:8px;"><i class="fas fa-store" style="color:var(--green);"></i> Ventas Punto Fisico</h3>
+            <h3 style="font-size:0.95rem;margin-bottom:8px;"><i class="fas fa-store" style="color:var(--green);"></i> Ventas del Dia (Punto Fisico + WhatsApp)</h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
-                    <thead><tr><th>Hora</th><th>Tour / Servicio</th><th>Cliente</th><th>Personas</th><th>Monto</th><th>Pago</th><th>Nota</th><th>Acciones</th></tr></thead>
+                    <thead><tr><th>Hora</th><th>Canal</th><th>Tour</th><th>Cliente</th><th>Pax</th><th>Total</th><th>Abono</th><th>Saldo</th><th>Estado</th><th>Pago</th><th>Acciones</th></tr></thead>
                     <tbody id="vtVentasBody"></tbody>
                 </table>
             </div>
@@ -3316,20 +3334,29 @@ function renderVentas() {
     // Render ventas manuales table
     var vBody = document.getElementById('vtVentasBody');
     if (!ventas.length) {
-        vBody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--gray-500);font-size:0.82rem;">No hay ventas del punto fisico hoy. Usa el formulario de arriba para registrar.</td></tr>';
+        vBody.innerHTML = '<tr><td colspan="11" style="text-align:center;padding:20px;color:var(--gray-500);font-size:0.82rem;">No hay ventas registradas hoy. Usa el formulario de arriba.</td></tr>';
     } else {
         var vHtml = '';
+        var channelIcons = {punto:'<i class="fas fa-store" style="color:var(--green);"></i>', whatsapp:'<i class="fab fa-whatsapp" style="color:#25D366;"></i>', web:'<i class="fas fa-globe" style="color:var(--blue);"></i>'};
         ventas.forEach(function(v) {
             var payLabel = v.method === 'nequi' ? 'Nequi' : v.method === 'tarjeta' ? 'Tarjeta' : v.method === 'transferencia' ? 'Transfer.' : 'Efectivo';
+            var saldo = (v.saldo || 0);
+            var stBadge = v.payStatus === 'abonado' ? '<span class="badge-pendiente">Abonado</span>' : '<span class="badge-pagado">Pagado</span>';
+            var chIcon = channelIcons[v.channel] || channelIcons.punto;
             vHtml += '<tr>' +
                 '<td>' + (v.time || '-') + '</td>' +
+                '<td>' + chIcon + '</td>' +
                 '<td><strong>' + (v.tourName || 'Otro') + '</strong></td>' +
-                '<td>' + (v.client || '-') + '</td>' +
+                '<td>' + (v.client || '-') + (v.clientPhone ? '<br><span style="font-size:0.72rem;color:var(--gray-500);">' + v.clientPhone + '</span>' : '') + '</td>' +
                 '<td>' + (v.qty || 1) + '</td>' +
                 '<td><strong>' + formatCOP(v.amount || 0) + '</strong></td>' +
+                '<td>' + formatCOP(v.abono || v.amount || 0) + '</td>' +
+                '<td>' + (saldo > 0 ? '<strong style="color:var(--red);">' + formatCOP(saldo) + '</strong>' : '<span style="color:var(--green);">$0</span>') + '</td>' +
+                '<td>' + stBadge + '</td>' +
                 '<td>' + payLabel + '</td>' +
-                '<td style="font-size:0.78rem;color:var(--gray-500);">' + (v.note || '') + '</td>' +
                 '<td class="actions-cell">' +
+                    '<button class="action-btn view" title="Itinerario PDF" onclick="downloadVentaPDF(\'' + v.id + '\')"><i class="fas fa-file-pdf"></i></button>' +
+                    (saldo > 0 ? '<button class="action-btn whatsapp" title="Registrar Abono" onclick="registrarAbono(\'' + v.id + '\')"><i class="fas fa-hand-holding-usd"></i></button>' : '') +
                     '<button class="action-btn voucher" title="Editar" onclick="editVenta(\'' + v.id + '\')"><i class="fas fa-edit"></i></button>' +
                     '<button class="action-btn delete" title="Eliminar" onclick="deleteVenta(\'' + v.id + '\')"><i class="fas fa-trash"></i></button>' +
                 '</td></tr>';
@@ -3349,6 +3376,12 @@ function saveQuickSale(e) {
     var tour = TOURS.find(function(t) { return t.id == fd.tourId; });
     var now = new Date();
 
+    var totalAmount = parseInt(fd.amount) || 0;
+    var abonoAmount = parseInt(fd.abono) || 0;
+    var saldo = abonoAmount > 0 && abonoAmount < totalAmount ? totalAmount - abonoAmount : 0;
+    var payStatus = abonoAmount > 0 && abonoAmount < totalAmount ? 'abonado' : 'pagado';
+    var channelLabels = {punto:'Punto Fisico',whatsapp:'WhatsApp',web:'Web'};
+
     var record = {
         id: genId(),
         date: getSelectedVentasDate(),
@@ -3356,9 +3389,14 @@ function saveQuickSale(e) {
         tourId: fd.tourId || 'otro',
         tourName: tour ? tour.name : (fd.tourId === 'otro' ? 'Otro' : 'Servicio'),
         client: fd.client || '',
+        clientPhone: fd.clientPhone || '',
         qty: parseInt(fd.qty) || 1,
-        amount: parseInt(fd.amount) || 0,
+        amount: totalAmount,
+        abono: abonoAmount > 0 && abonoAmount < totalAmount ? abonoAmount : totalAmount,
+        saldo: saldo,
+        payStatus: payStatus,
         method: fd.method || 'efectivo',
+        channel: fd.channel || 'punto',
         note: fd.note || ''
     };
 
@@ -3374,14 +3412,15 @@ function saveQuickSale(e) {
         date: record.date,
         concept: 'Venta: ' + record.tourName + (record.client ? ' - ' + record.client : ''),
         person: record.client,
-        amount: record.amount,
+        amount: record.abono,
         method: record.method,
-        notes: 'Punto fisico' + (record.note ? ' | ' + record.note : '')
+        notes: (channelLabels[record.channel] || 'Punto Fisico') + (record.payStatus === 'abonado' ? ' | ABONO (saldo: ' + formatCOP(record.saldo) + ')' : '') + (record.note ? ' | ' + record.note : '')
     });
     setGData(FIN_KEY, finData);
 
     form.reset();
     form.querySelector('[name="qty"]').value = '1';
+    form.querySelector('[name="abono"]').value = '0';
     renderVentas();
 }
 
@@ -3442,6 +3481,254 @@ function deleteVenta(id) {
     var data = getVentas().filter(function(v) { return v.id !== id; });
     saveVentas(data);
     renderVentas();
+}
+
+function registrarAbono(id) {
+    var data = getVentas();
+    var v = data.find(function(x) { return x.id === id; });
+    if (!v) return;
+    var nuevoAbono = prompt('Saldo pendiente: ' + formatCOP(v.saldo || 0) + '\n\nMonto del nuevo abono ($):');
+    if (!nuevoAbono || isNaN(nuevoAbono)) return;
+    nuevoAbono = parseInt(nuevoAbono);
+    if (nuevoAbono <= 0) return;
+
+    var abonoTotal = (v.abono || 0) + nuevoAbono;
+    var nuevoSaldo = (v.amount || 0) - abonoTotal;
+    if (nuevoSaldo < 0) nuevoSaldo = 0;
+
+    data = data.map(function(x) {
+        if (x.id === id) {
+            x.abono = abonoTotal;
+            x.saldo = nuevoSaldo;
+            x.payStatus = nuevoSaldo <= 0 ? 'pagado' : 'abonado';
+        }
+        return x;
+    });
+    saveVentas(data);
+
+    // Register abono in finanzas
+    var finData = getGData(FIN_KEY);
+    finData.push({
+        id: genId(),
+        type: 'ingreso',
+        date: today(),
+        concept: 'Abono: ' + (v.tourName || 'Servicio') + ' - ' + (v.client || 'Cliente'),
+        person: v.client || '',
+        amount: nuevoAbono,
+        method: v.method || 'efectivo',
+        notes: 'Abono adicional (total abonado: ' + formatCOP(abonoTotal) + ', saldo: ' + formatCOP(nuevoSaldo) + ')'
+    });
+    setGData(FIN_KEY, finData);
+
+    renderVentas();
+    alert('Abono de ' + formatCOP(nuevoAbono) + ' registrado.' + (nuevoSaldo <= 0 ? ' PAGADO TOTAL.' : ' Saldo pendiente: ' + formatCOP(nuevoSaldo)));
+}
+
+function downloadVentaPDF(id) {
+    var v = getVentas().find(function(x) { return x.id === id; });
+    if (!v) return;
+    if (!window.jspdf || !window.jspdf.jsPDF) { alert('PDF no disponible'); return; }
+
+    var tour = TOURS.find(function(t) { return t.id == v.tourId; });
+
+    try {
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+        var W = 210, M = 18, CW = W - M * 2, y = 0;
+        var col1 = M + 6, col2 = M + CW / 2 + 4;
+
+        function txt(t, x, yy, o) { doc.text(String(t || ''), x, yy, o || {}); }
+
+        // Header
+        doc.setFillColor(27, 42, 74);
+        doc.rect(0, 0, W, 40, 'F');
+        doc.setFillColor(255, 230, 0);
+        doc.rect(0, 40, W, 2.5, 'F');
+        try { doc.addImage(LOGO_B64, 'JPEG', 8, 2, 20, 20); } catch(e) {}
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        txt('TOURESBARATOS.COM', W / 2 + 5, 14, {align: 'center'});
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        txt('NISSI VIP TRAVEL & TOURS', W / 2 + 5, 22, {align: 'center'});
+        doc.setFontSize(7.5);
+        txt('San Andres Islas, Colombia | WhatsApp: +57 322 212 3751', W / 2 + 5, 30, {align: 'center'});
+        doc.setTextColor(255, 230, 0);
+        doc.setFontSize(6.5);
+        txt('NIT: 1.082.402.387-1', W / 2 + 5, 36, {align: 'center'});
+        y = 50;
+
+        // Title
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(16);
+        txt('ITINERARIO DE SERVICIO', W / 2, y, {align: 'center'});
+        y += 10;
+
+        // Confirmed badge
+        doc.setFillColor(34, 197, 94);
+        doc.rect(W / 2 - 22, y - 4, 44, 10, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(9);
+        txt('CONFIRMADO', W / 2, y + 3, {align: 'center'});
+        y += 16;
+
+        // Client info
+        doc.setFillColor(240, 245, 255);
+        doc.rect(M, y - 3, CW, 18, 'F');
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        txt('DATOS DEL CLIENTE', col1, y + 3);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(50, 65, 85);
+        y += 9;
+        txt('Nombre: ' + (v.client || '-'), col1, y);
+        txt('WhatsApp: ' + (v.clientPhone || '-'), col2, y);
+        y += 14;
+
+        // Tour info box
+        doc.setFillColor(46, 111, 207);
+        doc.rect(M, y - 3, CW, 12, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        txt((v.tourName || 'Servicio').toUpperCase(), M + 6, y + 5);
+        y += 16;
+
+        // Operational info
+        if (tour) {
+            doc.setFillColor(248, 250, 252);
+            doc.rect(M, y - 3, CW, 24, 'F');
+            doc.setTextColor(27, 42, 74);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8.5);
+            txt('HORA DE LLEGADA:', col1, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            doc.setFontSize(9);
+            txt(tour.checkIn || '-', col1 + 38, y + 2);
+
+            doc.setTextColor(27, 42, 74);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8.5);
+            txt('HORARIO:', col2, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            txt(tour.schedule || '-', col2 + 20, y + 2);
+            y += 7;
+
+            doc.setTextColor(27, 42, 74);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8.5);
+            txt('PUNTO DE ENCUENTRO:', col1, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            txt(tour.meetingPoint || '-', col1 + 42, y + 2);
+            y += 7;
+
+            doc.setTextColor(27, 42, 74);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8.5);
+            txt('FECHA:', col1, y + 2);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(50, 65, 85);
+            txt(v.date || '-', col1 + 16, y + 2);
+            txt('PERSONAS: ' + (v.qty || 1), col2, y + 2);
+            y += 12;
+
+            // Description
+            if (tour.description) {
+                doc.setTextColor(100, 116, 139);
+                doc.setFont('helvetica', 'italic');
+                doc.setFontSize(8);
+                var dl = doc.splitTextToSize(tour.description, CW - 12);
+                for (var di = 0; di < dl.length; di++) { txt(dl[di], col1, y); y += 4; }
+                y += 4;
+            }
+
+            // Included / Not included
+            var inc = tour.included || [];
+            var notInc = tour.notIncluded || [];
+            var maxR = Math.max(inc.length, notInc.length);
+            if (maxR > 0) {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(34, 197, 94);
+                txt('INCLUYE:', col1, y);
+                doc.setTextColor(239, 68, 68);
+                txt('NO INCLUYE:', col2, y);
+                y += 5;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7.5);
+                for (var ri = 0; ri < maxR; ri++) {
+                    if (ri < inc.length) { doc.setTextColor(34, 120, 60); txt('+ ' + inc[ri], col1, y); }
+                    if (ri < notInc.length) { doc.setTextColor(180, 50, 50); txt('- ' + notInc[ri], col2, y); }
+                    y += 4.5;
+                }
+                y += 6;
+            }
+        } else {
+            doc.setTextColor(50, 65, 85);
+            doc.setFontSize(9);
+            txt('Fecha: ' + (v.date || '-') + '   |   Personas: ' + (v.qty || 1), col1, y);
+            y += 10;
+        }
+
+        // Payment summary
+        y += 4;
+        doc.setFillColor(27, 42, 74);
+        doc.rect(M, y - 3, CW, 14, 'F');
+        doc.setTextColor(255, 230, 0);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        txt('TOTAL: ' + formatCOP(v.amount || 0), W / 2, y + 7, {align: 'center'});
+        y += 20;
+
+        if (v.payStatus === 'abonado' && v.saldo > 0) {
+            doc.setTextColor(239, 68, 68);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            txt('Abonado: ' + formatCOP(v.abono || 0) + '   |   SALDO PENDIENTE: ' + formatCOP(v.saldo), W / 2, y, {align: 'center'});
+            y += 10;
+        }
+
+        // Policies
+        doc.setTextColor(27, 42, 74);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        txt('POLITICAS Y CONDICIONES:', M, y);
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(100, 116, 139);
+        var policies = [
+            'Cancelacion gratuita hasta 24 horas antes del tour.',
+            'Cancelacion con menos de 24 horas: se cobra el 50% del valor total.',
+            'No-show (no presentarse): no hay reembolso.',
+            'En caso de mal clima, el tour se reprograma sin costo adicional.',
+            'Presentar documento de identidad original el dia del tour.',
+            'Llegar al punto de encuentro minimo 15 minutos antes.'
+        ];
+        for (var pi = 0; pi < policies.length; pi++) {
+            txt((pi + 1) + '. ' + policies[pi], M + 2, y); y += 4.5;
+        }
+
+        // Footer
+        doc.setFillColor(27, 42, 74);
+        doc.rect(0, 280, W, 17, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        txt('touresbaratos.com | WhatsApp: +57 322 212 3751 | Instagram: @touresbaratossanandres', W / 2, 287, {align: 'center'});
+        txt('Nissi VIP Travel & Tours | San Andres Islas, Colombia', W / 2, 292, {align: 'center'});
+
+        doc.save('Itinerario_' + (v.client || 'Cliente').replace(/\s+/g, '_') + '_' + (v.date || '') + '.pdf');
+    } catch (err) {
+        alert('Error PDF: ' + (err.message || err));
+    }
 }
 
 function exportVentasCSV() {
