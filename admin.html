@@ -3439,19 +3439,26 @@ function editVenta(id) {
 
     var metOpts = '<option value="efectivo"' + (v.method === 'efectivo' ? ' selected' : '') + '>Efectivo</option><option value="nequi"' + (v.method === 'nequi' ? ' selected' : '') + '>Nequi/Daviplata</option><option value="transferencia"' + (v.method === 'transferencia' ? ' selected' : '') + '>Transferencia</option><option value="tarjeta"' + (v.method === 'tarjeta' ? ' selected' : '') + '>Tarjeta</option>';
 
+    var chOpts = '<option value="punto"' + (v.channel === 'punto' ? ' selected' : '') + '>Punto Fisico</option><option value="whatsapp"' + (v.channel === 'whatsapp' ? ' selected' : '') + '>WhatsApp</option><option value="web"' + (v.channel === 'web' ? ' selected' : '') + '>Web</option>';
+
     var fields =
         gRow(
             gField('Tour / Servicio', 'tourId', 'select', '', {options: tourOpts}) +
             gField('Cliente', 'client', 'text', v.client || '', {noReq: true})
         ) +
         gRow(
-            gField('Personas', 'qty', 'number', v.qty || 1) +
-            gField('Monto ($)', 'amount', 'number', v.amount || 0)
+            gField('Telefono', 'clientPhone', 'tel', v.clientPhone || '', {noReq: true}) +
+            gField('Personas', 'qty', 'number', v.qty || 1)
+        ) +
+        gRow(
+            gField('Monto Total ($)', 'amount', 'number', v.amount || 0) +
+            gField('Abono ($)', 'abono', 'number', v.abono || v.amount || 0)
         ) +
         gRow(
             gField('Metodo de Pago', 'method', 'select', '', {options: metOpts}) +
-            gField('Nota', 'note', 'text', v.note || '', {noReq: true})
-        );
+            gField('Canal', 'channel', 'select', '', {options: chOpts})
+        ) +
+        gField('Nota', 'note', 'text', v.note || '', {noReq: true});
 
     showGestionModal('Editar Venta', fields);
 }
@@ -3465,9 +3472,22 @@ function saveVenta() {
             v.tourId = fd.tourId || 'otro';
             v.tourName = tour ? tour.name : 'Otro';
             v.client = fd.client || '';
+            v.clientPhone = fd.clientPhone || '';
             v.qty = parseInt(fd.qty) || 1;
-            v.amount = parseInt(fd.amount) || 0;
+            var totalAmount = parseInt(fd.amount) || 0;
+            var abonoAmount = parseInt(fd.abono) || 0;
+            v.amount = totalAmount;
+            if (abonoAmount > 0 && abonoAmount < totalAmount) {
+                v.abono = abonoAmount;
+                v.saldo = totalAmount - abonoAmount;
+                v.payStatus = 'abonado';
+            } else {
+                v.abono = totalAmount;
+                v.saldo = 0;
+                v.payStatus = 'pagado';
+            }
             v.method = fd.method || 'efectivo';
+            v.channel = fd.channel || 'punto';
             v.note = fd.note || '';
         }
         return v;
@@ -3735,9 +3755,10 @@ function exportVentasCSV() {
     var fecha = getSelectedVentasDate();
     var ventas = getVentas().filter(function(v) { return v.date === fecha; });
     if (!ventas.length) { alert('No hay ventas para exportar en esta fecha'); return; }
-    var csv = 'Fecha,Hora,Tour,Cliente,Personas,Monto,Metodo,Nota\n';
+    var csv = 'Fecha,Hora,Canal,Tour,Cliente,Telefono,Personas,Monto,Abono,Saldo,Estado,Metodo,Nota\n';
     ventas.forEach(function(v) {
-        csv += v.date + ',' + (v.time || '') + ',"' + (v.tourName || '') + '","' + (v.client || '') + '",' + (v.qty || 1) + ',' + (v.amount || 0) + ',' + (v.method || '') + ',"' + (v.note || '') + '"\n';
+        var ch = v.channel === 'whatsapp' ? 'WhatsApp' : v.channel === 'web' ? 'Web' : 'Punto Fisico';
+        csv += v.date + ',' + (v.time || '') + ',' + ch + ',"' + (v.tourName || '') + '","' + (v.client || '') + '","' + (v.clientPhone || '') + '",' + (v.qty || 1) + ',' + (v.amount || 0) + ',' + (v.abono || v.amount || 0) + ',' + (v.saldo || 0) + ',' + (v.payStatus || 'pagado') + ',' + (v.method || '') + ',"' + (v.note || '') + '"\n';
     });
     var blob = new Blob([csv], {type: 'text/csv'});
     var a = document.createElement('a');
