@@ -1390,6 +1390,18 @@
                         </select>
                     </div>
                 </div>
+                <div id="ventaCustomScheduleRow" style="display:none;margin-top:10px;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end;">
+                        <div>
+                            <label style="font-size:0.75rem;font-weight:600;color:var(--orange);display:block;margin-bottom:4px;"><i class="fas fa-clock"></i> Horario Especial (Buceo/Parasail)</label>
+                            <input type="text" name="customSchedule" id="ventaCustomSchedule" placeholder="Ej: 2:00 PM - 5:00 PM" style="width:100%;padding:8px 10px;border:2px solid var(--orange);border-radius:8px;font-size:0.85rem;background:#FFF7ED;">
+                        </div>
+                        <div>
+                            <label style="font-size:0.75rem;font-weight:600;color:var(--orange);display:block;margin-bottom:4px;"><i class="fas fa-map-marker-alt"></i> Check-in / Hora llegada</label>
+                            <input type="text" name="customCheckIn" id="ventaCustomCheckIn" placeholder="Ej: 1:30 PM" style="width:100%;padding:8px 10px;border:2px solid var(--orange);border-radius:8px;font-size:0.85rem;background:#FFF7ED;">
+                        </div>
+                    </div>
+                </div>
                 <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px;align-items:end;">
                     <div>
                         <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Nota (opcional)</label>
@@ -3398,6 +3410,8 @@ function saveQuickSale(e) {
         payStatus: payStatus,
         method: fd.method || 'efectivo',
         channel: fd.channel || 'punto',
+        customSchedule: fd.customSchedule || '',
+        customCheckIn: fd.customCheckIn || '',
         note: fd.note || ''
     };
 
@@ -3422,6 +3436,8 @@ function saveQuickSale(e) {
     form.reset();
     form.querySelector('[name="qty"]').value = '1';
     form.querySelector('[name="abono"]').value = '0';
+    var schedRow = document.getElementById('ventaCustomScheduleRow');
+    if (schedRow) schedRow.style.display = 'none';
     renderVentas();
 }
 
@@ -3458,8 +3474,17 @@ function editVenta(id) {
         gRow(
             gField('Metodo de Pago', 'method', 'select', '', {options: metOpts}) +
             gField('Canal', 'channel', 'select', '', {options: chOpts})
-        ) +
-        gField('Nota', 'note', 'text', v.note || '', {noReq: true});
+        );
+
+    // Show custom schedule fields for Buceo/Parasail
+    var tourId = parseInt(v.tourId);
+    if (CUSTOM_SCHEDULE_TOURS.indexOf(tourId) >= 0) {
+        fields += gRow(
+            gField('Horario Especial', 'customSchedule', 'text', v.customSchedule || '', {noReq: true}) +
+            gField('Check-in / Hora llegada', 'customCheckIn', 'text', v.customCheckIn || '', {noReq: true})
+        );
+    }
+    fields += gField('Nota', 'note', 'text', v.note || '', {noReq: true});
 
     showGestionModal('Editar Venta', fields);
 }
@@ -3489,6 +3514,8 @@ function saveVenta() {
             }
             v.method = fd.method || 'efectivo';
             v.channel = fd.channel || 'punto';
+            v.customSchedule = fd.customSchedule || '';
+            v.customCheckIn = fd.customCheckIn || '';
             v.note = fd.note || '';
         }
         return v;
@@ -3567,8 +3594,10 @@ function enviarOperador(id) {
     msg += '*Tour:* ' + tourName + '\n';
     msg += '*Fecha:* ' + (v.date || '-') + '\n';
     msg += '*Personas:* ' + (v.qty || 1) + '\n';
-    if (tour && tour.schedule) msg += '*Horario:* ' + tour.schedule + '\n';
-    if (tour && tour.checkIn) msg += '*Check-in:* ' + tour.checkIn + '\n';
+    var msgSchedule = v.customSchedule || (tour ? tour.schedule : '') || '';
+    var msgCheckIn = v.customCheckIn || (tour ? tour.checkIn : '') || '';
+    if (msgSchedule) msg += '*Horario:* ' + msgSchedule + '\n';
+    if (msgCheckIn) msg += '*Check-in:* ' + msgCheckIn + '\n';
     if (tour && tour.meetingPoint) msg += '*Punto de encuentro:* ' + tour.meetingPoint + '\n';
     msg += '\n*👤 PASAJERO:*\n';
     msg += '*Nombre:* ' + (v.client || 'No especificado') + '\n';
@@ -3694,6 +3723,12 @@ function downloadVentaPDF(id) {
         txt((v.tourName || 'Servicio').toUpperCase(), M + 6, y + 5);
         y += 16;
 
+        // Use custom schedule/checkIn if set (Buceo/Parasail), else tour defaults
+        var pdfSchedule = (v.customSchedule || (tour ? tour.schedule : '') || '-');
+        var pdfCheckIn = (v.customCheckIn || (tour ? tour.checkIn : '') || '-');
+        var isBuceo = tour && tour.name && tour.name.toLowerCase().indexOf('buceo') >= 0;
+        var isParasail = tour && tour.name && tour.name.toLowerCase().indexOf('parasail') >= 0;
+
         // Operational info
         if (tour) {
             doc.setFillColor(248, 250, 252);
@@ -3705,7 +3740,7 @@ function downloadVentaPDF(id) {
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 65, 85);
             doc.setFontSize(9);
-            txt(tour.checkIn || '-', col1 + 38, y + 2);
+            txt(pdfCheckIn, col1 + 38, y + 2);
 
             doc.setTextColor(27, 42, 74);
             doc.setFont('helvetica', 'bold');
@@ -3713,7 +3748,7 @@ function downloadVentaPDF(id) {
             txt('HORARIO:', col2, y + 2);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(50, 65, 85);
-            txt(tour.schedule || '-', col2 + 20, y + 2);
+            txt(pdfSchedule, col2 + 20, y + 2);
             y += 7;
 
             doc.setTextColor(27, 42, 74);
@@ -3766,6 +3801,47 @@ function downloadVentaPDF(id) {
                 }
                 y += 6;
             }
+
+            // ===== DIVING RESTRICTIONS (only for Buceo) =====
+            if (isBuceo) {
+                doc.setFillColor(255, 240, 240);
+                doc.setDrawColor(220, 50, 50);
+                doc.setLineWidth(0.6);
+                var buceoBoxY = y;
+                var buceoRestrictions = [
+                    'No haber consumido alcohol o drogas en las ultimas 24 horas.',
+                    'No tener problemas cardiacos, respiratorios, epilepsia ni claustrofobia.',
+                    'No estar embarazada.',
+                    'No haber viajado en avion en las ultimas 12 horas ni volar en las proximas 18 horas despues del buceo.',
+                    'Saber nadar o sentirse comodo en el agua.',
+                    'Informar al instructor cualquier condicion medica preexistente.',
+                    'Menores de edad requieren autorizacion firmada del acudiente.',
+                    'Seguir en todo momento las instrucciones del instructor PADI.',
+                    'El operador se reserva el derecho de no permitir la inmersion si el participante no cumple las condiciones de seguridad.'
+                ];
+                var buceoH = 12 + buceoRestrictions.length * 4.5 + 4;
+                doc.rect(M, buceoBoxY - 3, CW, buceoH, 'FD');
+
+                doc.setFillColor(220, 50, 50);
+                doc.rect(M, buceoBoxY - 3, CW, 9, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8.5);
+                txt('RESTRICCIONES DE BUCEO - LEER ANTES DE LA INMERSION', M + 6, buceoBoxY + 3);
+                y = buceoBoxY + 10;
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7);
+                doc.setTextColor(150, 30, 30);
+                for (var bi = 0; bi < buceoRestrictions.length; bi++) {
+                    var bLine = doc.splitTextToSize((bi + 1) + '. ' + buceoRestrictions[bi], CW - 14);
+                    for (var bl = 0; bl < bLine.length; bl++) { txt(bLine[bl], M + 4, y); y += 4; }
+                    y += 0.5;
+                }
+                y += 6;
+                doc.setDrawColor(0, 0, 0);
+                doc.setLineWidth(0.2);
+            }
         } else {
             doc.setTextColor(50, 65, 85);
             doc.setFontSize(9);
@@ -3804,6 +3880,7 @@ function downloadVentaPDF(id) {
             'Cancelacion gratuita hasta 24 horas antes del tour.',
             'Cancelacion con menos de 24 horas: se cobra el 50% del valor total.',
             'No-show (no presentarse): no hay reembolso.',
+            'Una vez iniciado el tour/servicio, NO hay devolucion por desistimiento del cliente.',
             'En caso de mal clima, el tour se reprograma sin costo adicional.',
             'Presentar documento de identidad original el dia del tour.',
             'Llegar al punto de encuentro minimo 15 minutos antes.'
@@ -3843,7 +3920,10 @@ function exportVentasCSV() {
     a.click();
 }
 
-// Auto-fill price when tour is selected
+// Tours that allow custom schedule (Buceo id:8, Parasail id:9)
+var CUSTOM_SCHEDULE_TOURS = [8, 9];
+
+// Auto-fill price when tour is selected + show/hide custom schedule
 document.addEventListener('change', function(e) {
     if (e.target && e.target.id === 'ventaTour') {
         var tour = TOURS.find(function(t) { return t.id == e.target.value; });
@@ -3851,6 +3931,19 @@ document.addEventListener('change', function(e) {
         var qtyEl = document.querySelector('#quickSaleForm [name="qty"]');
         if (tour && montoEl) {
             montoEl.value = tour.price * (parseInt(qtyEl.value) || 1);
+        }
+        // Show/hide custom schedule row for Buceo & Parasail
+        var schedRow = document.getElementById('ventaCustomScheduleRow');
+        if (schedRow) {
+            var tourId = parseInt(e.target.value);
+            var needsCustom = CUSTOM_SCHEDULE_TOURS.indexOf(tourId) >= 0;
+            schedRow.style.display = needsCustom ? 'block' : 'none';
+            if (!needsCustom) {
+                var cs = document.getElementById('ventaCustomSchedule');
+                var ci = document.getElementById('ventaCustomCheckIn');
+                if (cs) cs.value = '';
+                if (ci) ci.value = '';
+            }
         }
     }
 });
@@ -4357,6 +4450,46 @@ function downloadAgVoucher(id) {
             y += 6;
         }
 
+        // ===== DIVING RESTRICTIONS (if matched tour is Buceo) =====
+        var agIsBuceo = matchedTour && matchedTour.name && matchedTour.name.toLowerCase().indexOf('buceo') >= 0;
+        if (agIsBuceo) {
+            doc.setFillColor(255, 240, 240);
+            doc.setDrawColor(220, 50, 50);
+            doc.setLineWidth(0.6);
+            var bBoxY = y;
+            var bRestrictions = [
+                'No haber consumido alcohol o drogas en las ultimas 24 horas.',
+                'No tener problemas cardiacos, respiratorios, epilepsia ni claustrofobia.',
+                'No estar embarazada.',
+                'No haber viajado en avion en las ultimas 12 horas ni volar en las proximas 18 horas despues del buceo.',
+                'Saber nadar o sentirse comodo en el agua.',
+                'Informar al instructor cualquier condicion medica preexistente.',
+                'Menores de edad requieren autorizacion firmada del acudiente.',
+                'Seguir en todo momento las instrucciones del instructor PADI.',
+                'El operador se reserva el derecho de no permitir la inmersion si el participante no cumple las condiciones de seguridad.'
+            ];
+            var bH = 12 + bRestrictions.length * 4.5 + 4;
+            doc.rect(M, bBoxY - 3, CW, bH, 'FD');
+            doc.setFillColor(220, 50, 50);
+            doc.rect(M, bBoxY - 3, CW, 9, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8.5);
+            txt('RESTRICCIONES DE BUCEO - LEER ANTES DE LA INMERSION', M + 6, bBoxY + 3);
+            y = bBoxY + 10;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7);
+            doc.setTextColor(150, 30, 30);
+            for (var bi = 0; bi < bRestrictions.length; bi++) {
+                var bLine = doc.splitTextToSize((bi + 1) + '. ' + bRestrictions[bi], CW - 14);
+                for (var bl = 0; bl < bLine.length; bl++) { txt(bLine[bl], M + 4, y); y += 4; }
+                y += 0.5;
+            }
+            y += 6;
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(0.2);
+        }
+
         // Notes
         if (v.notes) {
             y += 4;
@@ -4381,6 +4514,7 @@ function downloadAgVoucher(id) {
             'Presentar este voucher impreso o digital al momento del servicio.',
             'Presentar documento de identidad original.',
             'Llegar al punto de encuentro minimo 15 minutos antes.',
+            'Una vez iniciado el tour/servicio, NO hay devolucion por desistimiento del cliente.',
             'Sujeto a condiciones climaticas.',
             'Menores de edad deben estar acompanados por un adulto.'
         ];
