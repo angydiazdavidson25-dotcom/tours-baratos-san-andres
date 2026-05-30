@@ -3356,7 +3356,8 @@ function renderVentas() {
                 '<td>' + payLabel + '</td>' +
                 '<td class="actions-cell">' +
                     '<button class="action-btn view" title="Itinerario PDF" onclick="downloadVentaPDF(\'' + v.id + '\')"><i class="fas fa-file-pdf"></i></button>' +
-                    (saldo > 0 ? '<button class="action-btn whatsapp" title="Registrar Abono" onclick="registrarAbono(\'' + v.id + '\')"><i class="fas fa-hand-holding-usd"></i></button>' : '') +
+                    '<button class="action-btn whatsapp" title="Enviar al Operador" onclick="enviarOperador(\'' + v.id + '\')"><i class="fab fa-whatsapp"></i></button>' +
+                    (saldo > 0 ? '<button class="action-btn" title="Registrar Abono" onclick="registrarAbono(\'' + v.id + '\')"><i class="fas fa-hand-holding-usd" style="color:var(--orange);"></i></button>' : '') +
                     '<button class="action-btn voucher" title="Editar" onclick="editVenta(\'' + v.id + '\')"><i class="fas fa-edit"></i></button>' +
                     '<button class="action-btn delete" title="Eliminar" onclick="deleteVenta(\'' + v.id + '\')"><i class="fas fa-trash"></i></button>' +
                 '</td></tr>';
@@ -3542,6 +3543,81 @@ function registrarAbono(id) {
 
     renderVentas();
     alert('Abono de ' + formatCOP(nuevoAbono) + ' registrado.' + (nuevoSaldo <= 0 ? ' PAGADO TOTAL.' : ' Saldo pendiente: ' + formatCOP(nuevoSaldo)));
+}
+
+function enviarOperador(id) {
+    var v = getVentas().find(function(x) { return x.id === id; });
+    if (!v) return;
+
+    var tour = TOURS.find(function(t) { return t.id == v.tourId; });
+    var tourName = v.tourName || (tour ? tour.name : 'Servicio');
+
+    // Find the operator/provider associated with this tour
+    var proveedores = getGData(PROV_KEY);
+    var operador = null;
+    if (tour) {
+        operador = proveedores.find(function(p) {
+            return p.tours && p.tours.indexOf(tour.id) >= 0 && p.status === 'activo';
+        });
+    }
+
+    // Build the WhatsApp message
+    var msg = '*🏝️ NUEVA RESERVA - TOURS BARATOS SAN ANDRES*\n';
+    msg += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
+    msg += '*Tour:* ' + tourName + '\n';
+    msg += '*Fecha:* ' + (v.date || '-') + '\n';
+    msg += '*Personas:* ' + (v.qty || 1) + '\n';
+    if (tour && tour.schedule) msg += '*Horario:* ' + tour.schedule + '\n';
+    if (tour && tour.checkIn) msg += '*Check-in:* ' + tour.checkIn + '\n';
+    if (tour && tour.meetingPoint) msg += '*Punto de encuentro:* ' + tour.meetingPoint + '\n';
+    msg += '\n*👤 PASAJERO:*\n';
+    msg += '*Nombre:* ' + (v.client || 'No especificado') + '\n';
+    if (v.clientPhone) msg += '*WhatsApp:* ' + v.clientPhone + '\n';
+    msg += '\n';
+    var payLabel = v.payStatus === 'abonado' ? 'ABONADO (Saldo pend: ' + formatCOP(v.saldo || 0) + ')' : 'PAGADO TOTAL';
+    msg += '*Estado de pago:* ' + payLabel + '\n';
+    if (v.note) msg += '*Nota:* ' + v.note + '\n';
+    msg += '\n_Enviado desde TouresBaratos.com_';
+
+    var encoded = encodeURIComponent(msg);
+
+    if (operador && operador.phone) {
+        // Clean the phone number
+        var phone = operador.phone.replace(/[^0-9+]/g, '');
+        if (phone.startsWith('0')) phone = '57' + phone.substring(1);
+        if (!phone.startsWith('+') && !phone.startsWith('57')) phone = '57' + phone;
+        phone = phone.replace('+', '');
+        window.open('https://wa.me/' + phone + '?text=' + encoded, '_blank');
+    } else {
+        // No operator found - let user choose
+        var optsHtml = '';
+        var activos = proveedores.filter(function(p) { return p.status === 'activo' && p.phone; });
+        if (activos.length === 0) {
+            // No providers at all - just copy message
+            alert('No hay operadores registrados con telefono.\n\nRegistra operadores en Proveedores y asocia tours para enviar automaticamente.\n\nEl mensaje sera copiado al portapapeles.');
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(msg.replace(/\*/g, '').replace(/\_/g, ''));
+            }
+            return;
+        }
+
+        // Show a selection prompt
+        var opList = '';
+        for (var i = 0; i < activos.length; i++) {
+            opList += (i + 1) + '. ' + activos[i].name + ' (' + activos[i].phone + ')\n';
+        }
+        var sel = prompt('No hay operador asignado para este tour.\n\nSelecciona el operador (numero):\n\n' + opList);
+        if (!sel || isNaN(sel)) return;
+        var idx = parseInt(sel) - 1;
+        if (idx < 0 || idx >= activos.length) { alert('Seleccion invalida'); return; }
+
+        var selOp = activos[idx];
+        var phone2 = selOp.phone.replace(/[^0-9+]/g, '');
+        if (phone2.startsWith('0')) phone2 = '57' + phone2.substring(1);
+        if (!phone2.startsWith('+') && !phone2.startsWith('57')) phone2 = '57' + phone2;
+        phone2 = phone2.replace('+', '');
+        window.open('https://wa.me/' + phone2 + '?text=' + encoded, '_blank');
+    }
 }
 
 function downloadVentaPDF(id) {
@@ -3953,7 +4029,8 @@ function renderAgVentas() {
             '<td>' + stBadge + '</td>' +
             '<td class="actions-cell">' +
                 '<button class="action-btn view" title="Voucher PDF" onclick="downloadAgVoucher(\'' + v.id + '\')"><i class="fas fa-file-pdf"></i></button>' +
-                '<button class="action-btn whatsapp" title="Pagar/Pendiente" onclick="toggleAgVentaStatus(\'' + v.id + '\')"><i class="fas fa-check"></i></button>' +
+                (v.tipo === 'receptivo' ? '<button class="action-btn whatsapp" title="Enviar al Operador" onclick="enviarOperadorAg(\'' + v.id + '\')"><i class="fab fa-whatsapp"></i></button>' : '') +
+                '<button class="action-btn" title="Pagar/Pendiente" onclick="toggleAgVentaStatus(\'' + v.id + '\')" style="color:var(--green);"><i class="fas fa-check"></i></button>' +
                 '<button class="action-btn voucher" title="Editar" onclick="editAgVenta(\'' + v.id + '\')"><i class="fas fa-edit"></i></button>' +
                 '<button class="action-btn delete" title="Eliminar" onclick="deleteAgVenta(\'' + v.id + '\')"><i class="fas fa-trash"></i></button>' +
             '</td></tr>';
@@ -4323,6 +4400,81 @@ function downloadAgVoucher(id) {
         doc.save('Voucher_' + (v.passenger || 'Pasajero').replace(/\s+/g, '_') + '_' + (v.date || '') + '.pdf');
     } catch (err) {
         alert('Error PDF: ' + (err.message || err));
+    }
+}
+
+function enviarOperadorAg(id) {
+    var v = getAgVentas().find(function(x) { return x.id === id; });
+    if (!v) return;
+
+    // Try to match a tour for operator lookup
+    var matchedTour = null;
+    for (var ti = 0; ti < TOURS.length; ti++) {
+        if (v.description && v.description.toLowerCase().indexOf(TOURS[ti].name.toLowerCase()) >= 0) {
+            matchedTour = TOURS[ti]; break;
+        }
+    }
+
+    var proveedores = getGData(PROV_KEY);
+    var operador = null;
+    if (matchedTour) {
+        operador = proveedores.find(function(p) {
+            return p.tours && p.tours.indexOf(matchedTour.id) >= 0 && p.status === 'activo';
+        });
+    }
+
+    var tipoLabels = {aereo:'Tiquete Aereo',receptivo:'Receptivo/Tour',hospedaje:'Hospedaje',traslado:'Traslado',otro:'Servicio'};
+    var vSchedule = v.schedule || (matchedTour ? matchedTour.schedule : '') || '';
+    var vArrival = v.arrivalTime || (matchedTour ? matchedTour.checkIn : '') || '';
+    var vMeetPoint = v.meetingPoint || (matchedTour ? matchedTour.meetingPoint : '') || '';
+
+    var msg = '*🏝️ RESERVA AGENCIA - TOURS BARATOS*\n';
+    msg += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
+    msg += '*Agencia:* ' + (v.agenciaName || '-') + '\n';
+    msg += '*Tipo:* ' + (tipoLabels[v.tipo] || v.tipo || '-') + '\n';
+    msg += '*Servicio:* ' + (v.description || '-') + '\n';
+    msg += '*Fecha:* ' + (v.date || '-') + '\n';
+    if (vSchedule) msg += '*Horario:* ' + vSchedule + '\n';
+    if (vArrival) msg += '*Check-in:* ' + vArrival + '\n';
+    if (vMeetPoint) msg += '*Punto de encuentro:* ' + vMeetPoint + '\n';
+    msg += '\n*👤 PASAJERO:*\n';
+    msg += '*Nombre:* ' + (v.passenger || 'No especificado') + '\n';
+    if (v.guideName) msg += '*Guia asignado:* ' + v.guideName + '\n';
+    if (v.guidePhone) msg += '*Tel guia:* ' + v.guidePhone + '\n';
+    if (v.notes) msg += '\n*Nota:* ' + v.notes + '\n';
+    msg += '\n_Enviado desde TouresBaratos.com_';
+
+    var encoded = encodeURIComponent(msg);
+
+    if (operador && operador.phone) {
+        var phone = operador.phone.replace(/[^0-9+]/g, '');
+        if (phone.startsWith('0')) phone = '57' + phone.substring(1);
+        if (!phone.startsWith('+') && !phone.startsWith('57')) phone = '57' + phone;
+        phone = phone.replace('+', '');
+        window.open('https://wa.me/' + phone + '?text=' + encoded, '_blank');
+    } else {
+        var activos = proveedores.filter(function(p) { return p.status === 'activo' && p.phone; });
+        if (activos.length === 0) {
+            alert('No hay operadores registrados con telefono.\n\nRegistra operadores en Proveedores y asocia tours.\n\nEl mensaje sera copiado al portapapeles.');
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(msg.replace(/\*/g, '').replace(/\_/g, ''));
+            }
+            return;
+        }
+        var opList = '';
+        for (var i = 0; i < activos.length; i++) {
+            opList += (i + 1) + '. ' + activos[i].name + ' (' + activos[i].phone + ')\n';
+        }
+        var sel = prompt('Selecciona el operador (numero):\n\n' + opList);
+        if (!sel || isNaN(sel)) return;
+        var idx = parseInt(sel) - 1;
+        if (idx < 0 || idx >= activos.length) { alert('Seleccion invalida'); return; }
+        var selOp = activos[idx];
+        var phone2 = selOp.phone.replace(/[^0-9+]/g, '');
+        if (phone2.startsWith('0')) phone2 = '57' + phone2.substring(1);
+        if (!phone2.startsWith('+') && !phone2.startsWith('57')) phone2 = '57' + phone2;
+        phone2 = phone2.replace('+', '');
+        window.open('https://wa.me/' + phone2 + '?text=' + encoded, '_blank');
     }
 }
 
