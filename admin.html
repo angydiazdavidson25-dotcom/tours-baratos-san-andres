@@ -1402,9 +1402,13 @@
                         </div>
                     </div>
                 </div>
+                <div style="margin-top:10px;">
+                    <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;"><i class="fas fa-clipboard" style="color:var(--blue);"></i> Observaciones para el cliente (aparece en el itinerario PDF)</label>
+                    <textarea name="observaciones" rows="2" placeholder="Ej: Llevar bloqueador, ropa comoda, efectivo para ingreso al muelle..." style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;resize:vertical;"></textarea>
+                </div>
                 <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px;align-items:end;">
                     <div>
-                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Nota (opcional)</label>
+                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Nota interna (no aparece en PDF)</label>
                         <input type="text" name="note" placeholder="Ej: Grupo de 5, hotel Decameron..." style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
                     </div>
                     <button type="submit" class="btn btn-success" style="height:40px;white-space:nowrap;"><i class="fas fa-plus"></i> Registrar Venta</button>
@@ -1719,17 +1723,17 @@
 <script>
 // ===== TOURS DATA (dynamic from localStorage) =====
 var DEFAULT_TOURS = [
-    { id:1, name:"Tour Platino (Ponton)", price:65000, schedule:"8:30 AM - 4:00 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Recorrido completo en ponton colectivo por los mejores puntos de San Andres.", included:["Transporte maritimo ida y vuelta","Paradas en Manglares, Acuario, Rocky Cay y El Palito","Musica en vivo","Guia turistico","Chaleco salvavidas"], notIncluded:["Alimentacion y bebidas","Impuesto ingreso a cayos ($15.000)","Alquiler equipo snorkel","Propinas"], status:"activo" },
-    { id:2, name:"Yate Rumba", price:130000, schedule:"Tarde / Noche", checkIn:"30 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Fiesta en alta mar con DJ en vivo, barra libre y rumba sobre las aguas del Caribe.", included:["Acceso al yate","DJ en vivo","Barra libre (licor nacional)","Parada de bano","Chaleco salvavidas"], notIncluded:["Licor premium","Snacks adicionales","Transporte terrestre","Propinas"], status:"activo" },
-    { id:3, name:"Acuario Directo", price:45000, schedule:"9:00 AM - 3:00 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Traslado directo al Acuario para snorkel entre peces de colores y mantarrayas.", included:["Transporte maritimo ida y vuelta","Acceso al Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Alquiler equipo snorkel ($10.000)","Alimentacion","Impuesto de ingreso","Propinas"], status:"activo" },
-    { id:4, name:"Johnny Cay Directo", price:55000, schedule:"9:00 AM - 3:30 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Dia completo de playa en el cayo principal de San Andres.", included:["Transporte maritimo ida y vuelta","Guia turistico","Chaleco salvavidas"], notIncluded:["Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler sillas/carpas","Propinas"], status:"activo" },
-    { id:5, name:"Johnny Cay + Acuario", price:65000, schedule:"8:30 AM - 3:30 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"El tour clasico: visita los dos cayos mas famosos en un solo dia.", included:["Transporte maritimo ida y vuelta","Parada en Johnny Cay y Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler equipo snorkel","Propinas"], status:"activo" },
-    { id:6, name:"Semi-Submarino", price:110000, schedule:"Varias salidas (1.5 Horas)", checkIn:"15 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Observa arrecifes de coral y vida marina a traves de ventanas panoramicas bajo el agua.", included:["Recorrido de 1.5 horas","Vista submarina panoramica","Guia narrador","Parada snorkel opcional"], notIncluded:["Alquiler equipo snorkel","Alimentacion","Transporte terrestre","Propinas"], status:"activo" },
-    { id:7, name:"Noche Blanca", price:245000, schedule:"7:00 PM - 10:00 PM", checkIn:"6:30 PM", meetingPoint:"Marina Portofino, San Andres", description:"Experiencia VIP: cena buffet mariscos, bar abierto premium y fiesta en crucero. Dress code: todo blanco.", included:["Cena buffet (mariscos y carnes)","Bar abierto premium","DJ y musica en vivo","Crucero por la bahia","Evento exclusivo"], notIncluded:["Transporte terrestre","Dress code: ropa blanca (obligatorio)","Propinas"], status:"activo" },
+    { id:1, name:"Tour Platino (Ponton)", price:65000, schedule:"8:30 AM - 4:00 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Recorrido completo en ponton colectivo por los mejores puntos de San Andres.", included:["Transporte maritimo ida y vuelta","Paradas en Manglares, Acuario, Rocky Cay y El Palito","Musica en vivo","Guia turistico","Chaleco salvavidas"], notIncluded:["Ingreso al muelle (privado, pago directo)","Alimentacion y bebidas","Impuesto ingreso a cayos ($15.000)","Alquiler equipo snorkel","Propinas"], status:"activo" },
+    { id:2, name:"Yate Rumba", price:130000, schedule:"Tarde / Noche", checkIn:"30 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Fiesta en alta mar con DJ en vivo, barra libre y rumba sobre las aguas del Caribe.", included:["Acceso al yate","DJ en vivo","Barra libre (licor nacional)","Parada de bano","Chaleco salvavidas"], notIncluded:["Ingreso al muelle (privado, pago directo)","Licor premium","Snacks adicionales","Transporte terrestre","Propinas"], status:"activo" },
+    { id:3, name:"Acuario Directo", price:45000, schedule:"9:00 AM - 3:00 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Traslado directo al Acuario para snorkel entre peces de colores y mantarrayas.", included:["Transporte maritimo ida y vuelta","Acceso al Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Ingreso al muelle (privado, pago directo)","Alquiler equipo snorkel ($10.000)","Alimentacion","Impuesto de ingreso a cayos","Propinas"], status:"activo" },
+    { id:4, name:"Johnny Cay Directo", price:55000, schedule:"9:00 AM - 3:30 PM", checkIn:"8:45 AM", meetingPoint:"Muelle Toninos, San Andres", description:"Dia completo de playa en el cayo principal de San Andres.", included:["Transporte maritimo ida y vuelta","Guia turistico","Chaleco salvavidas"], notIncluded:["Ingreso al muelle (privado, pago directo)","Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler sillas/carpas","Propinas"], status:"activo" },
+    { id:5, name:"Johnny Cay + Acuario", price:65000, schedule:"8:30 AM - 3:30 PM", checkIn:"8:15 AM", meetingPoint:"Muelle Toninos, San Andres", description:"El tour clasico: visita los dos cayos mas famosos en un solo dia.", included:["Transporte maritimo ida y vuelta","Parada en Johnny Cay y Acuario","Guia turistico","Chaleco salvavidas"], notIncluded:["Ingreso al muelle (privado, pago directo)","Impuesto ingreso Johnny Cay ($15.000 p/p)","Alimentacion","Alquiler equipo snorkel","Propinas"], status:"activo" },
+    { id:6, name:"Semi-Submarino", price:110000, schedule:"Varias salidas (1.5 Horas)", checkIn:"15 min antes", meetingPoint:"Muelle Toninos, San Andres", description:"Observa arrecifes de coral y vida marina a traves de ventanas panoramicas bajo el agua.", included:["Recorrido de 1.5 horas","Vista submarina panoramica","Guia narrador","Parada snorkel opcional"], notIncluded:["Ingreso al muelle (privado, pago directo)","Alquiler equipo snorkel","Alimentacion","Transporte terrestre","Propinas"], status:"activo" },
+    { id:7, name:"Noche Blanca", price:245000, schedule:"7:00 PM - 10:00 PM", checkIn:"6:30 PM", meetingPoint:"Marina Portofino, San Andres", description:"Experiencia VIP: cena buffet mariscos, bar abierto premium y fiesta en crucero. Dress code: todo blanco.", included:["Cena buffet (mariscos y carnes)","Bar abierto premium","DJ y musica en vivo","Crucero por la bahia","Evento exclusivo"], notIncluded:["Ingreso al muelle (privado, pago directo)","Transporte terrestre","Dress code: ropa blanca (obligatorio)","Propinas"], status:"activo" },
     { id:8, name:"Buceo (Mini-curso)", price:110000, schedule:"Manana / Tarde (3 horas)", checkIn:"30 min antes", meetingPoint:"Centro de Buceo, San Andres", description:"Mini-curso con instructores PADI. Incluye teoria, practica y 1 inmersion hasta 12m.", included:["Instructor PADI certificado","Equipo completo de buceo","Clase teorica","1 inmersion hasta 12m","Seguro de buceo","Certificado participacion"], notIncluded:["Fotos/videos submarinos","Transporte al centro","Inmersiones adicionales","Propinas"], status:"activo" },
     { id:9, name:"Parasail", price:220000, schedule:"Turnos cada hora", checkIn:"15 min antes del turno", meetingPoint:"Playa de Spratt Bight, San Andres", description:"Vuela sobre el mar a 100 metros de altura con vista panoramica de toda la isla.", included:["Vuelo de 15 minutos","Equipo de seguridad completo","Lancha de arrastre","Instructor profesional","Chaleco salvavidas"], notIncluded:["Fotos aereas","Transporte a la playa","Segundo vuelo","Propinas"], status:"activo" },
     { id:10, name:"Paddle Nocturno LED", price:220000, schedule:"4:30 PM en adelante", checkIn:"4:15 PM", meetingPoint:"Discoteca Coco Loco, San Andres", description:"Rema sobre aguas iluminadas con luces de neon. Experiencia nocturna con tablas LED transparentes.", included:["Tabla de paddle LED transparente","Remo y chaleco","Guia profesional","Sesion atardecer + nocturna","Instruccion basica"], notIncluded:["Transporte al punto","Funda impermeable celular","Bebidas","Propinas"], status:"activo" },
-    { id:11, name:"Tour Siete Colores", price:220000, schedule:"Amanecer - Medio dia", checkIn:"5:30 AM", meetingPoint:"Chameys Nautica, San Andres", description:"Tour en catamaran a vela recorriendo los 7 colores del mar con snorkel.", included:["Catamaran a vela","Recorrido completo 7 colores","Paradas en Acuario, Trampa Tortuga, Mundo Marino","Snorkel Barco Hundido","Guia experto","Equipo de snorkel"], notIncluded:["Alimentacion","Impuesto ingreso a cayos","Fotos profesionales","Propinas"], status:"activo" },
+    { id:11, name:"Tour Siete Colores", price:220000, schedule:"Amanecer - Medio dia", checkIn:"5:30 AM", meetingPoint:"Chameys Nautica, San Andres", description:"Tour en catamaran a vela recorriendo los 7 colores del mar con snorkel.", included:["Catamaran a vela","Recorrido completo 7 colores","Paradas en Acuario, Trampa Tortuga, Mundo Marino","Snorkel Barco Hundido","Guia experto","Equipo de snorkel"], notIncluded:["Ingreso al muelle (privado, pago directo)","Alimentacion","Impuesto ingreso a cayos","Fotos profesionales","Propinas"], status:"activo" },
     { id:12, name:"Amanecer en Ponton", price:130000, schedule:"~4:30 AM - 8:00 AM", checkIn:"4:00 AM", meetingPoint:"Recogida en hotel (zona centro)", description:"Amanecer en alta mar flotando en un ponton con musica suave y cafe.", included:["Recogida en hotel (zona centro)","Ponton privado","Musica ambiental","Amanecer en alta mar","Bebida de bienvenida"], notIncluded:["Recogida hoteles lejanos (+$30.000 p/p)","Desayuno completo","Propinas"], status:"activo" }
 ];
 
@@ -3382,7 +3386,7 @@ function saveQuickSale(e) {
     e.preventDefault();
     var form = document.getElementById('quickSaleForm');
     var fd = {};
-    form.querySelectorAll('input,select').forEach(function(el) {
+    form.querySelectorAll('input,select,textarea').forEach(function(el) {
         if (el.name) fd[el.name] = el.value;
     });
 
@@ -3412,6 +3416,7 @@ function saveQuickSale(e) {
         channel: fd.channel || 'punto',
         customSchedule: fd.customSchedule || '',
         customCheckIn: fd.customCheckIn || '',
+        observaciones: fd.observaciones || '',
         note: fd.note || ''
     };
 
@@ -3484,7 +3489,8 @@ function editVenta(id) {
             gField('Check-in / Hora llegada', 'customCheckIn', 'text', v.customCheckIn || '', {noReq: true})
         );
     }
-    fields += gField('Nota', 'note', 'text', v.note || '', {noReq: true});
+    fields += gField('Observaciones (para el cliente)', 'observaciones', 'textarea', v.observaciones || '', {noReq: true});
+    fields += gField('Nota interna', 'note', 'text', v.note || '', {noReq: true});
 
     showGestionModal('Editar Venta', fields);
 }
@@ -3516,6 +3522,7 @@ function saveVenta() {
             v.channel = fd.channel || 'punto';
             v.customSchedule = fd.customSchedule || '';
             v.customCheckIn = fd.customCheckIn || '';
+            v.observaciones = fd.observaciones || '';
             v.note = fd.note || '';
         }
         return v;
@@ -3858,8 +3865,42 @@ function downloadVentaPDF(id) {
             y += 10;
         }
 
+        // === OBSERVATIONS BOX (if any) ===
+        if (v.observaciones) {
+            doc.setFillColor(255, 252, 235);
+            var obsLines = doc.splitTextToSize(v.observaciones, CW - 12);
+            var obsH = 8 + obsLines.length * 3.8 + 2;
+            doc.rect(M, y, CW, obsH, 'F');
+            doc.setFillColor(255, 200, 0);
+            doc.rect(M, y, 2.5, obsH, 'F');
+            doc.setTextColor(120, 90, 0);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7);
+            txt('OBSERVACIONES', M + 6, y + 5);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7);
+            doc.setTextColor(80, 65, 20);
+            var obsY = y + 9;
+            for (var oi = 0; oi < obsLines.length; oi++) { txt(obsLines[oi], M + 6, obsY); obsY += 3.8; }
+            y += obsH + 4;
+        }
+
+        // === DOCK FEE WARNING ===
+        doc.setFillColor(248, 245, 255);
+        doc.rect(M, y, CW, 12, 'F');
+        doc.setFillColor(100, 70, 180);
+        doc.rect(M, y, 2.5, 12, 'F');
+        doc.setTextColor(80, 50, 150);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(6.5);
+        txt('IMPORTANTE - MUELLES PRIVADOS', M + 6, y + 4);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        doc.setTextColor(90, 70, 140);
+        txt('Los muelles en San Andres son privados. El ingreso se paga directamente en el muelle y NO esta incluido en el tour.', M + 6, y + 9);
+        y += 16;
+
         // === PAYMENT - Simple navy bar ===
-        y += 2;
         doc.setFillColor(27, 42, 74);
         doc.rect(M, y - 2, CW, 12, 'F');
         doc.setTextColor(220, 225, 240);
@@ -3880,7 +3921,7 @@ function downloadVentaPDF(id) {
             y += 8;
         }
 
-        // === POLICIES - Light and compact ===
+        // === POLICIES ===
         doc.setDrawColor(230, 233, 240);
         doc.setLineWidth(0.2);
         doc.line(M, y, M + CW, y);
@@ -3898,6 +3939,7 @@ function downloadVentaPDF(id) {
             'Cancelacion con menos de 24 horas: se cobra el 50% del valor total.',
             'No-show (no presentarse): no hay reembolso.',
             'Una vez iniciado el tour/servicio, NO hay devolucion por desistimiento del cliente.',
+            'El acceso a muelles es privado y su costo NO esta incluido. Se paga directamente al ingresar.',
             'En caso de mal clima, el tour se reprograma sin costo adicional.',
             'Presentar documento de identidad original el dia del tour.',
             'Llegar al punto de encuentro minimo 15 minutos antes.'
@@ -3906,7 +3948,7 @@ function downloadVentaPDF(id) {
             txt((pi + 1) + '. ' + policies[pi], M, y); y += 3.5;
         }
 
-        // === FOOTER - Thin and subtle ===
+        // === FOOTER ===
         doc.setFillColor(27, 42, 74);
         doc.rect(0, H - 12, W, 12, 'F');
         doc.setTextColor(160, 175, 200);
@@ -4489,6 +4531,21 @@ function downloadAgVoucher(id) {
             y += 6;
         }
 
+        // === DOCK FEE WARNING ===
+        doc.setFillColor(248, 245, 255);
+        doc.rect(M, y, CW, 12, 'F');
+        doc.setFillColor(100, 70, 180);
+        doc.rect(M, y, 2.5, 12, 'F');
+        doc.setTextColor(80, 50, 150);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(6.5);
+        txt('IMPORTANTE - MUELLES PRIVADOS', M + 6, y + 4);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        doc.setTextColor(90, 70, 140);
+        txt('Los muelles en San Andres son privados. El ingreso se paga directamente en el muelle y NO esta incluido en el tour.', M + 6, y + 9);
+        y += 16;
+
         // === POLICIES ===
         doc.setDrawColor(230, 233, 240);
         doc.setLineWidth(0.2);
@@ -4507,6 +4564,7 @@ function downloadAgVoucher(id) {
             'Presentar documento de identidad original.',
             'Llegar al punto de encuentro minimo 15 minutos antes.',
             'Una vez iniciado el tour/servicio, NO hay devolucion por desistimiento del cliente.',
+            'El acceso a muelles es privado y su costo NO esta incluido. Se paga directamente al ingresar.',
             'Sujeto a condiciones climaticas.',
             'Menores de edad deben estar acompanados por un adulto.'
         ];
