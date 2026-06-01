@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="js/jspdf.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
         :root {
             --yellow: #FFE600;
@@ -1283,6 +1285,44 @@
                 <button class="btn btn-primary btn-sm" onclick="saveSocials()"><i class="fas fa-save"></i> Guardar</button>
             </div>
 
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:12px; grid-column: 1 / -1; border: 2px solid var(--blue);">
+                <h3 style="font-size:1rem;"><i class="fas fa-cloud" style="color:var(--blue);"></i> Sincronizacion en la Nube (Firebase)</h3>
+                <p style="font-size:0.82rem; color:var(--gray-500);">Conecta Firebase para sincronizar datos entre todos tus dispositivos en tiempo real. <strong>Sin esto, los datos solo se guardan en este navegador.</strong></p>
+                <div id="firebaseStatus" style="width:100%;padding:8px 12px;border-radius:8px;font-size:0.82rem;font-weight:600;background:#FEF2F2;color:#DC2626;"><i class="fas fa-exclamation-circle"></i> No conectado — los datos son locales</div>
+                <details style="width:100%;">
+                    <summary style="cursor:pointer;font-size:0.82rem;font-weight:600;color:var(--blue);"><i class="fas fa-question-circle"></i> Como conectar Firebase (3 pasos gratis)</summary>
+                    <ol style="font-size:0.78rem;color:var(--gray-500);margin:8px 0 0 0;padding-left:20px;line-height:1.8;">
+                        <li>Ve a <a href="https://console.firebase.google.com" target="_blank" style="color:var(--blue);font-weight:600;">console.firebase.google.com</a> e inicia sesion con tu Gmail</li>
+                        <li>Clic en <strong>"Agregar proyecto"</strong> → nombre: <em>tours-baratos</em> → crear (desactiva Google Analytics)</li>
+                        <li>En el proyecto, ve a <strong>Compilacion → Realtime Database → Crear base de datos</strong> → modo de prueba</li>
+                        <li>Ve a <strong>Configuracion del proyecto</strong> (engranaje) → <strong>General</strong> → abajo <strong>"Tus apps"</strong> → clic en <strong>&lt;/&gt;</strong> (Web) → nombre: admin → Registrar</li>
+                        <li>Copia los valores de <code>firebaseConfig</code> que aparecen y pegalos aqui abajo</li>
+                    </ol>
+                </details>
+                <div style="width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">API Key</label>
+                        <input type="text" id="fbApiKey" placeholder="AIzaSy..." style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.8rem;font-family:monospace;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">Project ID</label>
+                        <input type="text" id="fbProjectId" placeholder="tours-baratos-xxxxx" style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.8rem;font-family:monospace;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">Database URL</label>
+                        <input type="text" id="fbDatabaseURL" placeholder="https://tours-baratos-xxxxx-default-rtdb.firebaseio.com" style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.8rem;font-family:monospace;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">App ID</label>
+                        <input type="text" id="fbAppId" placeholder="1:xxxx:web:xxxx" style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.8rem;font-family:monospace;">
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:4px;">
+                    <button class="btn btn-primary btn-sm" onclick="saveFirebaseConfig()"><i class="fas fa-plug"></i> Conectar Firebase</button>
+                    <button class="btn btn-outline btn-sm" onclick="disconnectFirebase()"><i class="fas fa-unlink"></i> Desconectar</button>
+                </div>
+            </div>
+
             <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:12px;">
                 <h3 style="font-size:1rem;"><i class="fas fa-database"></i> Datos</h3>
                 <p style="font-size:0.82rem; color:var(--gray-500);">Gestion de datos del CRM local.</p>
@@ -1753,6 +1793,7 @@ var TOURS = loadTours();
 function saveTours(data) {
     localStorage.setItem(SVC_KEY, JSON.stringify(data));
     TOURS = data;
+    if (fbDb && fbConnected) { fbDb.ref('data/' + SVC_KEY).set(data); }
 }
 
 const WA_NUMBER = "573222123751";
@@ -1767,6 +1808,7 @@ function getReservations() {
 
 function saveReservations(data) {
     localStorage.setItem('tb_reservations', JSON.stringify(data));
+    if (fbDb && fbConnected) { fbDb.ref('data/tb_reservations').set(data); }
 }
 
 // ===== TABS =====
@@ -3020,9 +3062,136 @@ if (localStorage.getItem('tb_tt')) {
 // ===== GESTION ADMINISTRATIVA - MODULOS =====
 // ============================================================
 
-// --- Data Helpers ---
+// --- Firebase Cloud Sync ---
+var fbApp = null;
+var fbDb = null;
+var fbConnected = false;
+var FB_CONFIG_KEY = 'tb_firebase_config';
+var FB_SYNC_KEYS = ['tb_reservations','tb_notifications','tb_services','tb_ventas','tb_agencias','tb_agencia_ventas','tb_finance','tb_providers','tb_commissions','tb_accounts','tb_invoices'];
+var fbListeners = {};
+
+function initFirebase() {
+    var cfg = localStorage.getItem(FB_CONFIG_KEY);
+    if (!cfg) { updateFirebaseStatus(false); return; }
+    try {
+        var config = JSON.parse(cfg);
+        if (!config.apiKey || !config.projectId || !config.databaseURL) { updateFirebaseStatus(false); return; }
+        if (!window.firebase) { updateFirebaseStatus(false); return; }
+        fbApp = firebase.initializeApp(config);
+        fbDb = firebase.database();
+        fbConnected = true;
+        updateFirebaseStatus(true);
+        // Upload local data that might not be in Firebase yet
+        migrateLocalToFirebase();
+        // Start listening for real-time changes
+        FB_SYNC_KEYS.forEach(function(key) { listenFirebaseKey(key); });
+    } catch(e) {
+        console.error('Firebase init error:', e);
+        fbConnected = false;
+        updateFirebaseStatus(false);
+    }
+}
+
+function updateFirebaseStatus(connected) {
+    var el = document.getElementById('firebaseStatus');
+    if (!el) return;
+    if (connected) {
+        el.style.background = '#F0FDF4';
+        el.style.color = '#16A34A';
+        el.innerHTML = '<i class="fas fa-check-circle"></i> Conectado — datos sincronizados en la nube';
+    } else {
+        el.style.background = '#FEF2F2';
+        el.style.color = '#DC2626';
+        el.innerHTML = '<i class="fas fa-exclamation-circle"></i> No conectado — los datos son locales';
+    }
+}
+
+function migrateLocalToFirebase() {
+    if (!fbDb) return;
+    FB_SYNC_KEYS.forEach(function(key) {
+        var local = localStorage.getItem(key);
+        if (local && local !== '[]' && local !== 'null') {
+            fbDb.ref('data/' + key).once('value').then(function(snap) {
+                if (!snap.exists()) {
+                    fbDb.ref('data/' + key).set(JSON.parse(local));
+                }
+            });
+        }
+    });
+}
+
+function listenFirebaseKey(key) {
+    if (!fbDb || fbListeners[key]) return;
+    fbListeners[key] = true;
+    fbDb.ref('data/' + key).on('value', function(snap) {
+        var val = snap.val();
+        if (val !== null) {
+            localStorage.setItem(key, JSON.stringify(val));
+        }
+        // Refresh visible tab
+        refreshCurrentTab();
+    });
+}
+
+function refreshCurrentTab() {
+    var active = document.querySelector('.tab-content.active');
+    if (!active) return;
+    var id = active.id.replace('tab-', '');
+    if (id === 'dashboard') refreshDashboard();
+    else if (id === 'reservations') renderReservations();
+    else if (id === 'ventas') renderVentas();
+    else if (id === 'agencias') renderAgencias();
+    else if (id === 'finanzas') refreshFinanzas();
+    else if (id === 'proveedores') renderProveedores();
+    else if (id === 'comisiones') renderComisiones();
+    else if (id === 'cuentas') renderCuentas();
+    else if (id === 'cobros') renderCobros();
+    else if (id === 'servicios') renderServicios();
+}
+
+function saveFirebaseConfig() {
+    var config = {
+        apiKey: document.getElementById('fbApiKey').value.trim(),
+        projectId: document.getElementById('fbProjectId').value.trim(),
+        databaseURL: document.getElementById('fbDatabaseURL').value.trim(),
+        appId: document.getElementById('fbAppId').value.trim()
+    };
+    if (!config.apiKey || !config.projectId || !config.databaseURL) {
+        alert('Completa al menos API Key, Project ID y Database URL');
+        return;
+    }
+    localStorage.setItem(FB_CONFIG_KEY, JSON.stringify(config));
+    // Reload to init Firebase
+    location.reload();
+}
+
+function disconnectFirebase() {
+    if (!confirm('Desconectar Firebase? Los datos locales se mantienen.')) return;
+    localStorage.removeItem(FB_CONFIG_KEY);
+    location.reload();
+}
+
+function loadFirebaseConfigUI() {
+    var cfg = localStorage.getItem(FB_CONFIG_KEY);
+    if (!cfg) return;
+    try {
+        var c = JSON.parse(cfg);
+        var el;
+        el = document.getElementById('fbApiKey'); if (el) el.value = c.apiKey || '';
+        el = document.getElementById('fbProjectId'); if (el) el.value = c.projectId || '';
+        el = document.getElementById('fbDatabaseURL'); if (el) el.value = c.databaseURL || '';
+        el = document.getElementById('fbAppId'); if (el) el.value = c.appId || '';
+    } catch(e) {}
+}
+
+// --- Data Helpers (localStorage + Firebase sync) ---
 function getGData(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
-function setGData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+function setGData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+    if (fbDb && fbConnected) {
+        fbDb.ref('data/' + key).set(data);
+    }
+}
 function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
 function today() { return new Date().toISOString().split('T')[0]; }
 function thisMonth() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); }
@@ -3240,7 +3409,7 @@ function exportServiciosCSV() {
 var VT_KEY = 'tb_ventas';
 
 function getVentas() { return JSON.parse(localStorage.getItem(VT_KEY) || '[]'); }
-function saveVentas(data) { localStorage.setItem(VT_KEY, JSON.stringify(data)); }
+function saveVentas(data) { localStorage.setItem(VT_KEY, JSON.stringify(data)); if (fbDb && fbConnected) { fbDb.ref('data/' + VT_KEY).set(data); } }
 
 function getSelectedVentasDate() {
     var el = document.getElementById('ventasFecha');
@@ -4026,9 +4195,9 @@ var AG_KEY = 'tb_agencias';
 var AGV_KEY = 'tb_agencia_ventas';
 
 function getAgencias() { return JSON.parse(localStorage.getItem(AG_KEY) || '[]'); }
-function saveAgencias(d) { localStorage.setItem(AG_KEY, JSON.stringify(d)); }
+function saveAgencias(d) { localStorage.setItem(AG_KEY, JSON.stringify(d)); if (fbDb && fbConnected) { fbDb.ref('data/' + AG_KEY).set(d); } }
 function getAgVentas() { return JSON.parse(localStorage.getItem(AGV_KEY) || '[]'); }
-function saveAgVentas(d) { localStorage.setItem(AGV_KEY, JSON.stringify(d)); }
+function saveAgVentas(d) { localStorage.setItem(AGV_KEY, JSON.stringify(d)); if (fbDb && fbConnected) { fbDb.ref('data/' + AGV_KEY).set(d); } }
 
 var agCurrentTab = 'directorio';
 
@@ -5267,6 +5436,10 @@ function downloadCobroPDF(id) {
         alert('Error PDF: ' + (err.message || err));
     }
 }
+
+// ===== INIT FIREBASE ON PAGE LOAD =====
+initFirebase();
+loadFirebaseConfigUI();
 
 </script>
 </body>
