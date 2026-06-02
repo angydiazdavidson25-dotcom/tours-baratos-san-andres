@@ -1,0 +1,10 @@
+name = "tours-baratos-bot"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+TWILIO_WHATSAPP_NUMBER = "+14155238886"
+FIREBASE_DB_URL = "https://tours-baratos-52996-default-rtdb.firebaseio.com"
+
+# Set these as secrets with: wrangler secret put TWILIO_ACCOUNT_SID
+# wrangler secret put TWILIO_AUTH_TOKEN
