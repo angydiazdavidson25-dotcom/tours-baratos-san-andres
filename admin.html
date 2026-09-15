@@ -4033,11 +4033,12 @@ function renderVentas() {
     // Combine for stats
     var totalVentas = 0;
     var totalPersonas = 0;
-    var cantVentas = ventas.length + reservas.length;
+    var cantVentas = ventas.filter(function(v) { return !v.cancelado; }).length + reservas.length;
     var byMethod = { efectivo: 0, nequi: 0, transferencia: 0, tarjeta: 0 };
     var tourCount = {};
 
     ventas.forEach(function(v) {
+        if (v.cancelado) return;
         totalVentas += (v.amount || 0);
         totalPersonas += (v.qty || 1);
         var m = v.method || 'efectivo';
@@ -4112,9 +4113,10 @@ function renderVentas() {
         ventas.forEach(function(v) {
             var payLabel = v.method === 'nequi' ? 'Nequi' : v.method === 'tarjeta' ? 'Tarjeta' : v.method === 'transferencia' ? 'Transfer.' : 'Efectivo';
             var saldo = (v.saldo || 0);
-            var stBadge = v.payStatus === 'abonado' ? '<span class="badge-pendiente">Abonado</span>' : '<span class="badge-pagado">Pagado</span>';
+            var stBadge = v.cancelado ? '<span class="badge-pendiente" style="background:#FEE2E2;color:#DC2626;">Cancelado</span>' : (v.payStatus === 'abonado' ? '<span class="badge-pendiente">Abonado</span>' : '<span class="badge-pagado">Pagado</span>');
             var chIcon = channelIcons[v.channel] || channelIcons.punto;
-            vHtml += '<tr>' +
+            var rowStyle = v.cancelado ? ' style="opacity:0.55;"' : '';
+            vHtml += '<tr' + rowStyle + '>' +
                 '<td>' + (v.time || '-') + '</td>' +
                 '<td>' + chIcon + '</td>' +
                 '<td><strong>' + (v.tourName || 'Otro') + '</strong></td>' +
@@ -4129,9 +4131,12 @@ function renderVentas() {
                 '<td class="actions-cell">' +
                     '<button class="action-btn view" title="Itinerario PDF" onclick="downloadVentaPDF(\'' + v.id + '\')"><i class="fas fa-file-pdf"></i></button>' +
                     '<button class="action-btn whatsapp" title="Enviar al Operador" onclick="enviarOperador(\'' + v.id + '\')"><i class="fab fa-whatsapp"></i></button>' +
-                    (saldo > 0 ? '<button class="action-btn" title="Registrar Abono" onclick="registrarAbono(\'' + v.id + '\')"><i class="fas fa-hand-holding-usd" style="color:var(--orange);"></i></button>' : '') +
+                    (saldo > 0 && !v.cancelado ? '<button class="action-btn" title="Registrar Abono" onclick="registrarAbono(\'' + v.id + '\')"><i class="fas fa-hand-holding-usd" style="color:var(--orange);"></i></button>' : '') +
                     '<button class="action-btn voucher" title="Editar" onclick="editVenta(\'' + v.id + '\')"><i class="fas fa-edit"></i></button>' +
-                    '<button class="action-btn delete" title="Eliminar" onclick="deleteVenta(\'' + v.id + '\')"><i class="fas fa-trash"></i></button>' +
+                    (v.cancelado
+                        ? '<button class="action-btn" title="Reactivar" onclick="cancelarVenta(\'' + v.id + '\')"><i class="fas fa-undo" style="color:var(--green);"></i></button>'
+                        : '<button class="action-btn" title="Cancelar / Reembolsar" onclick="cancelarVenta(\'' + v.id + '\')"><i class="fas fa-ban" style="color:var(--orange);"></i></button>') +
+                    '<button class="action-btn delete" title="Eliminar (borra el registro, solo si fue un error al ingresarla)" onclick="deleteVenta(\'' + v.id + '\')"><i class="fas fa-trash"></i></button>' +
                 '</td></tr>';
         });
         vBody.innerHTML = vHtml;
@@ -4298,6 +4303,47 @@ function deleteVenta(id) {
     if (!confirm('Â¿Eliminar esta venta?')) return;
     var data = getVentas().filter(function(v) { return v.id !== id; });
     saveVentas(data);
+    renderVentas();
+}
+
+function cancelarVenta(id) {
+    var data = getVentas();
+    var v = data.find(function(x) { return x.id === id; });
+    if (!v) return;
+
+    if (v.cancelado) {
+        if (!confirm('Reactivar esta venta? Volvera a contar en ventas, finanzas activas y comision del asesor.')) return;
+        v.cancelado = false;
+        saveVentas(data);
+        renderVentas();
+        return;
+    }
+
+    var sugerido = v.abono || v.amount || 0;
+    var montoStr = prompt('Monto a reembolsar al cliente ($):', sugerido);
+    if (montoStr === null) return;
+    var monto = parseInt(montoStr, 10);
+    if (isNaN(monto) || monto < 0) { alert('Monto invalido'); return; }
+    if (!confirm('Marcar esta venta como Cancelada/Reembolsada?\n\nNo contara para ventas del dia, comision del asesor, ni en el total activo de Finanzas.' + (monto > 0 ? ' Se registrara un gasto de reembolso por ' + formatCOP(monto) + '.' : ''))) return;
+
+    v.cancelado = true;
+    v.canceladoFecha = today();
+    saveVentas(data);
+
+    if (monto > 0) {
+        var finData = getGData(FIN_KEY);
+        finData.push({
+            id: genId(),
+            type: 'gasto',
+            date: today(),
+            concept: 'Reembolso: ' + (v.tourName || 'Tour') + (v.client ? ' - ' + v.client : ''),
+            person: v.client || '',
+            amount: monto,
+            method: v.method || 'efectivo',
+            notes: 'Cancelacion de venta del ' + (v.date || '')
+        });
+        setGData(FIN_KEY, finData);
+    }
     renderVentas();
 }
 
@@ -4732,7 +4778,7 @@ function exportVentasCSV() {
     var csv = 'Fecha Venta,Fecha Tour,Hora,Canal,Tour,Cliente,Telefono,Personas,Monto,Abono,Saldo,Estado,Metodo,Asesor,Nota\n';
     ventas.forEach(function(v) {
         var ch = v.channel === 'whatsapp' ? 'WhatsApp' : v.channel === 'web' ? 'Web' : 'Punto Fisico';
-        csv += v.date + ',' + (v.tourDate || v.date || '') + ',' + (v.time || '') + ',' + ch + ',"' + (v.tourName || '') + '","' + (v.client || '') + '","' + (v.clientPhone || '') + '",' + (v.qty || 1) + ',' + (v.amount || 0) + ',' + (v.abono || v.amount || 0) + ',' + (v.saldo || 0) + ',' + (v.payStatus || 'pagado') + ',' + (v.method || '') + ',"' + (v.vendedor || '') + '","' + (v.note || '') + '"\n';
+        csv += v.date + ',' + (v.tourDate || v.date || '') + ',' + (v.time || '') + ',' + ch + ',"' + (v.tourName || '') + '","' + (v.client || '') + '","' + (v.clientPhone || '') + '",' + (v.qty || 1) + ',' + (v.amount || 0) + ',' + (v.abono || v.amount || 0) + ',' + (v.saldo || 0) + ',' + (v.cancelado ? 'cancelado' : (v.payStatus || 'pagado')) + ',' + (v.method || '') + ',"' + (v.vendedor || '') + '","' + (v.note || '') + '"\n';
     });
     var blob = new Blob([csv], {type: 'text/csv'});
     var a = document.createElement('a');
@@ -5770,7 +5816,7 @@ function renderPagoAsesores() {
         label.textContent = range.start.toLocaleDateString('es-CO', opts) + ' - ' + range.end.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
-    var ventas = getVentas().filter(function(v) { var fTour = v.tourDate || v.date; return fTour && fTour >= startStr && fTour <= endStr; });
+    var ventas = getVentas().filter(function(v) { var fTour = v.tourDate || v.date; return !v.cancelado && fTour && fTour >= startStr && fTour <= endStr; });
     var porAsesor = {};
     ventas.forEach(function(v) {
         var nombre = (v.vendedor && v.vendedor.trim()) ? v.vendedor.trim() : 'Sin asignar';
