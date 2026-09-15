@@ -3373,6 +3373,14 @@ function checkBootstrapNeeded() {
     fbDb.ref('usuarios').once('value').then(function(snap) {
         var el = document.getElementById('authBootstrapLink');
         if (el) el.style.display = snap.exists() ? 'none' : 'block';
+    }).catch(function(e) {
+        // No se pudo leer (p.ej. reglas de la base de datos bloqueando lectura sin sesion).
+        // Se muestra el enlace igual: crear la cuenta fallara con un mensaje claro si en
+        // realidad ya existe un administrador o las reglas lo impiden.
+        console.error('checkBootstrapNeeded error:', e);
+        var el = document.getElementById('authBootstrapLink');
+        if (el) el.style.display = 'block';
+        showAuthError('authError', 'No se pudo verificar el estado de la cuenta (revisa las Reglas de tu Realtime Database en Firebase). Puedes intentar crear la cuenta de Administrador de todas formas.');
     });
 }
 
@@ -3393,6 +3401,10 @@ function loadUserProfile(user) {
         setupPresence();
         setupActividadFeed();
         renderUsuariosList();
+    }).catch(function(e) {
+        console.error('loadUserProfile error:', e);
+        showAuthError('authError', 'No se pudo cargar tu perfil (revisa las Reglas de tu Realtime Database en Firebase). Intenta de nuevo.');
+        fbAuth.signOut();
     });
 }
 
@@ -3457,12 +3469,22 @@ function doBootstrapAdmin() {
             showAuthError('authBootError', 'Ya existe un administrador. Pide que te creen una cuenta.');
             return;
         }
+        crearAdminAhora();
+    }).catch(function(e) {
+        // No se pudo verificar si ya hay usuarios (p.ej. reglas de la base de datos).
+        // Se intenta crear la cuenta igual; si ya existiera un administrador, la propia
+        // creacion o el login posterior lo dejaran en evidencia.
+        console.error('doBootstrapAdmin check error:', e);
+        crearAdminAhora();
+    });
+
+    function crearAdminAhora() {
         fbAuth.createUserWithEmailAndPassword(email, pass).then(function(cred) {
             return fbDb.ref('usuarios/' + cred.user.uid).set({ nombre: nombre, email: email, rol: 'administrador', creado: Date.now() });
         }).catch(function(e) {
             showAuthError('authBootError', translateAuthError(e));
         });
-    });
+    }
 }
 
 function doLogout() {
