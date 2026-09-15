@@ -9,6 +9,7 @@
     <script src="js/jspdf.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <style>
         :root {
             --yellow: #FFE600;
@@ -357,6 +358,63 @@
             padding: 28px;
             position: relative;
         }
+
+        /* ===== AUTH GATE ===== */
+        .auth-gate {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, var(--navy), #101c33);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .auth-gate.active { display: flex; }
+        .auth-card {
+            background: var(--white);
+            border-radius: 16px;
+            max-width: 380px;
+            width: 100%;
+            padding: 32px 28px;
+        }
+        .auth-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--navy);
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .auth-card p.sub { color: var(--gray-500); font-size: 0.82rem; margin-bottom: 18px; }
+        .auth-card input, .auth-card select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .auth-card input:focus, .auth-card select:focus { outline: none; border-color: var(--blue); }
+        .auth-error {
+            display: none;
+            background: #FEF2F2;
+            color: #DC2626;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        .auth-error.active { display: block; }
+        .auth-link { color: var(--blue); font-size: 0.8rem; cursor: pointer; text-decoration: underline; }
+        .sidebar-user {
+            padding: 12px 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 12px;
+        }
+        .sidebar-user .name { color: #fff; font-size: 0.82rem; font-weight: 600; }
+        .sidebar-user .role { color: rgba(255,255,255,0.5); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; }
+        .sidebar-user .logout-btn { color: var(--yellow); font-size: 0.75rem; cursor: pointer; margin-top: 6px; display: inline-block; }
+        .online-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; margin-right: 6px; }
 
         .modal-close {
             position: absolute;
@@ -786,6 +844,36 @@
 </head>
 <body>
 
+<!-- AUTH GATE -->
+<div class="auth-gate" id="authGate">
+    <div class="auth-card">
+        <div id="authLoginView">
+            <h2><i class="fas fa-lock"></i> Acceso al Panel</h2>
+            <p class="sub">Ingresa con tu correo y contraseña (Asesor o Administrador).</p>
+            <div class="auth-error" id="authError"></div>
+            <input type="email" id="authEmail" placeholder="Correo electronico" autocomplete="username">
+            <input type="password" id="authPassword" placeholder="Contraseña" autocomplete="current-password">
+            <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
+            <div style="margin-top:14px;text-align:center;">
+                <span class="auth-link" id="authBootstrapLink" style="display:none;" onclick="showBootstrapView()">¿Primera vez? Crear cuenta de Administrador</span>
+                <p id="authOfflineHint" style="display:none;font-size:0.78rem;color:var(--gray-500);margin-top:6px;">Conecta Firebase en Configuracion para activar el acceso en linea.</p>
+            </div>
+        </div>
+        <div id="authBootstrapView" style="display:none;">
+            <h2><i class="fas fa-user-shield"></i> Crear Administrador</h2>
+            <p class="sub">Esta sera la primera cuenta y tendra acceso total al panel.</p>
+            <div class="auth-error" id="authBootError"></div>
+            <input type="text" id="bootName" placeholder="Tu nombre">
+            <input type="email" id="bootEmail" placeholder="Correo electronico" autocomplete="username">
+            <input type="password" id="bootPassword" placeholder="Contraseña (minimo 6 caracteres)" autocomplete="new-password">
+            <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doBootstrapAdmin()"><i class="fas fa-user-shield"></i> Crear cuenta Administrador</button>
+            <div style="margin-top:14px;text-align:center;">
+                <span class="auth-link" onclick="showLoginView()">Volver a iniciar sesion</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- SIDEBAR -->
 <aside class="sidebar">
     <div class="sidebar-brand">
@@ -809,13 +897,19 @@
         <li><a href="#" onclick="showTab('comisiones')"><i class="fas fa-percent"></i> Comisiones</a></li>
         <li><a href="#" onclick="showTab('cuentas')"><i class="fas fa-file-invoice-dollar"></i> Cuentas</a></li>
         <li><a href="#" onclick="showTab('cobros')"><i class="fas fa-file-pdf"></i> Cuentas de Cobro</a></li>
-        <li style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
+        <li style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;" id="navSistemaLabel">
             <small style="padding:4px 24px;color:rgba(255,255,255,0.35);font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;">Sistema</small>
         </li>
-        <li><a href="#" onclick="showTab('settings')"><i class="fas fa-cog"></i> Configuracion</a></li>
+        <li id="navUsuarios"><a href="#" onclick="showTab('usuarios')"><i class="fas fa-user-shield"></i> Usuarios <span id="onlineBadge" style="background:var(--green);color:#fff;border-radius:50%;padding:2px 6px;font-size:0.65rem;margin-left:4px;"></span></a></li>
+        <li id="navSettings"><a href="#" onclick="showTab('settings')"><i class="fas fa-cog"></i> Configuracion</a></li>
         <li><a href="index.html"><i class="fas fa-globe"></i> Ver Pagina Web</a></li>
         <li><a href="links.html"><i class="fas fa-link"></i> Link-in-Bio</a></li>
     </ul>
+    <div class="sidebar-user" id="sidebarUser" style="display:none;">
+        <div class="name" id="sidebarUserName"></div>
+        <div class="role" id="sidebarUserRole"></div>
+        <span class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesion</span>
+    </div>
 </aside>
 
 <!-- MAIN -->
@@ -1240,6 +1334,53 @@
     </div>
 
     <!-- SETTINGS TAB -->
+    <!-- ========== USUARIOS / EN LINEA TAB ========== -->
+    <div class="tab-content" id="tab-usuarios">
+        <div class="main-header">
+            <h1><i class="fas fa-user-shield"></i> Usuarios y Actividad en Linea</h1>
+        </div>
+        <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:10px;">
+                <h3 style="font-size:1rem;"><i class="fas fa-signal" style="color:var(--green);"></i> Conectados ahora</h3>
+                <div id="onlineUsersList" style="width:100%;font-size:0.85rem;color:var(--gray-500);">Nadie conectado.</div>
+            </div>
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:10px;">
+                <h3 style="font-size:1rem;"><i class="fas fa-history" style="color:var(--blue);"></i> Actividad reciente</h3>
+                <div id="actividadList" style="width:100%;font-size:0.8rem;color:var(--gray-500);max-height:280px;overflow-y:auto;">Sin actividad todavia.</div>
+            </div>
+            <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:12px; grid-column: 1 / -1;">
+                <h3 style="font-size:1rem;"><i class="fas fa-user-plus"></i> Crear cuenta de Asesor o Administrador</h3>
+                <div style="width:100%;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;">
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">Nombre</label>
+                        <input type="text" id="newUserNombre" placeholder="Nombre completo" style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.82rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">Correo</label>
+                        <input type="email" id="newUserEmail" placeholder="correo@ejemplo.com" style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.82rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">Contraseña</label>
+                        <input type="password" id="newUserPass" placeholder="Minimo 6 caracteres" style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.82rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:600;color:var(--gray-500);">Rol</label>
+                        <select id="newUserRol" style="width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.82rem;">
+                            <option value="asesor">Asesor</option>
+                            <option value="administrador">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="crearUsuario()"><i class="fas fa-user-plus"></i> Crear cuenta</button>
+                <p style="font-size:0.72rem;color:var(--gray-500);">El asesor solo vera Dashboard, Reservas, Clientes, Servicios, Ventas Diarias y Agencias. El administrador ve todo el panel.</p>
+                <table class="data-table" id="usuariosTable" style="width:100%;margin-top:6px;">
+                    <thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Acciones</th></tr></thead>
+                    <tbody id="usuariosTableBody"><tr><td colspan="4">Cargando...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div class="tab-content" id="tab-settings">
         <div class="main-header">
             <h1><i class="fas fa-cog"></i> Configuracion</h1>
@@ -1295,8 +1436,10 @@
                         <li>Ve a <a href="https://console.firebase.google.com" target="_blank" style="color:var(--blue);font-weight:600;">console.firebase.google.com</a> e inicia sesion con tu Gmail</li>
                         <li>Clic en <strong>"Agregar proyecto"</strong> → nombre: <em>tours-baratos</em> → crear (desactiva Google Analytics)</li>
                         <li>En el proyecto, ve a <strong>Compilacion → Realtime Database → Crear base de datos</strong> → modo de prueba</li>
+                        <li>Ve a <strong>Compilacion → Authentication → Comenzar</strong> → pestaña <strong>Sign-in method</strong> → habilita <strong>Correo electronico/contraseña</strong></li>
                         <li>Ve a <strong>Configuracion del proyecto</strong> (engranaje) → <strong>General</strong> → abajo <strong>"Tus apps"</strong> → clic en <strong>&lt;/&gt;</strong> (Web) → nombre: admin → Registrar</li>
                         <li>Copia los valores de <code>firebaseConfig</code> que aparecen y pegalos aqui abajo</li>
+                        <li><strong>Importante (seguridad):</strong> luego de crear tu cuenta de Administrador, ve a <strong>Realtime Database → Reglas</strong> y pega esto para que solo usuarios que iniciaron sesion puedan ver/editar los datos: <code>{"rules": {".read": "auth != null", ".write": "auth != null"}}</code> → Publicar</li>
                     </ol>
                 </details>
                 <div style="width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
@@ -1816,7 +1959,9 @@ function showTab(tab) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-' + tab).classList.add('active');
     document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
-    event.target.closest('a').classList.add('active');
+    if (typeof event !== 'undefined' && event && event.target && event.target.closest('a')) {
+        event.target.closest('a').classList.add('active');
+    }
 
     if (tab === 'dashboard') refreshDashboard();
     if (tab === 'reservations') renderReservations();
@@ -1831,6 +1976,8 @@ function showTab(tab) {
     if (tab === 'comisiones') renderComisiones();
     if (tab === 'cuentas') renderCuentas();
     if (tab === 'cobros') renderCobros();
+    if (tab === 'usuarios') renderUsuariosList();
+    if (typeof updatePresenceTab === 'function') updatePresenceTab(tab);
 }
 
 // ===== DASHBOARD =====
@@ -3072,11 +3219,11 @@ var fbListeners = {};
 
 function initFirebase() {
     var cfg = localStorage.getItem(FB_CONFIG_KEY);
-    if (!cfg) { updateFirebaseStatus(false); return; }
+    if (!cfg) { updateFirebaseStatus(false); showAuthOfflineMode(); return; }
     try {
         var config = JSON.parse(cfg);
-        if (!config.apiKey || !config.projectId || !config.databaseURL) { updateFirebaseStatus(false); return; }
-        if (!window.firebase) { updateFirebaseStatus(false); return; }
+        if (!config.apiKey || !config.projectId || !config.databaseURL) { updateFirebaseStatus(false); showAuthOfflineMode(); return; }
+        if (!window.firebase) { updateFirebaseStatus(false); showAuthOfflineMode(); return; }
         fbApp = firebase.initializeApp(config);
         fbDb = firebase.database();
         fbConnected = true;
@@ -3085,10 +3232,13 @@ function initFirebase() {
         migrateLocalToFirebase();
         // Start listening for real-time changes
         FB_SYNC_KEYS.forEach(function(key) { listenFirebaseKey(key); });
+        // Online access: require login (asesor / administrador)
+        initFirebaseAuth();
     } catch(e) {
         console.error('Firebase init error:', e);
         fbConnected = false;
         updateFirebaseStatus(false);
+        showAuthOfflineMode();
     }
 }
 
@@ -3184,12 +3334,294 @@ function loadFirebaseConfigUI() {
     } catch(e) {}
 }
 
+// --- Acceso en linea: Asesor / Administrador (Firebase Auth) ---
+var fbAuth = null;
+var authUser = null; // { uid, email, nombre, rol }
+var ADMIN_ONLY_TABS = ['finanzas', 'proveedores', 'comisiones', 'cuentas', 'cobros', 'settings', 'usuarios'];
+var presenceRef = null;
+var actividadRef = null;
+
+function initFirebaseAuth() {
+    if (!fbApp || !window.firebase || !firebase.auth) return;
+    fbAuth = firebase.auth();
+    document.getElementById('authOfflineHint').style.display = 'none';
+    document.getElementById('authGate').classList.add('active');
+    fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+            loadUserProfile(user);
+        } else {
+            authUser = null;
+            teardownPresence();
+            document.getElementById('sidebarUser').style.display = 'none';
+            document.getElementById('authGate').classList.add('active');
+            showLoginView();
+        }
+    });
+    checkBootstrapNeeded();
+}
+
+function showAuthOfflineMode() {
+    // No hay Firebase conectado todavia: se mantiene el uso local (sin login) como antes.
+    var gate = document.getElementById('authGate');
+    if (gate) gate.classList.remove('active');
+    var hint = document.getElementById('authOfflineHint');
+    if (hint) hint.style.display = 'block';
+}
+
+function checkBootstrapNeeded() {
+    if (!fbDb) return;
+    fbDb.ref('usuarios').once('value').then(function(snap) {
+        var el = document.getElementById('authBootstrapLink');
+        if (el) el.style.display = snap.exists() ? 'none' : 'block';
+    });
+}
+
+function loadUserProfile(user) {
+    fbDb.ref('usuarios/' + user.uid).once('value').then(function(snap) {
+        var profile = snap.val();
+        if (!profile) {
+            showAuthError('authError', 'Tu cuenta no tiene un rol asignado. Pide a un administrador que te cree el acceso.');
+            fbAuth.signOut();
+            return;
+        }
+        authUser = { uid: user.uid, email: user.email, nombre: profile.nombre || user.email, rol: profile.rol };
+        document.getElementById('authGate').classList.remove('active');
+        document.getElementById('sidebarUser').style.display = 'block';
+        document.getElementById('sidebarUserName').textContent = authUser.nombre;
+        document.getElementById('sidebarUserRole').textContent = authUser.rol === 'administrador' ? 'Administrador' : 'Asesor';
+        applyRolePermissions();
+        setupPresence();
+        setupActividadFeed();
+        renderUsuariosList();
+    });
+}
+
+function showLoginView() {
+    document.getElementById('authLoginView').style.display = 'block';
+    document.getElementById('authBootstrapView').style.display = 'none';
+    document.getElementById('authEmail').value = '';
+    document.getElementById('authPassword').value = '';
+}
+
+function showBootstrapView() {
+    document.getElementById('authLoginView').style.display = 'none';
+    document.getElementById('authBootstrapView').style.display = 'block';
+}
+
+function showAuthError(elId, msg) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('active');
+}
+
+function clearAuthErrors() {
+    ['authError', 'authBootError'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { el.classList.remove('active'); el.textContent = ''; }
+    });
+}
+
+function translateAuthError(e) {
+    var code = e && e.code;
+    if (code === 'auth/wrong-password' || code === 'auth/invalid-credential' || code === 'auth/invalid-login-credentials') return 'Correo o contraseña incorrectos.';
+    if (code === 'auth/user-not-found') return 'No existe una cuenta con ese correo.';
+    if (code === 'auth/email-already-in-use') return 'Ese correo ya tiene una cuenta.';
+    if (code === 'auth/weak-password') return 'La contraseña debe tener al menos 6 caracteres.';
+    if (code === 'auth/invalid-email') return 'Correo invalido.';
+    if (code === 'auth/too-many-requests') return 'Demasiados intentos. Intenta de nuevo en unos minutos.';
+    return (e && e.message) || 'Ocurrio un error. Intenta de nuevo.';
+}
+
+function doLogin() {
+    clearAuthErrors();
+    var email = document.getElementById('authEmail').value.trim();
+    var pass = document.getElementById('authPassword').value;
+    if (!email || !pass) { showAuthError('authError', 'Completa correo y contraseña.'); return; }
+    fbAuth.signInWithEmailAndPassword(email, pass).catch(function(e) {
+        showAuthError('authError', translateAuthError(e));
+    });
+}
+
+function doBootstrapAdmin() {
+    clearAuthErrors();
+    var nombre = document.getElementById('bootName').value.trim();
+    var email = document.getElementById('bootEmail').value.trim();
+    var pass = document.getElementById('bootPassword').value;
+    if (!nombre || !email || pass.length < 6) {
+        showAuthError('authBootError', 'Completa todos los campos (contraseña minimo 6 caracteres).');
+        return;
+    }
+    fbDb.ref('usuarios').once('value').then(function(snap) {
+        if (snap.exists()) {
+            showAuthError('authBootError', 'Ya existe un administrador. Pide que te creen una cuenta.');
+            return;
+        }
+        fbAuth.createUserWithEmailAndPassword(email, pass).then(function(cred) {
+            return fbDb.ref('usuarios/' + cred.user.uid).set({ nombre: nombre, email: email, rol: 'administrador', creado: Date.now() });
+        }).catch(function(e) {
+            showAuthError('authBootError', translateAuthError(e));
+        });
+    });
+}
+
+function doLogout() {
+    if (!confirm('Cerrar sesion?')) return;
+    teardownPresence();
+    fbAuth.signOut();
+}
+
+function applyRolePermissions() {
+    if (!authUser) return;
+    var isAdmin = authUser.rol === 'administrador';
+    document.querySelectorAll('.sidebar-nav a[onclick^="showTab"]').forEach(function(a) {
+        var m = a.getAttribute('onclick').match(/showTab\('([^']+)'\)/);
+        if (!m) return;
+        var li = a.closest('li');
+        li.style.display = (ADMIN_ONLY_TABS.indexOf(m[1]) !== -1 && !isAdmin) ? 'none' : '';
+    });
+    var navUsuarios = document.getElementById('navUsuarios');
+    if (navUsuarios) navUsuarios.style.display = isAdmin ? '' : 'none';
+    var navSettings = document.getElementById('navSettings');
+    if (navSettings) navSettings.style.display = isAdmin ? '' : 'none';
+    var active = document.querySelector('.tab-content.active');
+    if (active && ADMIN_ONLY_TABS.indexOf(active.id.replace('tab-', '')) !== -1 && !isAdmin) {
+        document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+        document.getElementById('tab-dashboard').classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(function(a) { a.classList.remove('active'); });
+        refreshDashboard();
+    }
+}
+
+// --- Presencia en linea (ver quien esta conectado en tiempo real) ---
+function setupPresence() {
+    if (!fbDb || !authUser) return;
+    presenceRef = fbDb.ref('presencia/' + authUser.uid);
+    fbDb.ref('.info/connected').on('value', function(snap) {
+        if (snap.val() === true && presenceRef) {
+            presenceRef.onDisconnect().remove();
+            presenceRef.set({ nombre: authUser.nombre, rol: authUser.rol, tab: 'dashboard', desde: Date.now() });
+        }
+    });
+    fbDb.ref('presencia').on('value', function(snap) {
+        renderOnlineUsers(snap.val() || {});
+    });
+}
+
+function teardownPresence() {
+    if (presenceRef) { presenceRef.remove(); presenceRef = null; }
+}
+
+function updatePresenceTab(tab) {
+    if (presenceRef) presenceRef.update({ tab: tab, desde: Date.now() });
+}
+
+function renderOnlineUsers(users) {
+    var uids = Object.keys(users);
+    var badge = document.getElementById('onlineBadge');
+    if (badge) badge.textContent = uids.length || '';
+    var list = document.getElementById('onlineUsersList');
+    if (!list) return;
+    if (uids.length === 0) { list.innerHTML = 'Nadie conectado.'; return; }
+    list.innerHTML = uids.map(function(uid) {
+        var u = users[uid];
+        return '<div style="padding:6px 0;border-bottom:1px solid var(--gray-100);"><span class="online-dot"></span><strong>' + (u.nombre || 'Usuario') + '</strong> <span style="color:var(--gray-500);">(' + (u.rol === 'administrador' ? 'Administrador' : 'Asesor') + ')</span><br><span style="font-size:0.75rem;color:var(--gray-500);margin-left:14px;">viendo: ' + (u.tab || 'dashboard') + '</span></div>';
+    }).join('');
+}
+
+// --- Actividad en tiempo real (que estan haciendo los demas) ---
+function setupActividadFeed() {
+    if (!fbDb || actividadRef) return;
+    actividadRef = fbDb.ref('actividad').limitToLast(30);
+    actividadRef.on('value', function(snap) {
+        var val = snap.val() || {};
+        var items = Object.keys(val).map(function(k) { return val[k]; });
+        items.sort(function(a, b) { return (b.ts || 0) - (a.ts || 0); });
+        renderActividad(items);
+    });
+}
+
+function renderActividad(items) {
+    var list = document.getElementById('actividadList');
+    if (!list) return;
+    if (items.length === 0) { list.innerHTML = 'Sin actividad todavia.'; return; }
+    list.innerHTML = items.map(function(it) {
+        var fecha = it.ts ? new Date(it.ts).toLocaleString('es-CO') : '';
+        return '<div style="padding:5px 0;border-bottom:1px solid var(--gray-100);"><strong>' + (it.usuario || 'Usuario') + '</strong> actualizo <em>' + (FB_MODULE_NAMES[it.modulo] || it.modulo) + '</em><br><span style="font-size:0.7rem;color:var(--gray-400);">' + fecha + '</span></div>';
+    }).join('');
+}
+
+function logActividad(key) {
+    if (!fbDb || !authUser) return;
+    fbDb.ref('actividad').push({ usuario: authUser.nombre, rol: authUser.rol, modulo: key, ts: Date.now() });
+}
+
+var FB_MODULE_NAMES = {
+    tb_reservations: 'Reservas', tb_notifications: 'Notificaciones', tb_services: 'Servicios',
+    tb_ventas: 'Ventas Diarias', tb_agencias: 'Agencias', tb_agencia_ventas: 'Ventas de Agencia',
+    tb_finance: 'Finanzas', tb_providers: 'Proveedores', tb_commissions: 'Comisiones',
+    tb_accounts: 'Cuentas', tb_invoices: 'Cuentas de Cobro'
+};
+
+// --- Gestion de usuarios (crear asesores / administradores) ---
+function crearUsuario() {
+    if (!authUser || authUser.rol !== 'administrador') return;
+    var nombre = document.getElementById('newUserNombre').value.trim();
+    var email = document.getElementById('newUserEmail').value.trim();
+    var pass = document.getElementById('newUserPass').value;
+    var rol = document.getElementById('newUserRol').value;
+    if (!nombre || !email || pass.length < 6) { alert('Completa todos los campos (contraseña minimo 6 caracteres).'); return; }
+    var cfg = JSON.parse(localStorage.getItem(FB_CONFIG_KEY));
+    var secondaryApp = firebase.apps.find(function(a) { return a.name === 'Secondary'; }) || firebase.initializeApp(cfg, 'Secondary');
+    var secondaryAuth = secondaryApp.auth();
+    secondaryAuth.createUserWithEmailAndPassword(email, pass).then(function(cred) {
+        return fbDb.ref('usuarios/' + cred.user.uid).set({ nombre: nombre, email: email, rol: rol, creado: Date.now() });
+    }).then(function() {
+        return secondaryAuth.signOut();
+    }).then(function() {
+        alert('Usuario creado correctamente.');
+        document.getElementById('newUserNombre').value = '';
+        document.getElementById('newUserEmail').value = '';
+        document.getElementById('newUserPass').value = '';
+        renderUsuariosList();
+    }).catch(function(e) {
+        alert('Error: ' + translateAuthError(e));
+    });
+}
+
+function renderUsuariosList() {
+    if (!fbDb || !authUser || authUser.rol !== 'administrador') return;
+    fbDb.ref('usuarios').once('value').then(function(snap) {
+        var val = snap.val() || {};
+        var uids = Object.keys(val);
+        var tbody = document.getElementById('usuariosTableBody');
+        if (!tbody) return;
+        if (uids.length === 0) { tbody.innerHTML = '<tr><td colspan="4">Sin usuarios.</td></tr>'; return; }
+        tbody.innerHTML = uids.map(function(uid) {
+            var u = val[uid];
+            var esYo = uid === authUser.uid;
+            return '<tr><td>' + (u.nombre || '') + '</td><td>' + (u.email || '') + '</td><td>' + (u.rol === 'administrador' ? 'Administrador' : 'Asesor') + '</td><td>' +
+                (esYo ? '<span style="color:var(--gray-400);font-size:0.78rem;">(tu cuenta)</span>' : '<button class="btn btn-outline btn-sm" onclick="revocarUsuario(\'' + uid + '\')"><i class="fas fa-user-slash"></i> Quitar acceso</button>') +
+                '</td></tr>';
+        }).join('');
+    });
+}
+
+function revocarUsuario(uid) {
+    if (!confirm('Quitar el acceso de este usuario al panel? Sus datos de ventas/reservas no se borran.')) return;
+    fbDb.ref('usuarios/' + uid).remove().then(function() {
+        fbDb.ref('presencia/' + uid).remove();
+        renderUsuariosList();
+    });
+}
+
 // --- Data Helpers (localStorage + Firebase sync) ---
 function getGData(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
 function setGData(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
     if (fbDb && fbConnected) {
         fbDb.ref('data/' + key).set(data);
+        logActividad(key);
     }
 }
 function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
