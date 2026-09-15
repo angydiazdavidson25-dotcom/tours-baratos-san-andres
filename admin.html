@@ -1474,6 +1474,18 @@
                     <button class="btn btn-warning btn-sm" onclick="loadDemoData()"><i class="fas fa-database"></i> Datos Demo</button>
                     <button class="btn btn-danger btn-sm" onclick="clearAllData()"><i class="fas fa-trash"></i> Borrar Todo</button>
                 </div>
+                <div style="width:100%;margin-top:14px;padding-top:14px;border-top:1px dashed var(--gray-200);">
+                    <p style="font-size:0.82rem;font-weight:600;color:var(--navy);"><i class="fas fa-shield-alt"></i> Respaldo entre dispositivos (para conectar varios aparatos sin perder datos)</p>
+                    <p style="font-size:0.75rem;color:var(--gray-500);margin-top:2px;">Si has usado este panel en mas de un celular/computador, exporta un respaldo de cada uno e importalo aqui: combina la informacion sin borrar ni duplicar nada.</p>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+                        <button class="btn btn-outline btn-sm" onclick="exportFullBackup()"><i class="fas fa-file-export"></i> Exportar Respaldo Completo</button>
+                        <label class="btn btn-outline btn-sm" style="cursor:pointer;">
+                            <i class="fas fa-file-import"></i> Importar y Fusionar Respaldo
+                            <input type="file" accept="application/json" onchange="importMergeBackup(event)" style="display:none;">
+                        </label>
+                    </div>
+                    <div id="mergeBackupResult" style="font-size:0.78rem;margin-top:8px;"></div>
+                </div>
                 <p style="font-size:0.78rem; color:var(--gray-500); margin-top:8px;">Borrar por modulo:</p>
                 <div style="display:flex; gap:6px; flex-wrap:wrap;">
                     <button class="btn btn-outline btn-sm" onclick="clearModule('tb_reservations','Reservas')"><i class="fas fa-times"></i> Reservas</button>
@@ -2302,6 +2314,73 @@ function contactWA(code) {
 }
 
 // ===== EXPORT CSV =====
+// --- Respaldo completo (para fusionar datos entre varios dispositivos) ---
+function exportFullBackup() {
+    var backup = { tipo: 'tb_backup', creado: Date.now(), dispositivo: navigator.userAgent, datos: {} };
+    FB_SYNC_KEYS.forEach(function(key) {
+        backup.datos[key] = JSON.parse(localStorage.getItem(key) || '[]');
+    });
+    var blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    var fecha = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
+    a.href = url;
+    a.download = 'respaldo-tours-baratos-' + fecha + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function mergeArraysByKey(existing, incoming) {
+    var seen = {};
+    var result = [];
+    existing.forEach(function(item) {
+        var key = item && (item.id || item.code || JSON.stringify(item));
+        if (!seen[key]) { seen[key] = true; result.push(item); }
+    });
+    var added = 0;
+    incoming.forEach(function(item) {
+        var key = item && (item.id || item.code || JSON.stringify(item));
+        if (!seen[key]) { seen[key] = true; result.push(item); added++; }
+    });
+    return { result: result, added: added };
+}
+
+function importMergeBackup(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var resultEl = document.getElementById('mergeBackupResult');
+        try {
+            var backup = JSON.parse(e.target.result);
+            var datos = backup && backup.datos ? backup.datos : backup;
+            if (!datos || typeof datos !== 'object') throw new Error('Archivo invalido');
+            var resumen = [];
+            FB_SYNC_KEYS.forEach(function(key) {
+                var incoming = datos[key];
+                if (!Array.isArray(incoming) || incoming.length === 0) return;
+                var existing = getGData(key);
+                var merge = mergeArraysByKey(existing, incoming);
+                if (merge.added > 0) {
+                    setGData(key, merge.result);
+                    resumen.push((FB_MODULE_NAMES[key] || key) + ': +' + merge.added);
+                }
+            });
+            if (resultEl) {
+                resultEl.style.color = 'var(--green)';
+                resultEl.textContent = resumen.length ? 'Fusionado correctamente. Registros nuevos agregados -> ' + resumen.join(', ') : 'El respaldo no tenia registros nuevos que agregar (ya estaban todos).';
+            }
+            refreshCurrentTab();
+        } catch (err) {
+            if (resultEl) { resultEl.style.color = 'var(--red)'; resultEl.textContent = 'No se pudo leer el archivo de respaldo: ' + err.message; }
+        }
+        event.target.value = '';
+    };
+    reader.readAsText(file);
+}
+
 function exportCSV() {
     const data = getReservations();
     if (data.length === 0) { alert('No hay datos para exportar'); return; }
