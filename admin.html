@@ -827,6 +827,25 @@
         }
         #gestionFields textarea { resize: vertical; min-height: 60px; }
 
+        /* ===== MOBILE MENU BUTTON ===== */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 200;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            font-size: 1.1rem;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -834,7 +853,9 @@
 
         @media (max-width: 768px) {
             .sidebar { display: none; }
-            .main { margin-left: 0; padding: 16px; }
+            .sidebar.mobile-open { display: block; width: 100%; right: 0; z-index: 900; }
+            .main { margin-left: 0; padding: 16px; padding-top: 64px; }
+            .mobile-menu-btn { display: flex; }
             .stats-grid { grid-template-columns: 1fr; }
             .detail-grid { grid-template-columns: 1fr; }
             table { font-size: 0.8rem; }
@@ -875,8 +896,11 @@
     </div>
 </div>
 
+<!-- MOBILE MENU BUTTON -->
+<button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileSidebar()"><i class="fas fa-bars"></i></button>
+
 <!-- SIDEBAR -->
-<aside class="sidebar">
+<aside class="sidebar" id="appSidebar">
     <div class="sidebar-brand">
         <h2>&#9992; TOURS BARATOS</h2>
         <small>Panel de Administracion</small>
@@ -2016,6 +2040,16 @@ function saveReservations(data) {
 }
 
 // ===== TABS =====
+function toggleMobileSidebar() {
+    var sb = document.getElementById('appSidebar');
+    if (sb) sb.classList.toggle('mobile-open');
+}
+
+function closeMobileSidebar() {
+    var sb = document.getElementById('appSidebar');
+    if (sb) sb.classList.remove('mobile-open');
+}
+
 function showTab(tab) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-' + tab).classList.add('active');
@@ -2023,6 +2057,7 @@ function showTab(tab) {
     if (typeof event !== 'undefined' && event && event.target && event.target.closest('a')) {
         event.target.closest('a').classList.add('active');
     }
+    closeMobileSidebar();
 
     if (tab === 'dashboard') refreshDashboard();
     if (tab === 'reservations') renderReservations();
