@@ -896,6 +896,7 @@
         <li><a href="#" onclick="showTab('finanzas')"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
         <li><a href="#" onclick="showTab('proveedores')"><i class="fas fa-handshake"></i> Proveedores</a></li>
         <li><a href="#" onclick="showTab('comisiones')"><i class="fas fa-percent"></i> Comisiones</a></li>
+        <li><a href="#" onclick="showTab('pagoasesores')"><i class="fas fa-user-tie"></i> Pagos Asesores</a></li>
         <li><a href="#" onclick="showTab('cuentas')"><i class="fas fa-file-invoice-dollar"></i> Cuentas</a></li>
         <li><a href="#" onclick="showTab('cobros')"><i class="fas fa-file-pdf"></i> Cuentas de Cobro</a></li>
         <li style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;" id="navSistemaLabel">
@@ -1829,6 +1830,44 @@
         </div>
     </div>
 
+    <!-- ========== PAGOS ASESORES TAB ========== -->
+    <div class="tab-content" id="tab-pagoasesores">
+        <div class="main-header">
+            <h1><i class="fas fa-user-tie"></i> Pagos y Comisiones de Asesores</h1>
+        </div>
+        <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:10px; margin-bottom:16px;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <label style="font-size:0.8rem;font-weight:600;color:var(--gray-500);">Comisión por persona por tour ($)</label>
+                <input type="number" id="paComisionPax" value="5000" style="width:120px;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                <button class="btn btn-primary btn-sm" onclick="savePaComisionPax()"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
+        <div class="stat-card" style="justify-content:space-between; margin-bottom:16px;">
+            <button class="btn btn-outline btn-sm" onclick="paNavSemana(-1)"><i class="fas fa-chevron-left"></i> Semana anterior</button>
+            <strong id="paSemanaLabel" style="font-size:0.95rem;color:var(--navy);">Semana</strong>
+            <button class="btn btn-outline btn-sm" onclick="paNavSemana(1)"><i class="fas fa-chevron-right"></i> Semana siguiente</button>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(46,111,207,0.12);color:var(--blue);"><i class="fas fa-cash-register"></i></div><div class="stat-info"><h3 id="paTotalVentas">$0</h3><p>Total Ventas (semana)</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="paTotalPersonas">0</h3><p>Personas (semana)</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B;"><i class="fas fa-hand-holding-usd"></i></div><div class="stat-info"><h3 id="paTotalComision">$0</h3><p>Comisiones a pagar</p></div></div>
+        </div>
+        <h3 style="margin:20px 0 8px;font-size:1rem;color:var(--navy);"><i class="fas fa-user-tie"></i> Comisión por asesor</h3>
+        <div style="overflow-x:auto;">
+            <table class="data-table">
+                <thead><tr><th>Asesor</th><th>Ventas</th><th>Personas</th><th>Total Vendido</th><th>Comisión</th><th>Estado</th><th>Acciones</th></tr></thead>
+                <tbody id="paAsesorBody"></tbody>
+            </table>
+        </div>
+        <h3 style="margin:20px 0 8px;font-size:1rem;color:var(--navy);"><i class="fas fa-history"></i> Historial de pagos</h3>
+        <div style="overflow-x:auto;">
+            <table class="data-table">
+                <thead><tr><th>Fecha de pago</th><th>Asesor</th><th>Semana</th><th>Personas</th><th>Monto pagado</th><th>Acciones</th></tr></thead>
+                <tbody id="paHistorialBody"></tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- ========== CUENTAS TAB ========== -->
     <div class="tab-content" id="tab-cuentas">
         <div class="main-header">
@@ -1987,6 +2026,7 @@ function showTab(tab) {
     if (tab === 'finanzas') refreshFinanzas();
     if (tab === 'proveedores') renderProveedores();
     if (tab === 'comisiones') renderComisiones();
+    if (tab === 'pagoasesores') renderPagoAsesores();
     if (tab === 'cuentas') renderCuentas();
     if (tab === 'cobros') renderCobros();
     if (tab === 'usuarios') renderUsuariosList();
@@ -3294,7 +3334,7 @@ var fbApp = null;
 var fbDb = null;
 var fbConnected = false;
 var FB_CONFIG_KEY = 'tb_firebase_config';
-var FB_SYNC_KEYS = ['tb_reservations','tb_notifications','tb_services','tb_ventas','tb_agencias','tb_agencia_ventas','tb_finance','tb_providers','tb_commissions','tb_accounts','tb_invoices'];
+var FB_SYNC_KEYS = ['tb_reservations','tb_notifications','tb_services','tb_ventas','tb_agencias','tb_agencia_ventas','tb_finance','tb_providers','tb_commissions','tb_accounts','tb_invoices','tb_asesor_pagos'];
 var fbListeners = {};
 
 function initFirebase() {
@@ -3374,6 +3414,7 @@ function refreshCurrentTab() {
     else if (id === 'finanzas') refreshFinanzas();
     else if (id === 'proveedores') renderProveedores();
     else if (id === 'comisiones') renderComisiones();
+    else if (id === 'pagoasesores') renderPagoAsesores();
     else if (id === 'cuentas') renderCuentas();
     else if (id === 'cobros') renderCobros();
     else if (id === 'servicios') renderServicios();
@@ -3417,7 +3458,7 @@ function loadFirebaseConfigUI() {
 // --- Acceso en linea: Asesor / Administrador (Firebase Auth) ---
 var fbAuth = null;
 var authUser = null; // { uid, email, nombre, rol }
-var ADMIN_ONLY_TABS = ['finanzas', 'proveedores', 'comisiones', 'cuentas', 'cobros', 'settings', 'usuarios'];
+var ADMIN_ONLY_TABS = ['finanzas', 'proveedores', 'comisiones', 'pagoasesores', 'cuentas', 'cobros', 'settings', 'usuarios'];
 var presenceRef = null;
 var actividadRef = null;
 
@@ -3662,7 +3703,7 @@ var FB_MODULE_NAMES = {
     tb_reservations: 'Reservas', tb_notifications: 'Notificaciones', tb_services: 'Servicios',
     tb_ventas: 'Ventas Diarias', tb_agencias: 'Agencias', tb_agencia_ventas: 'Ventas de Agencia',
     tb_finance: 'Finanzas', tb_providers: 'Proveedores', tb_commissions: 'Comisiones',
-    tb_accounts: 'Cuentas', tb_invoices: 'Cuentas de Cobro'
+    tb_accounts: 'Cuentas', tb_invoices: 'Cuentas de Cobro', tb_asesor_pagos: 'Pagos Asesores'
 };
 
 // --- Gestion de usuarios (crear asesores / administradores) ---
@@ -4120,7 +4161,8 @@ function saveQuickSale(e) {
         customSchedule: fd.customSchedule || '',
         customCheckIn: fd.customCheckIn || '',
         observaciones: fd.observaciones || '',
-        note: fd.note || ''
+        note: fd.note || '',
+        vendedor: (typeof authUser !== 'undefined' && authUser) ? authUser.nombre : ''
     };
 
     var data = getVentas();
@@ -5660,6 +5702,114 @@ function deleteCom(id) {
     if (!confirm('Eliminar esta comision?')) return;
     setGData(COM_KEY, getGData(COM_KEY).filter(function(r) { return r.id !== id; }));
     renderComisiones();
+}
+
+// ============================================================
+// ===== 3B. PAGOS Y COMISIONES DE ASESORES (semanal) =====
+// ============================================================
+var PA_KEY = 'tb_asesor_pagos';
+var PA_COM_KEY = 'tb_comision_pax';
+var paRefDate = new Date();
+
+function getComisionPax() {
+    var v = parseInt(localStorage.getItem(PA_COM_KEY), 10);
+    return isNaN(v) ? 5000 : v;
+}
+
+function savePaComisionPax() {
+    var el = document.getElementById('paComisionPax');
+    var v = parseInt(el.value, 10);
+    if (isNaN(v) || v < 0) { alert('Ingresa un valor valido'); return; }
+    localStorage.setItem(PA_COM_KEY, String(v));
+    renderPagoAsesores();
+}
+
+function paWeekRange(ref) {
+    var day = ref.getDay();
+    var diffToMonday = (day === 0 ? -6 : 1 - day);
+    var monday = new Date(ref.getFullYear(), ref.getMonth(), ref.getDate() + diffToMonday);
+    var sunday = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + 6);
+    return { start: monday, end: sunday };
+}
+
+function paDateStr(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+
+function paNavSemana(delta) {
+    paRefDate = new Date(paRefDate.getFullYear(), paRefDate.getMonth(), paRefDate.getDate() + delta * 7);
+    renderPagoAsesores();
+}
+
+function renderPagoAsesores() {
+    var comEl = document.getElementById('paComisionPax');
+    if (comEl) comEl.value = getComisionPax();
+    var comisionPax = getComisionPax();
+    var range = paWeekRange(paRefDate);
+    var startStr = paDateStr(range.start);
+    var endStr = paDateStr(range.end);
+    var label = document.getElementById('paSemanaLabel');
+    if (label) {
+        var opts = { day: '2-digit', month: '2-digit' };
+        label.textContent = range.start.toLocaleDateString('es-CO', opts) + ' - ' + range.end.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    var ventas = getVentas().filter(function(v) { return v.date && v.date >= startStr && v.date <= endStr; });
+    var porAsesor = {};
+    ventas.forEach(function(v) {
+        var nombre = (v.vendedor && v.vendedor.trim()) ? v.vendedor.trim() : 'Sin asignar';
+        if (!porAsesor[nombre]) porAsesor[nombre] = { ventas: 0, personas: 0, monto: 0 };
+        porAsesor[nombre].ventas++;
+        porAsesor[nombre].personas += (v.qty || 1);
+        porAsesor[nombre].monto += (v.amount || 0);
+    });
+
+    var pagoPorAsesor = {};
+    getGData(PA_KEY).forEach(function(p) { if (p.semanaInicio === startStr) pagoPorAsesor[p.asesorNombre] = p; });
+
+    var totalVentas = 0, totalPersonas = 0, totalComision = 0;
+    var nombres = Object.keys(porAsesor).sort();
+    var html = '';
+    nombres.forEach(function(nombre) {
+        var s = porAsesor[nombre];
+        var comision = s.personas * comisionPax;
+        totalVentas += s.monto;
+        totalPersonas += s.personas;
+        totalComision += comision;
+        var pago = pagoPorAsesor[nombre];
+        var nombreEsc = nombre.replace(/'/g, "\\'");
+        var estado = pago ? '<span class="badge-pagado">Pagado (' + (pago.fechaPago || '') + ')</span>' : '<span class="badge-pendiente">Pendiente</span>';
+        var accion = pago
+            ? '<button class="btn btn-outline btn-sm" onclick="deshacerPagoAsesor(\'' + pago.id + '\')"><i class="fas fa-undo"></i> Deshacer</button>'
+            : '<button class="btn btn-success btn-sm" onclick="marcarPagoAsesor(\'' + nombreEsc + '\',\'' + startStr + '\',\'' + endStr + '\',' + s.personas + ',' + comision + ')"><i class="fas fa-check"></i> Marcar pagado</button>';
+        html += '<tr><td><strong>' + nombre + '</strong></td><td>' + s.ventas + '</td><td>' + s.personas + '</td><td>' + formatCOP(s.monto) + '</td><td><strong>' + formatCOP(comision) + '</strong></td><td>' + estado + '</td><td>' + accion + '</td></tr>';
+    });
+    var body = document.getElementById('paAsesorBody');
+    if (body) body.innerHTML = html || '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);padding:20px;">No hay ventas registradas en esta semana</td></tr>';
+
+    var elTV = document.getElementById('paTotalVentas'); if (elTV) elTV.textContent = formatCOP(totalVentas);
+    var elTP = document.getElementById('paTotalPersonas'); if (elTP) elTP.textContent = totalPersonas;
+    var elTC = document.getElementById('paTotalComision'); if (elTC) elTC.textContent = formatCOP(totalComision);
+
+    var historial = getGData(PA_KEY).slice().sort(function(a, b) { return (b.fechaPago || '') > (a.fechaPago || '') ? 1 : -1; });
+    var hHtml = '';
+    historial.forEach(function(p) {
+        hHtml += '<tr><td>' + (p.fechaPago || '-') + '</td><td>' + p.asesorNombre + '</td><td>' + (p.semanaInicio || '') + ' a ' + (p.semanaFin || '') + '</td><td>' + (p.personas || 0) + '</td><td><strong>' + formatCOP(p.monto || 0) + '</strong></td><td><button class="btn btn-danger btn-sm" onclick="deshacerPagoAsesor(\'' + p.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    });
+    var hBody = document.getElementById('paHistorialBody');
+    if (hBody) hBody.innerHTML = hHtml || '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);padding:20px;">Sin pagos registrados</td></tr>';
+}
+
+function marcarPagoAsesor(nombre, startStr, endStr, personas, monto) {
+    if (!confirm('Marcar como pagada la comision de ' + nombre + ' (' + formatCOP(monto) + ') por la semana del ' + startStr + ' al ' + endStr + '?')) return;
+    var data = getGData(PA_KEY);
+    data.push({ id: genId(), asesorNombre: nombre, semanaInicio: startStr, semanaFin: endStr, personas: personas, monto: monto, fechaPago: today() });
+    setGData(PA_KEY, data);
+    renderPagoAsesores();
+}
+
+function deshacerPagoAsesor(id) {
+    if (!confirm('Deshacer este pago? Volvera a quedar pendiente.')) return;
+    setGData(PA_KEY, getGData(PA_KEY).filter(function(p) { return p.id !== id; }));
+    renderPagoAsesores();
 }
 
 // ============================================================
