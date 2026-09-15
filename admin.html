@@ -1841,6 +1841,10 @@
                 <input type="number" id="paComisionPax" value="5000" style="width:120px;padding:8px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
                 <button class="btn btn-primary btn-sm" onclick="savePaComisionPax()"><i class="fas fa-save"></i> Guardar</button>
             </div>
+            <div style="width:100%;padding-top:10px;border-top:1px dashed var(--gray-200);">
+                <button class="btn btn-outline btn-sm" onclick="paAsignarHistoricasAMi()"><i class="fas fa-user-check"></i> Asignarme las ventas anteriores sin asesor</button>
+                <p style="font-size:0.72rem;color:var(--gray-500);margin-top:4px;">Solo llena el campo de asesor en ventas de dias anteriores que no lo tengan. No cambia ningun otro dato.</p>
+            </div>
         </div>
         <div class="stat-card" style="justify-content:space-between; margin-bottom:16px;">
             <button class="btn btn-outline btn-sm" onclick="paNavSemana(-1)"><i class="fas fa-chevron-left"></i> Semana anterior</button>
@@ -5809,6 +5813,21 @@ function marcarPagoAsesor(nombre, startStr, endStr, personas, monto) {
 function deshacerPagoAsesor(id) {
     if (!confirm('Deshacer este pago? Volvera a quedar pendiente.')) return;
     setGData(PA_KEY, getGData(PA_KEY).filter(function(p) { return p.id !== id; }));
+    renderPagoAsesores();
+}
+
+function paAsignarHistoricasAMi() {
+    if (!authUser) { alert('Debes iniciar sesion.'); return; }
+    var hoy = today();
+    var data = getVentas();
+    var candidatas = data.filter(function(v) { return v.date && v.date < hoy && (!v.vendedor || !v.vendedor.trim()); });
+    if (candidatas.length === 0) { alert('No hay ventas anteriores sin asesor asignado.'); return; }
+    if (!confirm('Se encontraron ' + candidatas.length + ' venta(s) de dias anteriores sin asesor asignado.\n\nSe les va a poner tu nombre (' + authUser.nombre + ') como asesor. No se cambia ningun otro dato (monto, cliente, fecha, etc). Continuar?')) return;
+    data.forEach(function(v) {
+        if (v.date && v.date < hoy && (!v.vendedor || !v.vendedor.trim())) v.vendedor = authUser.nombre;
+    });
+    saveVentas(data);
+    alert(candidatas.length + ' venta(s) asignadas a ti.');
     renderPagoAsesores();
 }
 
