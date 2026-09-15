@@ -1540,7 +1540,7 @@
         <div style="background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-100);padding:20px;margin-bottom:20px;">
             <h3 style="font-size:1rem;margin-bottom:12px;"><i class="fas fa-bolt" style="color:var(--orange);"></i> Registro Rapido de Venta</h3>
             <form id="quickSaleForm" onsubmit="saveQuickSale(event)">
-                <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;align-items:end;">
+                <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;align-items:end;">
                     <div>
                         <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">Tour / Servicio</label>
                         <select name="tourId" id="ventaTour" required style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
@@ -1554,6 +1554,10 @@
                     <div>
                         <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;">WhatsApp / Tel</label>
                         <input type="text" name="clientPhone" placeholder="+57 3xx..." style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.75rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px;" title="Fecha en que se realiza el tour (para pagar comision cuando el tour ya se hizo)">Fecha del Tour</label>
+                        <input type="date" name="tourDate" id="ventaTourDate" required style="width:100%;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:0.85rem;">
                     </div>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px;margin-top:10px;align-items:end;">
@@ -1657,7 +1661,7 @@
             <h3 style="font-size:0.95rem;margin-bottom:8px;"><i class="fas fa-store" style="color:var(--green);"></i> Ventas del Dia (Punto Fisico + WhatsApp)</h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
-                    <thead><tr><th>Hora</th><th>Canal</th><th>Tour</th><th>Cliente</th><th>Pax</th><th>Total</th><th>Abono</th><th>Saldo</th><th>Estado</th><th>Pago</th><th>Acciones</th></tr></thead>
+                    <thead><tr><th>Hora</th><th>Canal</th><th>Tour</th><th>Fecha Tour</th><th>Cliente</th><th>Pax</th><th>Total</th><th>Abono</th><th>Saldo</th><th>Estado</th><th>Pago</th><th>Acciones</th></tr></thead>
                     <tbody id="vtVentasBody"></tbody>
                 </table>
             </div>
@@ -1846,11 +1850,12 @@
                 <p style="font-size:0.72rem;color:var(--gray-500);margin-top:4px;">Solo llena el campo de asesor en ventas de dias anteriores que no lo tengan. No cambia ningun otro dato.</p>
             </div>
         </div>
-        <div class="stat-card" style="justify-content:space-between; margin-bottom:16px;">
+        <div class="stat-card" style="justify-content:space-between; margin-bottom:4px;">
             <button class="btn btn-outline btn-sm" onclick="paNavSemana(-1)"><i class="fas fa-chevron-left"></i> Semana anterior</button>
             <strong id="paSemanaLabel" style="font-size:0.95rem;color:var(--navy);">Semana</strong>
             <button class="btn btn-outline btn-sm" onclick="paNavSemana(1)"><i class="fas fa-chevron-right"></i> Semana siguiente</button>
         </div>
+        <p style="font-size:0.72rem;color:var(--gray-500);margin-bottom:16px;">Se cuenta segun la <strong>fecha del tour</strong> (cuando el tour se realiza), no la fecha en que se vendio. Los tours cancelados/reembolsados deben eliminarse de Ventas Diarias para que no cuenten.</p>
         <div class="stats-grid">
             <div class="stat-card"><div class="stat-icon" style="background:rgba(46,111,207,0.12);color:var(--blue);"><i class="fas fa-cash-register"></i></div><div class="stat-info"><h3 id="paTotalVentas">$0</h3><p>Total Ventas (semana)</p></div></div>
             <div class="stat-card"><div class="stat-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="paTotalPersonas">0</h3><p>Personas (semana)</p></div></div>
@@ -4011,6 +4016,8 @@ function populateVentaTourSelect() {
 function renderVentas() {
     var fecha = getSelectedVentasDate();
     populateVentaTourSelect();
+    var tourDateEl = document.getElementById('ventaTourDate');
+    if (tourDateEl && !tourDateEl.value) tourDateEl.value = fecha;
 
     var ventas = getVentas().filter(function(v) { return v.date === fecha; });
     var reservas = getReservations().filter(function(r) {
@@ -4098,7 +4105,7 @@ function renderVentas() {
     // Render ventas manuales table
     var vBody = document.getElementById('vtVentasBody');
     if (!ventas.length) {
-        vBody.innerHTML = '<tr><td colspan="11" style="text-align:center;padding:20px;color:var(--gray-500);font-size:0.82rem;">No hay ventas registradas hoy. Usa el formulario de arriba.</td></tr>';
+        vBody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:20px;color:var(--gray-500);font-size:0.82rem;">No hay ventas registradas hoy. Usa el formulario de arriba.</td></tr>';
     } else {
         var vHtml = '';
         var channelIcons = {punto:'<i class="fas fa-store" style="color:var(--green);"></i>', whatsapp:'<i class="fab fa-whatsapp" style="color:#25D366;"></i>', web:'<i class="fas fa-globe" style="color:var(--blue);"></i>'};
@@ -4111,6 +4118,7 @@ function renderVentas() {
                 '<td>' + (v.time || '-') + '</td>' +
                 '<td>' + chIcon + '</td>' +
                 '<td><strong>' + (v.tourName || 'Otro') + '</strong></td>' +
+                '<td>' + (v.tourDate || v.date || '-') + '</td>' +
                 '<td>' + (v.client || '-') + (v.clientPhone ? '<br><span style="font-size:0.72rem;color:var(--gray-500);">' + v.clientPhone + '</span>' : '') + '</td>' +
                 '<td>' + (v.qty || 1) + '</td>' +
                 '<td><strong>' + formatCOP(v.amount || 0) + '</strong></td>' +
@@ -4166,6 +4174,7 @@ function saveQuickSale(e) {
         customCheckIn: fd.customCheckIn || '',
         observaciones: fd.observaciones || '',
         note: fd.note || '',
+        tourDate: fd.tourDate || getSelectedVentasDate(),
         vendedor: (typeof authUser !== 'undefined' && authUser) ? authUser.nombre : ''
     };
 
@@ -4190,6 +4199,7 @@ function saveQuickSale(e) {
     form.reset();
     form.querySelector('[name="qty"]').value = '1';
     form.querySelector('[name="abono"]').value = '0';
+    form.querySelector('[name="tourDate"]').value = getSelectedVentasDate();
     var schedRow = document.getElementById('ventaCustomScheduleRow');
     if (schedRow) schedRow.style.display = 'none';
     renderVentas();
@@ -4222,11 +4232,14 @@ function editVenta(id) {
             gField('Personas', 'qty', 'number', v.qty || 1)
         ) +
         gRow(
-            gField('Monto Total ($)', 'amount', 'number', v.amount || 0) +
-            gField('Abono ($)', 'abono', 'number', v.abono || v.amount || 0)
+            gField('Fecha del Tour', 'tourDate', 'date', v.tourDate || v.date || '') +
+            gField('Monto Total ($)', 'amount', 'number', v.amount || 0)
         ) +
         gRow(
-            gField('Metodo de Pago', 'method', 'select', '', {options: metOpts}) +
+            gField('Abono ($)', 'abono', 'number', v.abono || v.amount || 0, {noReq: true}) +
+            gField('Metodo de Pago', 'method', 'select', '', {options: metOpts})
+        ) +
+        gRow(
             gField('Canal', 'channel', 'select', '', {options: chOpts})
         );
 
@@ -4273,6 +4286,7 @@ function saveVenta() {
             v.customCheckIn = fd.customCheckIn || '';
             v.observaciones = fd.observaciones || '';
             v.note = fd.note || '';
+            v.tourDate = fd.tourDate || v.date;
         }
         return v;
     });
@@ -4715,10 +4729,10 @@ function exportVentasCSV() {
     var fecha = getSelectedVentasDate();
     var ventas = getVentas().filter(function(v) { return v.date === fecha; });
     if (!ventas.length) { alert('No hay ventas para exportar en esta fecha'); return; }
-    var csv = 'Fecha,Hora,Canal,Tour,Cliente,Telefono,Personas,Monto,Abono,Saldo,Estado,Metodo,Nota\n';
+    var csv = 'Fecha Venta,Fecha Tour,Hora,Canal,Tour,Cliente,Telefono,Personas,Monto,Abono,Saldo,Estado,Metodo,Asesor,Nota\n';
     ventas.forEach(function(v) {
         var ch = v.channel === 'whatsapp' ? 'WhatsApp' : v.channel === 'web' ? 'Web' : 'Punto Fisico';
-        csv += v.date + ',' + (v.time || '') + ',' + ch + ',"' + (v.tourName || '') + '","' + (v.client || '') + '","' + (v.clientPhone || '') + '",' + (v.qty || 1) + ',' + (v.amount || 0) + ',' + (v.abono || v.amount || 0) + ',' + (v.saldo || 0) + ',' + (v.payStatus || 'pagado') + ',' + (v.method || '') + ',"' + (v.note || '') + '"\n';
+        csv += v.date + ',' + (v.tourDate || v.date || '') + ',' + (v.time || '') + ',' + ch + ',"' + (v.tourName || '') + '","' + (v.client || '') + '","' + (v.clientPhone || '') + '",' + (v.qty || 1) + ',' + (v.amount || 0) + ',' + (v.abono || v.amount || 0) + ',' + (v.saldo || 0) + ',' + (v.payStatus || 'pagado') + ',' + (v.method || '') + ',"' + (v.vendedor || '') + '","' + (v.note || '') + '"\n';
     });
     var blob = new Blob([csv], {type: 'text/csv'});
     var a = document.createElement('a');
@@ -5756,7 +5770,7 @@ function renderPagoAsesores() {
         label.textContent = range.start.toLocaleDateString('es-CO', opts) + ' - ' + range.end.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
-    var ventas = getVentas().filter(function(v) { return v.date && v.date >= startStr && v.date <= endStr; });
+    var ventas = getVentas().filter(function(v) { var fTour = v.tourDate || v.date; return fTour && fTour >= startStr && fTour <= endStr; });
     var porAsesor = {};
     ventas.forEach(function(v) {
         var nombre = (v.vendedor && v.vendedor.trim()) ? v.vendedor.trim() : 'Sin asignar';
