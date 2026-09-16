@@ -868,6 +868,10 @@
 <!-- AUTH GATE -->
 <div class="auth-gate" id="authGate">
     <div class="auth-card">
+        <div id="authSyncingView" style="display:none;text-align:center;">
+            <h2><i class="fas fa-cloud-download-alt"></i> Sincronizando...</h2>
+            <p class="sub">Descargando tu informacion mas reciente antes de mostrar el panel. Un momento.</p>
+        </div>
         <div id="authLoginView">
             <h2><i class="fas fa-lock"></i> Acceso al Panel</h2>
             <p class="sub">Ingresa con tu correo y contraseña (Asesor o Administrador).</p>
@@ -3434,6 +3438,8 @@ function migrateLocalToFirebase() {
     });
 }
 
+var fbKeySynced = {};
+
 function listenFirebaseKey(key) {
     if (!fbDb || fbListeners[key]) return;
     fbListeners[key] = true;
@@ -3442,9 +3448,23 @@ function listenFirebaseKey(key) {
         if (val !== null) {
             localStorage.setItem(key, JSON.stringify(val));
         }
+        fbKeySynced[key] = true;
         // Refresh visible tab
         refreshCurrentTab();
     });
+}
+
+function waitForInitialSync(callback, maxWaitMs) {
+    var start = Date.now();
+    var maxWait = maxWaitMs || 8000;
+    (function check() {
+        var allSynced = FB_SYNC_KEYS.every(function(k) { return fbKeySynced[k]; });
+        if (allSynced || (Date.now() - start) > maxWait) {
+            callback();
+            return;
+        }
+        setTimeout(check, 150);
+    })();
 }
 
 function refreshCurrentTab() {
@@ -3558,14 +3578,21 @@ function loadUserProfile(user) {
             return;
         }
         authUser = { uid: user.uid, email: user.email, nombre: profile.nombre || user.email, rol: profile.rol };
-        document.getElementById('authGate').classList.remove('active');
-        document.getElementById('sidebarUser').style.display = 'block';
-        document.getElementById('sidebarUserName').textContent = authUser.nombre;
-        document.getElementById('sidebarUserRole').textContent = authUser.rol === 'administrador' ? 'Administrador' : 'Asesor';
-        applyRolePermissions();
-        setupPresence();
-        setupActividadFeed();
-        renderUsuariosList();
+        document.getElementById('authLoginView').style.display = 'none';
+        document.getElementById('authBootstrapView').style.display = 'none';
+        document.getElementById('authSyncingView').style.display = 'block';
+        waitForInitialSync(function() {
+            document.getElementById('authGate').classList.remove('active');
+            document.getElementById('authSyncingView').style.display = 'none';
+            document.getElementById('sidebarUser').style.display = 'block';
+            document.getElementById('sidebarUserName').textContent = authUser.nombre;
+            document.getElementById('sidebarUserRole').textContent = authUser.rol === 'administrador' ? 'Administrador' : 'Asesor';
+            applyRolePermissions();
+            setupPresence();
+            setupActividadFeed();
+            renderUsuariosList();
+            refreshCurrentTab();
+        });
     }).catch(function(e) {
         console.error('loadUserProfile error:', e);
         showAuthError('authError', 'No se pudo cargar tu perfil (revisa las Reglas de tu Realtime Database en Firebase). Intenta de nuevo.');
@@ -3807,6 +3834,14 @@ function getGData(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
 function setGData(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
     if (fbDb && fbConnected) {
+        // Seguridad: nunca sobreescribir la nube con datos de un dispositivo que
+        // todavia no ha recibido la version actual de este modulo (evita que un
+        // dispositivo recien conectado borre registros de otros al guardar antes
+        // de terminar de sincronizar).
+        if (FB_SYNC_KEYS.indexOf(key) !== -1 && !fbKeySynced[key]) {
+            console.warn('setGData bloqueado: ' + key + ' aun no ha sincronizado desde la nube.');
+            return;
+        }
         fbDb.ref('data/' + key).set(data);
         logActividad(key);
     }
