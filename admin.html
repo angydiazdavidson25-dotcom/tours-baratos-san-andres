@@ -3539,13 +3539,13 @@ function checkBootstrapNeeded() {
         var el = document.getElementById('authBootstrapLink');
         if (el) el.style.display = snap.exists() ? 'none' : 'block';
     }).catch(function(e) {
-        // No se pudo leer (p.ej. reglas de la base de datos bloqueando lectura sin sesion).
-        // Se muestra el enlace igual: crear la cuenta fallara con un mensaje claro si en
-        // realidad ya existe un administrador o las reglas lo impiden.
-        console.error('checkBootstrapNeeded error:', e);
+        // No se pudo leer (normal una vez las Reglas de la base de datos exigen sesion
+        // iniciada: solo pasa antes de haber iniciado sesion, y ya existe un administrador
+        // en la gran mayoria de los casos). No es un error real, asi que no se muestra
+        // ningun aviso: el formulario de correo/contraseña sigue funcionando igual.
+        console.error('checkBootstrapNeeded error (esperado si las reglas ya exigen auth):', e);
         var el = document.getElementById('authBootstrapLink');
-        if (el) el.style.display = 'block';
-        showAuthError('authError', 'No se pudo verificar el estado de la cuenta (revisa las Reglas de tu Realtime Database en Firebase). Puedes intentar crear la cuenta de Administrador de todas formas.');
+        if (el) el.style.display = 'none';
     });
 }
 
@@ -3812,7 +3812,7 @@ function setGData(key, data) {
     }
 }
 function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
-function today() { return new Date().toISOString().split('T')[0]; }
+function today() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
 function thisMonth() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); }
 
 // --- Gestion Modal ---
