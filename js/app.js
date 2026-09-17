@@ -161,6 +161,53 @@ function getTodayStr() {
     return `${y}-${m}-${d}`;
 }
 
+// ===== FIREBASE: envia cada reserva al panel de administracion =====
+// La reserva siempre queda guardada localmente aunque Firebase falle o
+// tarde; el envio a la nube es adicional (best-effort), nunca bloquea la
+// reserva del cliente.
+var TB_FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCA3XcM0s5xqHXWrMUQBOugokEQZhLMKXU",
+    authDomain: "tours-baratos-892b2.firebaseapp.com",
+    databaseURL: "https://tours-baratos-892b2-default-rtdb.firebaseio.com",
+    projectId: "tours-baratos-892b2",
+    storageBucket: "tours-baratos-892b2.firebasestorage.app",
+    messagingSenderId: "309891256059",
+    appId: "1:309891256059:web:3f9dde2aed38b504bc6a5e"
+};
+var tbFbDb = null;
+var tbFbReady = null;
+
+function tbInitFirebase() {
+    if (tbFbReady) return tbFbReady;
+    tbFbReady = new Promise(function(resolve) {
+        try {
+            if (!window.firebase) { resolve(false); return; }
+            var app = firebase.apps && firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(TB_FIREBASE_CONFIG);
+            firebase.auth().signInAnonymously().then(function() {
+                tbFbDb = firebase.database();
+                resolve(true);
+            }).catch(function(e) {
+                console.error('Firebase anon auth error:', e);
+                resolve(false);
+            });
+        } catch (e) {
+            console.error('Firebase init error:', e);
+            resolve(false);
+        }
+    });
+    return tbFbReady;
+}
+tbInitFirebase();
+
+function tbSyncReservationToCloud(reservation) {
+    tbInitFirebase().then(function(ok) {
+        if (!ok || !tbFbDb || !reservation.code) return;
+        tbFbDb.ref('data/tb_reservations/' + reservation.code).set(reservation).catch(function(e) {
+            console.error('No se pudo sincronizar la reserva con la nube:', e);
+        });
+    });
+}
+
 // ===== CRM STORAGE =====
 const CRM = {
     getReservations() {
@@ -172,6 +219,7 @@ const CRM = {
         const reservations = this.getReservations();
         reservations.unshift(reservation);
         localStorage.setItem('tb_reservations', JSON.stringify(reservations));
+        tbSyncReservationToCloud(reservation);
         return reservation;
     },
 
@@ -181,6 +229,7 @@ const CRM = {
         if (idx !== -1) {
             reservations[idx] = { ...reservations[idx], ...updates };
             localStorage.setItem('tb_reservations', JSON.stringify(reservations));
+            tbSyncReservationToCloud(reservations[idx]);
             return reservations[idx];
         }
         return null;
