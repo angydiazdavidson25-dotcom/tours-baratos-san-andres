@@ -3527,7 +3527,11 @@ function listenFirebaseKey(key) {
     fbDb.ref('data/' + key).on('value', function(snap) {
         var val = snap.val();
         if (val !== null) {
-            localStorage.setItem(key, JSON.stringify(val));
+            // Puede llegar como array (guardado por el panel) o como objeto con
+            // claves de codigo/push-id (guardado por la pagina publica) - se
+            // normaliza siempre a array para que el resto del panel funcione igual.
+            var arr = Array.isArray(val) ? val : Object.keys(val).map(function(k) { return val[k]; });
+            localStorage.setItem(key, JSON.stringify(arr));
         }
         fbKeySynced[key] = true;
         // Refresh visible tab
