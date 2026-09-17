@@ -2744,7 +2744,19 @@ function prepareMassMessage() {
     if (!msg) { alert('Escribe un mensaje primero.'); return; }
 
     const target = document.getElementById('massTarget').value;
-    const data = getReservations();
+    const reservas = getReservations();
+    const ventasAsClients = getVentas().filter(v => !v.cancelado).map(v => ({
+        clientName: v.client,
+        clientPhone: v.clientPhone,
+        code: '',
+        tourName: v.tourName,
+        tourDate: v.tourDate || v.date,
+        qty: v.qty,
+        hotel: '',
+        total: v.amount,
+        status: v.payStatus === 'abonado' ? 'pendiente' : 'confirmado'
+    }));
+    const data = reservas.concat(ventasAsClients);
 
     // Get unique clients by phone
     const clientMap = {};
