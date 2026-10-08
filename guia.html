@@ -39,7 +39,7 @@
         <h1 class="text-2xl font-black tracking-wider">TOURESBARATOS</h1>
         <p class="text-xs uppercase tracking-widest text-dorado font-bold">Nissi VIP • San Andrés Isla</p>
         <div class="mt-4 bg-white/10 p-3 rounded-2xl backdrop-blur-sm text-sm">
-            <span class="block text-white/80">¡Hola, viajero! 🌴</span>
+            <span id="greeting" class="block text-white/80">¡Hola, viajero! 🌴</span>
             <span class="font-semibold">Tu paraíso comienza aquí</span>
         </div>
     </header>
@@ -129,26 +129,27 @@
             <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
             <h2 class="text-xl font-black text-oscuro">Tu Voucher Digital 🎟️</h2>
 
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4 relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-green-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest">Confirmado</div>
-                
+            <!-- Voucher personalizado (se llena desde el enlace ?v= que envía el admin) -->
+            <div id="voucher-card" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4 relative overflow-hidden">
+                <div id="v-status" class="absolute top-0 right-0 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest"></div>
+
                 <div>
                     <span class="text-xs text-gray-400 block uppercase">Titular de Reserva</span>
-                    <h3 class="font-bold text-lg text-oscuro">Pasajero VIP</h3>
+                    <h3 id="v-name" class="font-bold text-lg text-oscuro"></h3>
+                    <span id="v-code" class="inline-block mt-1 bg-oscuro text-dorado text-xs font-bold px-2.5 py-1 rounded-lg tracking-widest"></span>
                 </div>
 
-                <div class="border-t border-b border-gray-100 py-3 space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Experiencia:</span>
-                        <span class="font-bold text-oscuro">Tour Platino en Pontón 🚤</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Punto de Partida:</span>
-                        <span class="font-bold text-turquesa">Muelle Toninos (José / Heidy)</span>
-                    </div>
-                </div>
+                <div id="v-rows" class="border-t border-b border-gray-100 py-3 space-y-2 text-sm"></div>
 
-                <p class="text-xs text-gray-500 italic">Preséntate 15 minutos antes con tu documento y el impuesto de muelle listo.</p>
+                <p id="v-note" class="text-xs text-gray-500 italic"></p>
+            </div>
+
+            <!-- Sin reserva en el enlace -->
+            <div id="voucher-empty" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-3 text-center">
+                <span class="text-4xl block">🔍</span>
+                <h3 class="font-bold text-oscuro">Aún no vemos tu reserva</h3>
+                <p class="text-sm text-gray-600">Abre la guía desde el enlace personal que te enviamos por WhatsApp para ver tu voucher. ¿No lo tienes? Escríbenos y te lo reenviamos.</p>
+                <a href="https://wa.me/573222123751?text=Hola!%20Quiero%20mi%20voucher%20digital" target="_blank" class="block w-full bg-green-500 text-white text-center font-bold py-3 rounded-xl shadow hover:bg-green-600 transition">Pedir mi voucher por WhatsApp</a>
             </div>
         </div>
 
@@ -216,6 +217,82 @@
             document.getElementById('view-' + viewId).classList.remove('hidden');
             window.scrollTo(0, 0);
         }
+
+        // ===== VOUCHER PERSONALIZADO =====
+        // El admin envía guia.html?v=<base64url de JSON> con los datos de la reserva.
+        var STATUS_STYLES = {
+            pendiente:  { label: 'Pendiente',  cls: 'bg-yellow-500' },
+            confirmado: { label: 'Confirmado', cls: 'bg-green-500' },
+            pagado:     { label: 'Pagado',     cls: 'bg-green-600' },
+            completado: { label: 'Completado', cls: 'bg-gray-500' },
+            cancelado:  { label: 'Cancelado',  cls: 'bg-red-500' }
+        };
+
+        function readReservation() {
+            var v = new URLSearchParams(window.location.search).get('v');
+            if (!v) return null;
+            try {
+                var b64 = v.replace(/-/g, '+').replace(/_/g, '/');
+                while (b64.length % 4) b64 += '=';
+                var data = JSON.parse(decodeURIComponent(escape(atob(b64))));
+                return data && data.n ? data : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function addRow(container, label, value, highlight) {
+            if (!value) return;
+            var row = document.createElement('div');
+            row.className = 'flex justify-between gap-4';
+            var l = document.createElement('span');
+            l.className = 'text-gray-500 shrink-0';
+            l.textContent = label;
+            var val = document.createElement('span');
+            val.className = 'font-bold text-right ' + (highlight ? 'text-turquesa' : 'text-oscuro');
+            val.textContent = value;
+            row.appendChild(l);
+            row.appendChild(val);
+            container.appendChild(row);
+        }
+
+        function renderVoucher() {
+            var r = readReservation();
+            if (!r) return;
+
+            var firstName = String(r.n).trim().split(/\s+/)[0];
+            document.getElementById('greeting').textContent = '¡Hola, ' + firstName + '! 🌴';
+
+            var st = STATUS_STYLES[r.e] || STATUS_STYLES.confirmado;
+            var badge = document.getElementById('v-status');
+            badge.textContent = st.label;
+            badge.classList.add(st.cls);
+
+            document.getElementById('v-name').textContent = r.n;
+            var code = document.getElementById('v-code');
+            if (r.c) code.textContent = r.c; else code.classList.add('hidden');
+
+            var rows = document.getElementById('v-rows');
+            var meeting = r.m || 'Muelle Toninos';
+            if (/toninos/i.test(meeting)) meeting += ' (José / Heidy)';
+            addRow(rows, 'Experiencia:', r.t);
+            addRow(rows, 'Fecha:', r.f);
+            addRow(rows, 'Horario:', r.h);
+            addRow(rows, 'Llegada:', r.i);
+            addRow(rows, 'Personas:', r.p ? String(r.p) : '');
+            addRow(rows, 'Punto de Partida:', meeting, true);
+
+            var note = 'Preséntate 15 minutos antes con tu documento';
+            if (/toninos/i.test(meeting)) note += ' y el impuesto de muelle listo';
+            if (r.e === 'cancelado') note = 'Esta reserva aparece como cancelada. Si es un error, escríbenos por WhatsApp.';
+            if (r.e === 'pendiente') note = 'Tu reserva está pendiente de confirmación. Te avisaremos por WhatsApp apenas quede confirmada.';
+            document.getElementById('v-note').textContent = note + (/\.$/.test(note) ? '' : '.');
+
+            document.getElementById('voucher-empty').classList.add('hidden');
+            document.getElementById('voucher-card').classList.remove('hidden');
+        }
+
+        renderVoucher();
     </script>
 </body>
 </html>

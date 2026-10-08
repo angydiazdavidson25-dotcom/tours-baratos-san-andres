@@ -1991,6 +1991,7 @@
         <div style="text-align: center; margin-top: 16px;">
             <button class="btn btn-primary" onclick="printVoucher()"><i class="fas fa-print"></i> Imprimir Voucher</button>
             <button class="btn btn-success" onclick="sendVoucherWA()"><i class="fab fa-whatsapp"></i> Enviar por WhatsApp</button>
+            <button class="btn btn-outline" onclick="copyGuideLink()"><i class="fas fa-link"></i> Copiar enlace de guia</button>
         </div>
     </div>
 </div>
@@ -2427,6 +2428,40 @@ function printVoucher() {
     setTimeout(() => win.print(), 500);
 }
 
+// ===== GUIA PERSONALIZADA =====
+// Arma el enlace a guia.html con los datos de la reserva codificados en ?v=
+function buildGuideLink(r) {
+    const tour = TOURS.find(t => t.name === r.tourName) || {};
+    const payload = {
+        c: r.code,
+        n: r.clientName,
+        t: r.tourName,
+        f: r.tourDate,
+        h: r.tourSchedule || tour.schedule || '',
+        i: tour.checkIn || '',
+        p: r.qty,
+        e: r.status,
+        m: tour.meetingPoint || ''
+    };
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return 'https://touresbaratos.com/guia.html?v=' + b64;
+}
+
+function copyGuideLink() {
+    const r = getReservations().find(x => x.code === currentVoucherCode);
+    if (!r) return;
+    const link = buildGuideLink(r);
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(
+            () => alert('Enlace de la guia copiado:\n' + link),
+            () => prompt('Copia el enlace de la guia:', link)
+        );
+    } else {
+        prompt('Copia el enlace de la guia:', link);
+    }
+}
+
 function sendVoucherWA() {
     const data = getReservations();
     const r = data.find(x => x.code === currentVoucherCode);
@@ -2446,7 +2481,9 @@ function sendVoucherWA() {
         `Hotel: ${r.hotel || '-'}\n` +
         `Total: *${formatCOP(r.total)}*\n\n` +
         `Presentar este voucher el dia del tour.\n` +
-        `========================`
+        `========================\n\n` +
+        `Tu guia del viajero (punto de encuentro, tips y voucher digital):\n` +
+        buildGuideLink(r)
     );
 
     const phone = r.clientPhone ? r.clientPhone.replace(/\D/g, '') : WA_NUMBER;
