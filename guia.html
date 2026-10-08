@@ -40,7 +40,7 @@
         <p class="text-xs uppercase tracking-widest text-dorado font-bold">Nissi VIP • San Andrés Isla</p>
         <div class="mt-4 bg-white/10 p-3 rounded-2xl backdrop-blur-sm text-sm">
             <span id="greeting" class="block text-white/80">¡Hola, viajero! 🌴</span>
-            <span class="font-semibold">Tu paraíso comienza aquí</span>
+            <span class="font-semibold">Tu brújula de confianza en el paraíso de los 7 colores 🌊✨</span>
         </div>
     </header>
 
@@ -49,6 +49,12 @@
 
         <!-- VISTA 1: HOME (DASHBOARD) -->
         <div id="view-home" class="view space-y-4">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
+                <h2 class="font-bold text-oscuro">👋 ¡Qué alegría tenerte aquí!</h2>
+                <p class="text-xs text-gray-600 leading-relaxed">Sabemos que estás a un paso de vivir una de las experiencias más lindas de tu vida. Preparamos este mapa interactivo y esta guía de secretos locales para que camines la isla sintiéndote como un isleño más: con seguridad, sin enredos y con una sonrisa de oreja a oreja.</p>
+                <p class="text-xs font-bold text-turquesa">¡Guarda este enlace en tu celular y déjate llevar! 👇</p>
+            </div>
+
             <h2 class="text-lg font-bold text-oscuro px-2">¿Qué deseas consultar hoy?</h2>
             
             <div class="grid grid-cols-2 gap-4">
@@ -61,7 +67,7 @@
                 <!-- Botón Reserva -->
                 <button onclick="switchView('reservation')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
                     <span class="text-3xl mb-2">🎟️</span>
-                    <span class="font-bold text-sm text-oscuro">Mi Reserva</span>
+                    <span class="font-bold text-sm text-oscuro">Mi Reserva & Itinerario</span>
                     <span class="text-xs text-gray-400 mt-1">Voucher y Estado</span>
                 </button>
                 <!-- Botón El Olam -->
@@ -73,8 +79,8 @@
                 <!-- Botón Tips -->
                 <button onclick="switchView('tips')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
                     <span class="text-3xl mb-2">💡</span>
-                    <span class="font-bold text-sm text-oscuro">Tips del Isleño</span>
-                    <span class="text-xs text-gray-400 mt-1">Consejos Útiles</span>
+                    <span class="font-bold text-sm text-oscuro">Tips del Isleño & Ayuda</span>
+                    <span class="text-xs text-gray-400 mt-1">Consejos y Contacto</span>
                 </button>
             </div>
 
@@ -97,7 +103,7 @@
             <div class="bg-white p-5 rounded-2xl shadow-sm border-2 border-dorado space-y-3">
                 <span class="bg-dorado/20 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded-full">Principal</span>
                 <h3 class="font-bold text-lg text-oscuro">Muelle Toninos</h3>
-                <p class="text-sm text-gray-600">Aquí arranca la magia de tu experiencia náutica. Al llegar, busca con confianza a nuestros colaboradores: <strong class="text-turquesa">¡José o Heidy!</strong> Te recibirán con la mejor energía para guiarte a la embarcación.</p>
+                <p class="text-sm text-gray-600">Aquí arranca la magia de la mayoría de nuestras experiencias náuticas. Al llegar, busca con confianza a nuestros maravillosos colaboradores: <strong class="text-turquesa">¡José o Heidy!</strong> Ellos te recibirán con la mejor energía caribeña, te orientarán con una sonrisa y te guiarán directo hacia la embarcación para que no tengas que preocuparte por nada.</p>
                 <div class="bg-gray-50 p-3 rounded-xl text-xs text-gray-500">
                     ⚠️ <em>Recuerda llevar listos $5.000 COP en efectivo por persona para el impuesto de muelle.</em>
                 </div>
@@ -163,7 +169,7 @@
                     ✨ Recomendado Especial de la Familia
                 </div>
                 <p class="text-sm text-gray-600 leading-relaxed">
-                    “Amigo, después de un día de sol y mar de los 7 colores, el estómago te pide un buen festín. Te invitamos a visitar el <strong>Restaurante El Olam</strong>, un espacio 100% de nuestra familia donde preparamos la auténtica sazón caribeña con amor y tradición.”
+                    “Amigo, después de un día entero de sol, playa y mar de los 7 colores, el estómago te va a pedir un buen festín. Por eso, mi recomendación de oro es que visites el <strong>Restaurante El Olam</strong>. Allí vas a encontrar la sazón caribeña más auténtica, preparada con todo el amor y el carisma de nuestra familia.”
                 </p>
                 <div class="bg-dorado/10 p-3 rounded-xl text-xs font-medium text-yellow-900">
                     💡 <em>Dile al mesero que vas de parte de <strong>TOURESBARATOS NISSI VIP</strong> para que te atiendan como a un verdadero rey.</em>
@@ -172,28 +178,52 @@
             </div>
         </div>
 
-        <!-- VISTA 5: TIPS DEL ISLEÑO -->
+        <!-- VISTA 5: TIPS DEL ISLEÑO & AYUDA -->
         <div id="view-tips" class="view hidden space-y-4">
             <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
-            <h2 class="text-xl font-black text-oscuro">Tips de Amiga & Local 💡</h2>
+            <h2 class="text-xl font-black text-oscuro">Secretos de Amiga 💡</h2>
+            <p class="text-sm text-gray-600 italic">“Aquí en San Andrés el tiempo corre más lento, se respira brisa marina y la gente te recibe siempre con un ‘Good morning’ o una sonrisa. Para que tu viaje sea perfecto, guárdate estos consejitos en el corazón:”</p>
 
+            <!-- Acordeón de tips -->
             <div class="space-y-3">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h4 class="font-bold text-sm text-turquesa mb-1">🛵 Mulitas y Carritos de Golf</h4>
-                    <p class="text-xs text-gray-600">Te van a pedir tu licencia de conducción física obligatoria para alquilar y transitar por la isla. ¡Llévala siempre a la mano!</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h4 class="font-bold text-sm text-turquesa mb-1">💵 El Efectivo es Rey</h4>
-                    <p class="text-xs text-gray-600">Lleva siempre billetes en pesos colombianos (COP). En los cayos o pequeños comercios el internet a veces falla.</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h4 class="font-bold text-sm text-turquesa mb-1">🩴 Zapatos de Agua</h4>
-                    <p class="text-xs text-gray-600">Indispensables para caminar sobre corales muertos o rocas sin lastimar tus pies en los cayos.</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h4 class="font-bold text-sm text-turquesa mb-1">🌿 Cuidemos Seaflower</h4>
-                    <p class="text-xs text-gray-600">Usa protector solar ecológico y nunca toques la fauna marina ni te pares sobre los arrecifes de coral.</p>
-                </div>
+                <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
+                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                        <span>🛵 Mulitas y carritos de golf, con calma y papel en mano</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
+                    </summary>
+                    <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Amigo, un consejo de oro: para alquilar estos carritos o mulitas <strong>te van a pedir tu licencia de conducción física</strong> (la de tu país o internacional). No te arriesgues a pagar sin tenerla a la mano. Y maneja tranquilito, disfruta el paisaje y respeta las señales; la idea es regresar con anécdotas felices, no con sustos.</p>
+                </details>
+                <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
+                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                        <span>💵 El efectivo sigue siendo el rey (por si acaso)</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
+                    </summary>
+                    <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Aunque casi todo el mundo acepta transferencias, cuando estés pisando la arena de los cayos, comprando un granizado o pagando detallitos locales, el internet a veces se pone tímido. Ten siempre unos billetitos en pesos colombianos en el bolsillo. ¡Te salvarán la vida!</p>
+                </details>
+                <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
+                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                        <span>🩴 Tus pies te lo van a agradecer (zapatos de agua)</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
+                    </summary>
+                    <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Por favor, ¡no olvides meter unos escarpines o zapatos de agua en tu maleta! Caminar por los corales muertos o las zonas de roca sin protección puede ser incómodo. Con tus zapatos de agua vas a entrar al mar con total libertad.</p>
+                </details>
+                <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
+                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                        <span>🌿 Cuidemos nuestro mar de los siete colores</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
+                    </summary>
+                    <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Nuestro mayor tesoro es la Reserva de Biosfera Seaflower. Cuando uses protector solar, intenta que sea ecológico u óxido de zinc para no hacerle daño a los corales. Y recuerda: los pececitos y las estrellas de mar se miran con el corazón, nunca los saques de su casita ni te pares sobre los arrecifes.</p>
+                </details>
+                <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
+                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                        <span>☀️ Protégete del sol caribeño</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
+                    </summary>
+                    <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">El sol de la isla pega con fuerza todo el año. Lleva siempre tu gorra, tus gafas oscuras, toma agua constantemente y échate cremita protectora varias veces al día. ¡Queremos que te veas radiante en las fotos, no rojo como un camarón!</p>
+                </details>
+            </div>
+
+            <!-- Ayuda -->
+            <div class="bg-gradient-to-r from-turquesa to-teal-600 text-white p-5 rounded-2xl shadow-sm space-y-3">
+                <h3 class="font-bold">📲 ¿Necesitas ayuda o te antojaste de un nuevo plan?</h3>
+                <p class="text-xs text-white/90">Recuerda que con <strong>TOURESBARATOS NISSI VIP</strong> nunca caminas solo. Si tienes dudas con el clima, necesitas una recomendación o quieres sumar un tour de última hora a tu itinerario, escríbenos con confianza.</p>
+                <a href="https://wa.me/573222123751" target="_blank" class="block w-full bg-dorado text-oscuro text-center text-sm font-bold py-3 rounded-xl shadow hover:bg-yellow-400 transition">💬 WhatsApp: +57 322 212 3751</a>
+                <a href="https://touresbaratos.com" class="block w-full bg-white/15 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/25 transition">Web oficial: touresbaratos.com</a>
             </div>
         </div>
 
