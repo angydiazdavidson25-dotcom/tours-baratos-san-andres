@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOURESBARATOS NISSI VIP | Guía y Mapa Oficial</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMRZ3SCSV9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZMRZ3SCSV9');
+    </script>
+    <meta name="description" content="Guía oficial para viajeros de TOURESBARATOS NISSI VIP: punto de encuentro en Muelle Toninos, voucher, Restaurante El Olam y tips del isleño.">
+
+    <!-- Tailwind CSS para un diseño moderno y rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        turquesa: '#00A8B5',
+                        dorado: '#FFB300',
+                        arena: '#F9F9FB',
+                        oscuro: '#1E293B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-arena text-oscuro font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / CABECERA -->
+    <header class="bg-turquesa text-white p-6 shadow-md text-center rounded-b-3xl">
+        <h1 class="text-2xl font-black tracking-wider">TOURESBARATOS</h1>
+        <p class="text-xs uppercase tracking-widest text-dorado font-bold">Nissi VIP • San Andrés Isla</p>
+        <div class="mt-4 bg-white/10 p-3 rounded-2xl backdrop-blur-sm text-sm">
+            <span class="block text-white/80">¡Hola, viajero! 🌴</span>
+            <span class="font-semibold">Tu paraíso comienza aquí</span>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR DE PANTALLAS (Vistas) -->
+    <main class="p-4 max-w-md mx-auto w-full flex-grow pb-24">
+
+        <!-- VISTA 1: HOME (DASHBOARD) -->
+        <div id="view-home" class="view space-y-4">
+            <h2 class="text-lg font-bold text-oscuro px-2">¿Qué deseas consultar hoy?</h2>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Botón Mapa -->
+                <button onclick="switchView('map')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
+                    <span class="text-3xl mb-2">📍</span>
+                    <span class="font-bold text-sm text-oscuro">Mapa & Encuentro</span>
+                    <span class="text-xs text-gray-400 mt-1">Muelle Toninos y Puntos</span>
+                </button>
+                <!-- Botón Reserva -->
+                <button onclick="switchView('reservation')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
+                    <span class="text-3xl mb-2">🎟️</span>
+                    <span class="font-bold text-sm text-oscuro">Mi Reserva</span>
+                    <span class="text-xs text-gray-400 mt-1">Voucher y Estado</span>
+                </button>
+                <!-- Botón El Olam -->
+                <button onclick="switchView('olam')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
+                    <span class="text-3xl mb-2">🍽️</span>
+                    <span class="font-bold text-sm text-oscuro">Restaurante El Olam</span>
+                    <span class="text-xs text-gray-400 mt-1">Sazón de Familia</span>
+                </button>
+                <!-- Botón Tips -->
+                <button onclick="switchView('tips')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
+                    <span class="text-3xl mb-2">💡</span>
+                    <span class="font-bold text-sm text-oscuro">Tips del Isleño</span>
+                    <span class="text-xs text-gray-400 mt-1">Consejos Útiles</span>
+                </button>
+            </div>
+
+            <!-- Banner destacado inferior -->
+            <div class="bg-gradient-to-r from-turquesa to-teal-600 text-white p-4 rounded-2xl shadow-sm mt-6 flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-sm">¿Dudas en el camino?</h3>
+                    <p class="text-xs text-white/90">Escríbenos al WhatsApp de asistencia.</p>
+                </div>
+                <a href="https://wa.me/573222123751" target="_blank" class="bg-dorado text-oscuro font-bold px-4 py-2 rounded-xl text-xs shadow hover:bg-yellow-400 transition">Contactar</a>
+            </div>
+        </div>
+
+        <!-- VISTA 2: MAPA & PUNTO DE ENCUENTRO -->
+        <div id="view-map" class="view hidden space-y-4">
+            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
+            <h2 class="text-xl font-black text-oscuro">Punto de Encuentro 🚤</h2>
+            
+            <!-- Tarjeta Muelle Toninos -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border-2 border-dorado space-y-3">
+                <span class="bg-dorado/20 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded-full">Principal</span>
+                <h3 class="font-bold text-lg text-oscuro">Muelle Toninos</h3>
+                <p class="text-sm text-gray-600">Aquí arranca la magia de tu experiencia náutica. Al llegar, busca con confianza a nuestros colaboradores: <strong class="text-turquesa">¡José o Heidy!</strong> Te recibirán con la mejor energía para guiarte a la embarcación.</p>
+                <div class="bg-gray-50 p-3 rounded-xl text-xs text-gray-500">
+                    ⚠️ <em>Recuerda llevar listos $5.000 COP en efectivo por persona para el impuesto de muelle.</em>
+                </div>
+                <a href="https://maps.google.com/?q=Muelle+Toninos+San+Andres" target="_blank" class="block w-full bg-turquesa text-white text-center font-bold py-3 rounded-xl shadow hover:bg-teal-700 transition">Abrir en GPS (Cómo llegar)</a>
+            </div>
+
+            <!-- Spots de Exploración -->
+            <h3 class="font-bold text-md text-oscuro pt-2">Puntos de Interés & Fotos 📸</h3>
+            <div class="space-y-3">
+                <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-sm">Eco Parque West View</h4>
+                        <p class="text-xs text-gray-500">Tobogán al mar y careteo</p>
+                    </div>
+                    <a href="https://maps.google.com/?q=West+View+San+Andres" target="_blank" class="bg-gray-100 text-turquesa px-3 py-1.5 rounded-lg text-xs font-bold">Ver GPS</a>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-sm">La Piscinita</h4>
+                        <p class="text-xs text-gray-500">Aguas cristalinas y fauna</p>
+                    </div>
+                    <a href="https://maps.google.com/?q=La+Piscinita+San+Andres" target="_blank" class="bg-gray-100 text-turquesa px-3 py-1.5 rounded-lg text-xs font-bold">Ver GPS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA 3: MI RESERVA -->
+        <div id="view-reservation" class="view hidden space-y-4">
+            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
+            <h2 class="text-xl font-black text-oscuro">Tu Voucher Digital 🎟️</h2>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-green-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest">Confirmado</div>
+                
+                <div>
+                    <span class="text-xs text-gray-400 block uppercase">Titular de Reserva</span>
+                    <h3 class="font-bold text-lg text-oscuro">Pasajero VIP</h3>
+                </div>
+
+                <div class="border-t border-b border-gray-100 py-3 space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Experiencia:</span>
+                        <span class="font-bold text-oscuro">Tour Platino en Pontón 🚤</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Punto de Partida:</span>
+                        <span class="font-bold text-turquesa">Muelle Toninos (José / Heidy)</span>
+                    </div>
+                </div>
+
+                <p class="text-xs text-gray-500 italic">Preséntate 15 minutos antes con tu documento y el impuesto de muelle listo.</p>
+            </div>
+        </div>
+
+        <!-- VISTA 4: RESTAURANTE EL OLAM -->
+        <div id="view-olam" class="view hidden space-y-4">
+            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
+            <h2 class="text-xl font-black text-oscuro">Restaurante El Olam 🥥🍽️</h2>
+
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <div class="bg-turquesa/10 p-3 rounded-xl text-xs font-bold text-turquesa text-center">
+                    ✨ Recomendado Especial de la Familia
+                </div>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    “Amigo, después de un día de sol y mar de los 7 colores, el estómago te pide un buen festín. Te invitamos a visitar el <strong>Restaurante El Olam</strong>, un espacio 100% de nuestra familia donde preparamos la auténtica sazón caribeña con amor y tradición.”
+                </p>
+                <div class="bg-dorado/10 p-3 rounded-xl text-xs font-medium text-yellow-900">
+                    💡 <em>Dile al mesurero que vas de parte de <strong>TOURESBARATOS NISSI VIP</strong> para que te atiendan como a un verdadero rey.</em>
+                </div>
+                <a href="https://maps.google.com/?q=Restaurante+El+Olam+San+Andres" target="_blank" class="block w-full bg-turquesa text-white text-center font-bold py-3 rounded-xl shadow hover:bg-teal-700 transition">Cómo llegar a El Olam</a>
+            </div>
+        </div>
+
+        <!-- VISTA 5: TIPS DEL ISLEÑO -->
+        <div id="view-tips" class="view hidden space-y-4">
+            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
+            <h2 class="text-xl font-black text-oscuro">Tips de Amiga & Local 💡</h2>
+
+            <div class="space-y-3">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold text-sm text-turquesa mb-1">🛵 Mulitas y Carritos de Golf</h4>
+                    <p class="text-xs text-gray-600">Te van a pedir tu licencia de conducción física obligatoria para alquilar y transitar por la isla. ¡Llévala siempre a la mano!</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold text-sm text-turquesa mb-1">💵 El Efectivo es Rey</h4>
+                    <p class="text-xs text-gray-600">Lleva siempre billetes en pesos colombianos (COP). En los cayos o pequeños comercios el internet a veces falla.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold text-sm text-turquesa mb-1">🩴 Zapatos de Agua</h4>
+                    <p class="text-xs text-gray-600">Indispensables para caminar sobre corales muertos o rocas sin lastimar tus pies en los cayos.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold text-sm text-turquesa mb-1">🌿 Cuidemos Seaflower</h4>
+                    <p class="text-xs text-gray-600">Usa protector solar ecológico y nunca toques la fauna marina ni te pares sobre los arrecifes de coral.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- WHATSAPP FLOTANTE FIJO -->
+    <a href="https://wa.me/573222123751" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition flex items-center justify-center z-50 animate-bounce">
+        <span class="text-2xl">💬</span>
+    </a>
+
+    <!-- FOOTER FIJO -->
+    <footer class="bg-white text-center py-4 border-t border-gray-100 text-xs text-gray-400">
+        <p>TOURESBARATOS NISSI VIP © 2026</p>
+    </footer>
+
+    <!-- SCRIPT DE NAVEGACIÓN ENTRE VISTAS -->
+    <script>
+        function switchView(viewId) {
+            const views = document.querySelectorAll('.view');
+            views.forEach(v => v.classList.add('hidden'));
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
