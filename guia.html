@@ -15,6 +15,10 @@
     </script>
     <meta name="description" content="Guía oficial para viajeros de TOURESBARATOS NISSI VIP: punto de encuentro en Muelle Toninos, voucher, Restaurante El Olam y tips del isleño.">
 
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <meta name="theme-color" content="#1B2A4A">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
     <!-- Tailwind CSS para un diseño moderno y rápido -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -22,22 +26,30 @@
             theme: {
                 extend: {
                     colors: {
-                        turquesa: '#00A8B5',
-                        dorado: '#FFB300',
-                        arena: '#F9F9FB',
-                        oscuro: '#1E293B'
+                        // Colores corporativos (ver css/styles.css)
+                        navy: '#1B2A4A',
+                        amarillo: '#FFE600',
+                        azul: '#2E6FCF',
+                        'azul-claro': '#4A90E2',
+                        arena: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['"Open Sans"', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif']
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-arena text-oscuro font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-arena text-navy font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- HEADER / CABECERA -->
-    <header class="bg-turquesa text-white p-6 shadow-md text-center rounded-b-3xl">
-        <h1 class="text-2xl font-black tracking-wider">TOURESBARATOS</h1>
-        <p class="text-xs uppercase tracking-widest text-dorado font-bold">Nissi VIP • San Andrés Isla</p>
+    <header class="bg-navy text-white p-6 shadow-md text-center rounded-b-3xl border-b-4 border-amarillo">
+        <h1 class="flex justify-center">
+            <img src="assets/logo.png" alt="TOURESBARATOS.COM · NISSI VIP Travel and Tours" width="184" height="200" class="w-24 h-auto bg-white rounded-2xl p-2 shadow-md">
+        </h1>
+        <p class="mt-3 text-xs uppercase tracking-widest text-amarillo font-display font-bold">San Andrés Isla · Guía del Viajero</p>
         <div class="mt-4 bg-white/10 p-3 rounded-2xl backdrop-blur-sm text-sm">
             <span id="greeting" class="block text-white/80">¡Hola, viajero! 🌴</span>
             <span class="font-semibold">Tu brújula de confianza en el paraíso de los 7 colores 🌊✨</span>
@@ -50,99 +62,99 @@
         <!-- VISTA 1: HOME (DASHBOARD) -->
         <div id="view-home" class="view space-y-4">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
-                <h2 class="font-bold text-oscuro">👋 ¡Qué alegría tenerte aquí!</h2>
+                <h2 class="font-bold text-navy font-display">👋 ¡Qué alegría tenerte aquí!</h2>
                 <p class="text-xs text-gray-600 leading-relaxed">Sabemos que estás a un paso de vivir una de las experiencias más lindas de tu vida. Preparamos este mapa interactivo y esta guía de secretos locales para que camines la isla sintiéndote como un isleño más: con seguridad, sin enredos y con una sonrisa de oreja a oreja.</p>
-                <p class="text-xs font-bold text-turquesa">¡Guarda este enlace en tu celular y déjate llevar! 👇</p>
+                <p class="text-xs font-bold text-azul font-display">¡Guarda este enlace en tu celular y déjate llevar! 👇</p>
             </div>
 
-            <h2 class="text-lg font-bold text-oscuro px-2">¿Qué deseas consultar hoy?</h2>
+            <h2 class="text-lg font-bold text-navy px-2 font-display">¿Qué deseas consultar hoy?</h2>
             
             <div class="grid grid-cols-2 gap-4">
                 <!-- Botón Mapa -->
                 <button onclick="switchView('map')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
                     <span class="text-3xl mb-2">📍</span>
-                    <span class="font-bold text-sm text-oscuro">Mapa & Encuentro</span>
+                    <span class="font-bold text-sm text-navy font-display">Mapa & Encuentro</span>
                     <span class="text-xs text-gray-400 mt-1">Muelle Toninos y Puntos</span>
                 </button>
                 <!-- Botón Reserva -->
                 <button onclick="switchView('reservation')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
                     <span class="text-3xl mb-2">🎟️</span>
-                    <span class="font-bold text-sm text-oscuro">Mi Reserva & Itinerario</span>
+                    <span class="font-bold text-sm text-navy font-display">Mi Reserva & Itinerario</span>
                     <span class="text-xs text-gray-400 mt-1">Voucher y Estado</span>
                 </button>
                 <!-- Botón El Olam -->
                 <button onclick="switchView('olam')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
                     <span class="text-3xl mb-2">🍽️</span>
-                    <span class="font-bold text-sm text-oscuro">Restaurante El Olam</span>
+                    <span class="font-bold text-sm text-navy font-display">Restaurante El Olam</span>
                     <span class="text-xs text-gray-400 mt-1">Sazón de Familia</span>
                 </button>
                 <!-- Botón Tips -->
                 <button onclick="switchView('tips')" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition active:scale-95">
                     <span class="text-3xl mb-2">💡</span>
-                    <span class="font-bold text-sm text-oscuro">Tips del Isleño & Ayuda</span>
+                    <span class="font-bold text-sm text-navy font-display">Tips del Isleño & Ayuda</span>
                     <span class="text-xs text-gray-400 mt-1">Consejos y Contacto</span>
                 </button>
             </div>
 
             <!-- Banner destacado inferior -->
-            <div class="bg-gradient-to-r from-turquesa to-teal-600 text-white p-4 rounded-2xl shadow-sm mt-6 flex items-center justify-between">
+            <div class="bg-gradient-to-r from-navy to-azul text-white p-4 rounded-2xl shadow-sm mt-6 flex items-center justify-between">
                 <div>
-                    <h3 class="font-bold text-sm">¿Dudas en el camino?</h3>
+                    <h3 class="font-bold text-sm font-display">¿Dudas en el camino?</h3>
                     <p class="text-xs text-white/90">Escríbenos al WhatsApp de asistencia.</p>
                 </div>
-                <a href="https://wa.me/573222123751" target="_blank" class="bg-dorado text-oscuro font-bold px-4 py-2 rounded-xl text-xs shadow hover:bg-yellow-400 transition">Contactar</a>
+                <a href="https://wa.me/573222123751" target="_blank" class="bg-amarillo text-navy font-bold px-4 py-2 rounded-xl text-xs shadow hover:bg-yellow-300 transition font-display">Contactar</a>
             </div>
         </div>
 
         <!-- VISTA 2: MAPA & PUNTO DE ENCUENTRO -->
         <div id="view-map" class="view hidden space-y-4">
-            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
-            <h2 class="text-xl font-black text-oscuro">Punto de Encuentro 🚤</h2>
+            <button onclick="switchView('home')" class="text-azul font-bold text-sm flex items-center gap-1 mb-2 font-display">← Volver al menú</button>
+            <h2 class="text-xl font-black text-navy font-display">Punto de Encuentro 🚤</h2>
             
             <!-- Tarjeta Muelle Toninos -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border-2 border-dorado space-y-3">
-                <span class="bg-dorado/20 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded-full">Principal</span>
-                <h3 class="font-bold text-lg text-oscuro">Muelle Toninos</h3>
-                <p class="text-sm text-gray-600">Aquí arranca la magia de la mayoría de nuestras experiencias náuticas. Al llegar, busca con confianza a nuestros maravillosos colaboradores: <strong class="text-turquesa">¡José o Heidy!</strong> Ellos te recibirán con la mejor energía caribeña, te orientarán con una sonrisa y te guiarán directo hacia la embarcación para que no tengas que preocuparte por nada.</p>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border-2 border-amarillo space-y-3">
+                <span class="bg-amarillo/20 text-navy text-xs font-bold px-2.5 py-1 rounded-full font-display">Principal</span>
+                <h3 class="font-bold text-lg text-navy font-display">Muelle Toninos</h3>
+                <p class="text-sm text-gray-600">Aquí arranca la magia de la mayoría de nuestras experiencias náuticas. Al llegar, busca con confianza a nuestros maravillosos colaboradores: <strong class="text-azul">¡José o Heidy!</strong> Ellos te recibirán con la mejor energía caribeña, te orientarán con una sonrisa y te guiarán directo hacia la embarcación para que no tengas que preocuparte por nada.</p>
                 <div class="bg-gray-50 p-3 rounded-xl text-xs text-gray-500">
                     ⚠️ <em>Recuerda llevar listos $5.000 COP en efectivo por persona para el impuesto de muelle.</em>
                 </div>
-                <a href="https://maps.google.com/?q=Muelle+Toninos+San+Andres" target="_blank" class="block w-full bg-turquesa text-white text-center font-bold py-3 rounded-xl shadow hover:bg-teal-700 transition">Abrir en GPS (Cómo llegar)</a>
+                <a href="https://maps.google.com/?q=Muelle+Toninos+San+Andres" target="_blank" class="block w-full bg-azul text-white text-center font-bold py-3 rounded-xl shadow hover:bg-navy transition font-display">Abrir en GPS (Cómo llegar)</a>
             </div>
 
             <!-- Spots de Exploración -->
-            <h3 class="font-bold text-md text-oscuro pt-2">Puntos de Interés & Fotos 📸</h3>
+            <h3 class="font-bold text-md text-navy pt-2 font-display">Puntos de Interés & Fotos 📸</h3>
             <div class="space-y-3">
                 <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center">
                     <div>
-                        <h4 class="font-bold text-sm">Eco Parque West View</h4>
+                        <h4 class="font-bold text-sm font-display">Eco Parque West View</h4>
                         <p class="text-xs text-gray-500">Tobogán al mar y careteo</p>
                     </div>
-                    <a href="https://maps.google.com/?q=West+View+San+Andres" target="_blank" class="bg-gray-100 text-turquesa px-3 py-1.5 rounded-lg text-xs font-bold">Ver GPS</a>
+                    <a href="https://maps.google.com/?q=West+View+San+Andres" target="_blank" class="bg-gray-100 text-azul px-3 py-1.5 rounded-lg text-xs font-bold font-display">Ver GPS</a>
                 </div>
                 <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center">
                     <div>
-                        <h4 class="font-bold text-sm">La Piscinita</h4>
+                        <h4 class="font-bold text-sm font-display">La Piscinita</h4>
                         <p class="text-xs text-gray-500">Aguas cristalinas y fauna</p>
                     </div>
-                    <a href="https://maps.google.com/?q=La+Piscinita+San+Andres" target="_blank" class="bg-gray-100 text-turquesa px-3 py-1.5 rounded-lg text-xs font-bold">Ver GPS</a>
+                    <a href="https://maps.google.com/?q=La+Piscinita+San+Andres" target="_blank" class="bg-gray-100 text-azul px-3 py-1.5 rounded-lg text-xs font-bold font-display">Ver GPS</a>
                 </div>
             </div>
         </div>
 
         <!-- VISTA 3: MI RESERVA -->
         <div id="view-reservation" class="view hidden space-y-4">
-            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
-            <h2 class="text-xl font-black text-oscuro">Tu Voucher Digital 🎟️</h2>
+            <button onclick="switchView('home')" class="text-azul font-bold text-sm flex items-center gap-1 mb-2 font-display">← Volver al menú</button>
+            <h2 class="text-xl font-black text-navy font-display">Tu Voucher Digital 🎟️</h2>
 
             <!-- Voucher personalizado (se llena desde el enlace ?v= que envía el admin) -->
             <div id="voucher-card" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4 relative overflow-hidden">
-                <div id="v-status" class="absolute top-0 right-0 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest"></div>
+                <div id="v-status" class="absolute top-0 right-0 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest font-display"></div>
 
                 <div>
                     <span class="text-xs text-gray-400 block uppercase">Titular de Reserva</span>
-                    <h3 id="v-name" class="font-bold text-lg text-oscuro"></h3>
-                    <span id="v-code" class="inline-block mt-1 bg-oscuro text-dorado text-xs font-bold px-2.5 py-1 rounded-lg tracking-widest"></span>
+                    <h3 id="v-name" class="font-bold text-lg text-navy font-display"></h3>
+                    <span id="v-code" class="inline-block mt-1 bg-navy text-amarillo text-xs font-bold px-2.5 py-1 rounded-lg tracking-widest font-display"></span>
                 </div>
 
                 <div id="v-rows" class="border-t border-b border-gray-100 py-3 space-y-2 text-sm"></div>
@@ -153,65 +165,65 @@
             <!-- Sin reserva en el enlace -->
             <div id="voucher-empty" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-3 text-center">
                 <span class="text-4xl block">🔍</span>
-                <h3 class="font-bold text-oscuro">Aún no vemos tu reserva</h3>
+                <h3 class="font-bold text-navy font-display">Aún no vemos tu reserva</h3>
                 <p class="text-sm text-gray-600">Abre la guía desde el enlace personal que te enviamos por WhatsApp para ver tu voucher. ¿No lo tienes? Escríbenos y te lo reenviamos.</p>
-                <a href="https://wa.me/573222123751?text=Hola!%20Quiero%20mi%20voucher%20digital" target="_blank" class="block w-full bg-green-500 text-white text-center font-bold py-3 rounded-xl shadow hover:bg-green-600 transition">Pedir mi voucher por WhatsApp</a>
+                <a href="https://wa.me/573222123751?text=Hola!%20Quiero%20mi%20voucher%20digital" target="_blank" class="block w-full bg-green-500 text-white text-center font-bold py-3 rounded-xl shadow hover:bg-green-600 transition font-display">Pedir mi voucher por WhatsApp</a>
             </div>
         </div>
 
         <!-- VISTA 4: RESTAURANTE EL OLAM -->
         <div id="view-olam" class="view hidden space-y-4">
-            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
-            <h2 class="text-xl font-black text-oscuro">Restaurante El Olam 🥥🍽️</h2>
+            <button onclick="switchView('home')" class="text-azul font-bold text-sm flex items-center gap-1 mb-2 font-display">← Volver al menú</button>
+            <h2 class="text-xl font-black text-navy font-display">Restaurante El Olam 🥥🍽️</h2>
 
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                <div class="bg-turquesa/10 p-3 rounded-xl text-xs font-bold text-turquesa text-center">
+                <div class="bg-azul/10 p-3 rounded-xl text-xs font-bold text-azul text-center font-display">
                     ✨ Recomendado Especial de la Familia
                 </div>
                 <p class="text-sm text-gray-600 leading-relaxed">
                     “Amigo, después de un día entero de sol, playa y mar de los 7 colores, el estómago te va a pedir un buen festín. Por eso, mi recomendación de oro es que visites el <strong>Restaurante El Olam</strong>. Allí vas a encontrar la sazón caribeña más auténtica, preparada con todo el amor y el carisma de nuestra familia.”
                 </p>
-                <div class="bg-dorado/10 p-3 rounded-xl text-xs font-medium text-yellow-900">
+                <div class="bg-amarillo/10 p-3 rounded-xl text-xs font-medium text-navy">
                     💡 <em>Dile al mesero que vas de parte de <strong>TOURESBARATOS NISSI VIP</strong> para que te atiendan como a un verdadero rey.</em>
                 </div>
-                <a href="https://maps.google.com/?q=Restaurante+El+Olam+San+Andres" target="_blank" class="block w-full bg-turquesa text-white text-center font-bold py-3 rounded-xl shadow hover:bg-teal-700 transition">Cómo llegar a El Olam</a>
+                <a href="https://maps.google.com/?q=Restaurante+El+Olam+San+Andres" target="_blank" class="block w-full bg-azul text-white text-center font-bold py-3 rounded-xl shadow hover:bg-navy transition font-display">Cómo llegar a El Olam</a>
             </div>
         </div>
 
         <!-- VISTA 5: TIPS DEL ISLEÑO & AYUDA -->
         <div id="view-tips" class="view hidden space-y-4">
-            <button onclick="switchView('home')" class="text-turquesa font-bold text-sm flex items-center gap-1 mb-2">← Volver al menú</button>
-            <h2 class="text-xl font-black text-oscuro">Secretos de Amiga 💡</h2>
+            <button onclick="switchView('home')" class="text-azul font-bold text-sm flex items-center gap-1 mb-2 font-display">← Volver al menú</button>
+            <h2 class="text-xl font-black text-navy font-display">Secretos de Amiga 💡</h2>
             <p class="text-sm text-gray-600 italic">“Aquí en San Andrés el tiempo corre más lento, se respira brisa marina y la gente te recibe siempre con un ‘Good morning’ o una sonrisa. Para que tu viaje sea perfecto, guárdate estos consejitos en el corazón:”</p>
 
             <!-- Acordeón de tips -->
             <div class="space-y-3">
                 <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
-                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                    <summary class="p-4 font-bold text-sm text-azul cursor-pointer list-none flex justify-between items-center gap-2 font-display">
                         <span>🛵 Mulitas y carritos de golf, con calma y papel en mano</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
                     </summary>
                     <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Amigo, un consejo de oro: para alquilar estos carritos o mulitas <strong>te van a pedir tu licencia de conducción física</strong> (la de tu país o internacional). No te arriesgues a pagar sin tenerla a la mano. Y maneja tranquilito, disfruta el paisaje y respeta las señales; la idea es regresar con anécdotas felices, no con sustos.</p>
                 </details>
                 <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
-                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                    <summary class="p-4 font-bold text-sm text-azul cursor-pointer list-none flex justify-between items-center gap-2 font-display">
                         <span>💵 El efectivo sigue siendo el rey (por si acaso)</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
                     </summary>
                     <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Aunque casi todo el mundo acepta transferencias, cuando estés pisando la arena de los cayos, comprando un granizado o pagando detallitos locales, el internet a veces se pone tímido. Ten siempre unos billetitos en pesos colombianos en el bolsillo. ¡Te salvarán la vida!</p>
                 </details>
                 <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
-                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                    <summary class="p-4 font-bold text-sm text-azul cursor-pointer list-none flex justify-between items-center gap-2 font-display">
                         <span>🩴 Tus pies te lo van a agradecer (zapatos de agua)</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
                     </summary>
                     <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Por favor, ¡no olvides meter unos escarpines o zapatos de agua en tu maleta! Caminar por los corales muertos o las zonas de roca sin protección puede ser incómodo. Con tus zapatos de agua vas a entrar al mar con total libertad.</p>
                 </details>
                 <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
-                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                    <summary class="p-4 font-bold text-sm text-azul cursor-pointer list-none flex justify-between items-center gap-2 font-display">
                         <span>🌿 Cuidemos nuestro mar de los siete colores</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
                     </summary>
                     <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">Nuestro mayor tesoro es la Reserva de Biosfera Seaflower. Cuando uses protector solar, intenta que sea ecológico u óxido de zinc para no hacerle daño a los corales. Y recuerda: los pececitos y las estrellas de mar se miran con el corazón, nunca los saques de su casita ni te pares sobre los arrecifes.</p>
                 </details>
                 <details class="bg-white rounded-xl shadow-sm border border-gray-100 group">
-                    <summary class="p-4 font-bold text-sm text-turquesa cursor-pointer list-none flex justify-between items-center gap-2">
+                    <summary class="p-4 font-bold text-sm text-azul cursor-pointer list-none flex justify-between items-center gap-2 font-display">
                         <span>☀️ Protégete del sol caribeño</span><span class="inline-block text-gray-400 transition group-open:rotate-180">▾</span>
                     </summary>
                     <p class="px-4 pb-4 text-xs text-gray-600 leading-relaxed">El sol de la isla pega con fuerza todo el año. Lleva siempre tu gorra, tus gafas oscuras, toma agua constantemente y échate cremita protectora varias veces al día. ¡Queremos que te veas radiante en las fotos, no rojo como un camarón!</p>
@@ -219,11 +231,11 @@
             </div>
 
             <!-- Ayuda -->
-            <div class="bg-gradient-to-r from-turquesa to-teal-600 text-white p-5 rounded-2xl shadow-sm space-y-3">
-                <h3 class="font-bold">📲 ¿Necesitas ayuda o te antojaste de un nuevo plan?</h3>
+            <div class="bg-gradient-to-r from-navy to-azul text-white p-5 rounded-2xl shadow-sm space-y-3">
+                <h3 class="font-bold font-display">📲 ¿Necesitas ayuda o te antojaste de un nuevo plan?</h3>
                 <p class="text-xs text-white/90">Recuerda que con <strong>TOURESBARATOS NISSI VIP</strong> nunca caminas solo. Si tienes dudas con el clima, necesitas una recomendación o quieres sumar un tour de última hora a tu itinerario, escríbenos con confianza.</p>
-                <a href="https://wa.me/573222123751" target="_blank" class="block w-full bg-dorado text-oscuro text-center text-sm font-bold py-3 rounded-xl shadow hover:bg-yellow-400 transition">💬 WhatsApp: +57 322 212 3751</a>
-                <a href="https://touresbaratos.com" class="block w-full bg-white/15 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/25 transition">Web oficial: touresbaratos.com</a>
+                <a href="https://wa.me/573222123751" target="_blank" class="block w-full bg-amarillo text-navy text-center text-sm font-bold py-3 rounded-xl shadow hover:bg-yellow-300 transition font-display">💬 WhatsApp: +57 322 212 3751</a>
+                <a href="https://touresbaratos.com" class="block w-full bg-white/15 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/25 transition font-display">Web oficial: touresbaratos.com</a>
             </div>
         </div>
 
@@ -279,7 +291,7 @@
             l.className = 'text-gray-500 shrink-0';
             l.textContent = label;
             var val = document.createElement('span');
-            val.className = 'font-bold text-right ' + (highlight ? 'text-turquesa' : 'text-oscuro');
+            val.className = 'font-bold text-right ' + (highlight ? 'text-azul' : 'text-navy');
             val.textContent = value;
             row.appendChild(l);
             row.appendChild(val);
